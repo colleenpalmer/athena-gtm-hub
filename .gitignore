@@ -1,0 +1,15 @@
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/
+
+# Local, private, or draft material — keep out of the shared repo
+/private/
+/drafts/
+*.local.md
+
+# Secrets
+.env
+.env.*

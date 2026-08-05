@@ -1,0 +1,28 @@
+---
+description: Ground all marketing, product marketing, and GTM work in the repo's reference files
+alwaysApply: true
+---
+
+# Ground every answer in the reference material
+
+This repo is the source of truth for marketing, product marketing, and go-to-market.
+Before responding to any related request, read the relevant files in `reference/`:
+
+- `reference/company-overview.md` — who we are, what we do, what we are not
+- `reference/positioning.md` — category, differentiation, positioning statement
+- `reference/messaging-framework.md` — approved value props, pillars, proof points
+- `reference/brand-voice-and-tone.md` — how we must sound
+- `reference/icp-and-personas.md` — who we serve
+- `reference/product-catalog.md` — what we actually sell (keep claims honest)
+- `reference/competitive-landscape.md` — how we compare
+- `reference/pricing-and-packaging.md` — pricing (respect public vs internal)
+- `reference/glossary.md` — approved terminology
+
+## Rules
+- Align all copy, claims, and recommendations with positioning, messaging, and brand voice.
+- Use approved terminology from the glossary; avoid banned/off-brand words.
+- Never invent metrics, customers, or features — only use documented proof points, or flag gaps.
+- Do not disclose anything marked internal-only (e.g. discounting).
+- If a reference file is still a placeholder or missing info the task needs, say so and ask,
+  rather than guessing.
+- When output would improve or contradict the reference files, suggest an update to keep them current.
