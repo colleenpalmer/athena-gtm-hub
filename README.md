@@ -35,6 +35,7 @@ Ask for a skill by name, e.g.:
 - "Run a **launch-gtm-plan** for the Q3 release."
 - "Make a **competitive-battlecard** vs Acme."
 - "Do a **messaging-review** of this landing page copy."
+- "Run **traction-channel-strategy** for the D2C motion."
 
 | Skill | Use it to |
 |---|---|
@@ -46,6 +47,20 @@ Ask for a skill by name, e.g.:
 | `campaign-plan` | Plan an integrated multi-channel campaign |
 | `sales-enablement-onepager` | Draft a one-pager / pitch / FAQ |
 | `messaging-review` | Critique copy against positioning + brand voice |
+| `traction-channel-strategy` | Run Bullseye: traction goal, rank all 19 channels, pick 3 to test |
+| `traction-channel-test` | Design a cheap, time-boxed test for one channel |
+| `growth-review` | Periodic growth check-in with scale/iterate/kill calls |
+
+### Growth marketing loop
+
+The three growth skills follow the Bullseye framework from *Traction* (Weinberg & Mares)
+and share [`reference/traction-channels.md`](reference/traction-channels.md):
+
+```
+traction-channel-strategy  →  traction-channel-test (×3)  →  growth-review
+        ▲                                                         │
+        └──────────── re-run when the focus channel saturates ────┘
+```
 
 ## Keeping it current
 
@@ -60,7 +75,7 @@ marketing-gtm-hub/
 ├── AGENTS.md                 # repo-wide guidance Cursor auto-reads
 ├── .cursor/
 │   ├── rules/                # always-on grounding rule
-│   └── skills/               # the 8 GTM conversation skills
+│   └── skills/               # the 11 GTM + growth conversation skills
 ├── reference/                # source of truth (fill in the placeholders)
 └── templates/                # output formats the skills produce
 ```

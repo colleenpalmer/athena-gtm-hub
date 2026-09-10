@@ -1,0 +1,11 @@
+"Reporting starts","Reporting ends","Campaign name","Campaign delivery",Results,"Result indicator","Cost per results","Ad set budget","Ad set budget type","Amount spent (USD)",Impressions,Reach,Frequency,"CPM (cost per 1,000 impressions) (USD)",Purchases,Ends,"Attribution setting","Purchase ROAS (return on ad spend)"
+2026-01-01,2026-08-04,"Athena AI | Conversions",inactive,,,,50,Daily,0,0,0,0,0,,Ongoing,"7-day click",
+2026-01-01,2026-08-04,"Athena AI | Students",inactive,,,,"Using ad set budget",0,0,0,0,0,0,,Ongoing,"7-day click or 1-day view",
+2026-01-01,2026-08-04,"Athena AI | Parents",inactive,,,,"Using ad set budget",0,0,0,0,0,0,,Ongoing,"7-day click or 1-day view",
+2026-01-01,2026-08-04,"Athena AI | Students | Sales",not_delivering,123,conversions:start_trial_website,170.38821138,"Using ad set budget",0,20957.75,487951,114983,4.24368,42.950522,,Ongoing,"7-day click, 1-day view, or 1-day engaged-view",
+2026-01-01,2026-08-04,"Back to School",inactive,,,,"Using ad set budget",0,0,0,0,0,0,,1969-12-31,-,
+2026-01-01,2026-08-04,"Athena RMK",inactive,,,,65,Daily,0,0,0,0,0,,Ongoing,"7-day click, 1-day view, or 1-day engaged-view",
+2026-01-01,2026-08-04,"Post: ""FINALS are officially this month... but you’re...""",inactive,,,,30,Daily,0,0,0,0,0,,2025-12-17,"7-day click or 1-day view",
+2026-01-01,2026-08-04,"v1 Canvas Study Guides CPR Campaign",inactive,,,,"Using ad set budget",0,0,0,0,0,0,,Ongoing,"7-day click, 1-day view, or 1-day engaged-view",
+2026-01-01,2026-08-04,"v2 Canvas Study Guide",inactive,37,conversions:start_trial_website,152.38135135,"Using ad set budget",0,5638.11,193705,63434,3.053646,29.106683,,Ongoing,"7-day click, 1-day view, or 1-day engaged-view",
+2026-01-01,2026-08-04,"Study Spaces",active,259,conversions:start_trial_website,103.33189189,"Using ad set budget",0,26762.96,795016,140767,5.647744,33.663423,,Ongoing,"7-day click, 1-day view, or 1-day engaged-view",

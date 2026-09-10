@@ -32,6 +32,12 @@ run structured GTM conversations.
 | `campaign-plan` | Plan an integrated multi-channel campaign |
 | `sales-enablement-onepager` | Draft a one-pager / pitch / FAQ |
 | `messaging-review` | Critique copy against positioning + brand voice |
+| `traction-channel-strategy` | Run Bullseye: set a traction goal, rank all 19 channels, pick 3 to test |
+| `traction-channel-test` | Design a cheap, time-boxed test for one traction channel |
+| `growth-review` | Periodic growth check-in: scale/iterate/kill calls, re-run Bullseye |
+
+The three growth skills form a loop — strategy → test → review — grounded in
+`reference/traction-channels.md` (the *Traction* / Bullseye framework plus our channel log).
 
 ## Conventions
 
