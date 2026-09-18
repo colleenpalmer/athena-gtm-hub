@@ -6,8 +6,8 @@ run structured GTM conversations.
 
 ## How to use this repo
 
-1. **Reference first.** For any marketing/PMM/GTM request, read the relevant files in `reference/`
-   before answering. This is enforced by `.cursor/rules/reference-context.mdc`.
+1. **Reference first.** For any marketing/PMM/GTM request, read the relevant files in `reference/` & `docs/`
+   before answering. This is enforced by `.cursor/rules/reference-context.mdc`
 2. **Use a skill for structured work.** Invoke a skill by name for common conversations
    (see `.cursor/skills/`). Examples: "use the positioning-messaging skill", "run a launch-gtm-plan".
 3. **Keep the source of truth current.** When we finalize new positioning, messaging, personas,
@@ -16,6 +16,7 @@ run structured GTM conversations.
 ## What's here
 
 - `reference/` — the single source of truth (fill in the placeholders).
+- `docs/` — the official documentation for the project, reference docs for the project.
 - `.cursor/skills/` — named playbooks for specific conversations.
 - `.cursor/rules/reference-context.mdc` — always-on rule to ground answers in `reference/`.
 - `templates/` — reusable output formats the skills produce.
