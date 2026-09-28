@@ -23,6 +23,7 @@ Open http://localhost:3000
 - 🧪 **Experiment Log** — Track channel tests and results (Bullseye framework)
 - 💬 **AI Assistant** — Chat interface with access to your reference materials
 - 🔗 **Integrated Context** — Automatically loads your positioning, personas, messaging
+- 💀 **Design Deadites** — Summon AI design directors for brand, copy, design, PMM & GTM reviews
 
 [See the app README →](app/README.md)
 

@@ -89,3 +89,23 @@ export async function listReferenceFiles(): Promise<string[]> {
     return [];
   }
 }
+
+// Design context files
+export async function getDesignContextFile(filename: string): Promise<string> {
+  const filePath = path.join(process.cwd(), '..', 'design-context', filename);
+  try {
+    return await fs.readFile(filePath, 'utf-8');
+  } catch {
+    return '';
+  }
+}
+
+export async function listDesignContextFiles(): Promise<string[]> {
+  const designPath = path.join(process.cwd(), '..', 'design-context');
+  try {
+    const files = await fs.readdir(designPath);
+    return files.filter(f => f.endsWith('.md'));
+  } catch {
+    return [];
+  }
+}

@@ -25,6 +25,7 @@ Interactive dashboard for:
 - 📋 Project tracking
 - 🧪 Experiment logging
 - 💬 AI chat assistant
+- 💀 Design deadite summoning
 
 ### 4. **Skills** (`.claude/skills/`)
 Structured conversations for:
@@ -32,6 +33,13 @@ Structured conversations for:
 - Launch planning
 - Competitive battlecards
 - Messaging review
+
+### 5. **Design Context** (`design-context/`)
+Canonical Athena brand & voice:
+- Brand archetype & personality
+- Voice & tone rules
+- Audience & positioning
+- Powers the design deadites
 
 ---
 
@@ -92,6 +100,7 @@ They share the same data — changes sync via git.
 | `START-HERE.md` | 👈 You are here (overview) |
 | `APP-QUICK-START.md` | Getting the web app running |
 | `GTM-APP-OVERVIEW.md` | Understanding the app architecture |
+| `DEADITES-GUIDE.md` | 💀 How to summon design directors for reviews |
 | `HOW-TO-USE-THIS-REPO.md` | Using the repo structure |
 | `GTM-PROJECT-TRACKER.md` | See what GTM work is active |
 | `QUICK-START.md` | What to work on next |
@@ -108,6 +117,7 @@ They share the same data — changes sync via git.
 2. ✅ Run the web app (`APP-QUICK-START.md`)
 3. ✅ Add your first project
 4. ✅ Test the chat assistant
+5. ✅ Summon a design deadite (try the brand director!)
 
 ### Week 1: Explore
 1. ✅ Review `reference/` files (positioning, personas)

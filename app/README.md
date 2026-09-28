@@ -91,6 +91,13 @@ Chat with an AI agent that has context on your GTM strategy:
 - Design experiments
 - Get strategic advice
 
+**🔥 NEW: Summon the Design Deadites**
+- Click "Summon Deadites" to call upon the AI design directors
+- Brand Director, Copy Director, Product Design Director, PMM Director, GTM Director
+- Or summon "THE ENTIRE HORDE" for a full team review
+- Get rigorous, professional feedback with Evil Dead-style flair
+- Based on the design-context from the athena-poc project
+
 ## Development
 
 ```bash
