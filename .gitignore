@@ -13,3 +13,16 @@ Thumbs.db
 # Secrets
 .env
 .env.*
+
+# App-specific
+app/node_modules/
+app/.next/
+app/out/
+app/.env.local
+app/.env.*.local
+app/npm-debug.log*
+app/yarn-debug.log*
+app/yarn-error.log*
+
+# Data files (optional - comment out if you want to version-control your data)
+# data/*.json

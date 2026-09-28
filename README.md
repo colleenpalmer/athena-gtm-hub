@@ -1,23 +1,55 @@
 # Marketing / PMM / GTM Hub
 
 A shared knowledge base and AI skill library for **marketing, product marketing, and
-go-to-market**. Open it in [Cursor](https://cursor.com) and every chat is automatically
-grounded in our positioning, messaging, and brand voice — plus a set of skills that run
-structured GTM conversations.
+go-to-market** — with an integrated web app for tracking projects and experiments.
+
+## 👉 **[START HERE](START-HERE.md)** if you're new to this repo
+
+## 🚀 NEW: GTM Web App
+
+**Run the web app to manage your GTM work in one place:**
+
+```bash
+cd app
+npm install
+cp .env.example .env.local  # Add your Anthropic API key
+npm run dev
+```
+
+Open http://localhost:3000
+
+**Features:**
+- 📋 **Project Tracker** — Manage all GTM projects with status, deadlines, next actions
+- 🧪 **Experiment Log** — Track channel tests and results (Bullseye framework)
+- 💬 **AI Assistant** — Chat interface with access to your reference materials
+- 🔗 **Integrated Context** — Automatically loads your positioning, personas, messaging
+
+[See the app README →](app/README.md)
+
+---
 
 ## Why this exists
 
 - **Consistency** — one source of truth so every message, asset, and plan says the same thing.
 - **Speed** — named skills run repeatable conversations (positioning, launches, battlecards…).
 - **Shareability** — clone the repo and your teammates get the same context and skills.
+- **Trackability** — web app keeps projects and experiments organized.
 
 ## How it works
 
+**Two ways to use this repo:**
+
+### 1. In Zed/Cursor (Chat & Skills)
 1. **Reference files** in [`reference/`](reference/) are the source of truth.
-2. An always-on rule ([`.cursor/rules/reference-context.mdc`](.cursor/rules/reference-context.mdc))
-   tells the AI to read the relevant reference files before answering — so you don't have to
-   attach them every time.
+2. An always-on rule tells the AI to read the relevant reference files before answering.
 3. **Skills** in [`.cursor/skills/`](.cursor/skills/) run structured conversations on demand.
+
+### 2. Web App (Project Management & Chat)
+1. **Run the app** in the `app/` directory (Next.js)
+2. **Track projects** — add, update, and organize GTM work
+3. **Log experiments** — channel tests with results and decisions
+4. **Chat with AI** — same context as Zed, different interface
+5. **Data stored** in `data/` as JSON files (version-controlled)
 
 ## Getting started
 
@@ -67,17 +99,30 @@ traction-channel-strategy  →  traction-channel-test (×3)  →  growth-review
 When positioning, messaging, personas, competitors, or pricing change, update the matching
 file in [`reference/`](reference/) and commit. The AI improves as your reference material does.
 
+## New to this repo?
+
+👉 **Start here:** [`HOW-TO-USE-THIS-REPO.md`](HOW-TO-USE-THIS-REPO.md) — explains the folder structure and common workflows  
+👉 **Track active work:** [`GTM-PROJECT-TRACKER.md`](GTM-PROJECT-TRACKER.md) — central dashboard for all GTM projects
+
 ## Repo layout
 
 ```
-marketing-gtm-hub/
+athena-marketing-gtm-hub/
 ├── README.md
-├── AGENTS.md                 # repo-wide guidance Cursor auto-reads
-├── .cursor/
-│   ├── rules/                # always-on grounding rule
-│   └── skills/               # the 11 GTM + growth conversation skills
-├── reference/                # source of truth (fill in the placeholders)
-└── templates/                # output formats the skills produce
+├── AGENTS.md                      # repo-wide guidance for AI agents
+├── HOW-TO-USE-THIS-REPO.md        # 👈 Start here if you're new
+├── GTM-PROJECT-TRACKER.md         # Central dashboard for active GTM work
+├── .claude/
+│   ├── rules/                     # always-on grounding rule
+│   └── skills/                    # the 11 GTM + growth conversation skills
+├── reference/                     # ✅ Single source of truth (validated content)
+├── docs/                          # Official documentation and assets
+├── work-in-progress/              # 🚧 Active projects and exploration
+│   ├── educator-segment/          # Educator ICP development
+│   ├── drip-campaigns/            # Email lifecycle planning
+│   └── institutional-page-revamp/ # Institutional landing page redesign
+├── decisions/                     # Decision log and experiment results
+└── templates/                     # Reusable output formats
 ```
 
 ## Publishing to GitHub
