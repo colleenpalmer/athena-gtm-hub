@@ -1,14 +1,13 @@
 'use client';
 
 import { useState, useRef } from 'react';
-import { LayoutDashboard, FlaskConical, MessageSquare, Keyboard } from 'lucide-react';
+import { LayoutDashboard, FlaskConical, Keyboard } from 'lucide-react';
 import ProjectList from '@/components/ProjectList';
 import ExperimentTracker from '@/components/ExperimentTracker';
-import ChatInterface from '@/components/ChatInterface';
 import KeyboardShortcuts from '@/components/KeyboardShortcuts';
 
 export default function Home() {
-  const [activeTab, setActiveTab] = useState<'projects' | 'experiments' | 'chat'>('projects');
+  const [activeTab, setActiveTab] = useState<'projects' | 'experiments'>('projects');
   const [showShortcuts, setShowShortcuts] = useState(false);
 
   return (
@@ -60,18 +59,7 @@ export default function Home() {
                 Experiments
                 <kbd className="hidden sm:inline-block ml-2 px-1.5 py-0.5 text-xs bg-gray-100 text-gray-600 rounded font-mono">⌘ 2</kbd>
               </button>
-              <button
-                onClick={() => setActiveTab('chat')}
-                className={`flex items-center gap-2 px-3 py-2.5 border-b-2 transition-all text-sm ${
-                  activeTab === 'chat'
-                    ? 'border-gray-900 text-gray-900 font-medium'
-                    : 'border-transparent text-gray-500 hover:text-gray-700'
-                }`}
-              >
-                <MessageSquare size={18} />
-                GTM Assistant
-                <kbd className="hidden sm:inline-block ml-2 px-1.5 py-0.5 text-xs bg-gray-100 text-gray-600 rounded font-mono">⌘ 3</kbd>
-              </button>
+
             </div>
             <button
               onClick={() => setShowShortcuts(!showShortcuts)}
@@ -90,7 +78,7 @@ export default function Home() {
           <div className="max-w-7xl mx-auto px-6 py-3">
             <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm">
               <div>
-                <kbd className="px-2 py-1 bg-white border border-gray-200 rounded text-xs font-mono text-gray-700">⌘ 1/2/3</kbd>
+                <kbd className="px-2 py-1 bg-white border border-gray-200 rounded text-xs font-mono text-gray-700">⌘ 1/2</kbd>
                 <span className="ml-2 text-gray-600">Switch tabs</span>
               </div>
               <div>
@@ -108,10 +96,9 @@ export default function Home() {
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-6 py-8">
-        <div className={activeTab === 'chat' ? 'h-[calc(100vh-200px)]' : ''}>
+        <div>
           {activeTab === 'projects' && <ProjectList />}
           {activeTab === 'experiments' && <ExperimentTracker />}
-          {activeTab === 'chat' && <ChatInterface />}
         </div>
       </main>
 

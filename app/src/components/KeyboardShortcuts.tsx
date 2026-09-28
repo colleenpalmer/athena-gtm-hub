@@ -6,7 +6,7 @@ interface KeyboardShortcutsProps {
   onNewProject?: () => void;
   onNewExperiment?: () => void;
   onFocusSearch?: () => void;
-  onSwitchTab?: (tab: 'projects' | 'experiments' | 'chat') => void;
+  onSwitchTab?: (tab: 'projects' | 'experiments') => void;
 }
 
 export default function KeyboardShortcuts({
@@ -25,7 +25,7 @@ export default function KeyboardShortcuts({
         if (activeTab === 'experiments' && onNewExperiment) onNewExperiment();
       }
 
-      // Cmd/Ctrl + 1/2/3 = Switch tabs
+      // Cmd/Ctrl + 1/2 = Switch tabs
       if ((e.metaKey || e.ctrlKey) && onSwitchTab) {
         if (e.key === '1') {
           e.preventDefault();
@@ -34,10 +34,6 @@ export default function KeyboardShortcuts({
         if (e.key === '2') {
           e.preventDefault();
           onSwitchTab('experiments');
-        }
-        if (e.key === '3') {
-          e.preventDefault();
-          onSwitchTab('chat');
         }
       }
 

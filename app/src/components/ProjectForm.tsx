@@ -1,8 +1,9 @@
 'use client';
 
-import { useState } from 'react';
-import { X, ChevronDown, ChevronUp } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { X, ChevronDown, ChevronUp, Sparkles } from 'lucide-react';
 import type { Project } from '@/types';
+import { generateTaskSuggestions } from '@/lib/taskSuggestions';
 
 interface ProjectFormProps {
   project?: Project;
@@ -16,11 +17,26 @@ export default function ProjectForm({ project, onSubmit, onCancel }: ProjectForm
       name: '',
       status: 'not-started',
       nextAction: '',
+      tasks: [],
     }
   );
   const [showOptional, setShowOptional] = useState(
     !!(project?.owner || project?.deadline || project?.folder || project?.description)
   );
+  const [showSuggestedTasks, setShowSuggestedTasks] = useState(false);
+
+  // Auto-suggest tasks when name changes (for new projects only)
+  useEffect(() => {
+    if (!project && formData.name && formData.name.length > 3) {
+      setShowSuggestedTasks(true);
+    }
+  }, [formData.name, project]);
+
+  const handleUseSuggestedTasks = () => {
+    const suggested = generateTaskSuggestions(formData.name || '', formData.description);
+    setFormData({ ...formData, tasks: suggested });
+    setShowSuggestedTasks(false);
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,6 +49,8 @@ export default function ProjectForm({ project, onSubmit, onCancel }: ProjectForm
       deadline: formData.deadline,
       folder: formData.folder,
       description: formData.description,
+      tasks: formData.tasks,
+      rank: formData.rank ?? 999, // New projects go to bottom by default
     });
   };
 
@@ -173,6 +191,39 @@ export default function ProjectForm({ project, onSubmit, onCancel }: ProjectForm
           )}
 
           {/* Actions */}
+          {/* Suggested Tasks (for new projects) */}
+          {!project && showSuggestedTasks && formData.name && (
+            <div className="p-4 bg-accent-50 border border-accent-200 rounded-lg">
+              <div className="flex items-start gap-3">
+                <Sparkles size={20} className="text-accent-600 mt-0.5 shrink-0" />
+                <div className="flex-1">
+                  <p className="text-sm font-medium text-gray-900 mb-1">
+                    Add suggested tasks for this project?
+                  </p>
+                  <p className="text-xs text-gray-600 mb-3">
+                    Based on "{formData.name}", we can add {generateTaskSuggestions(formData.name, formData.description).length} common tasks to get you started. You can edit or delete them after.
+                  </p>
+                  <div className="flex gap-2">
+                    <button
+                      type="button"
+                      onClick={handleUseSuggestedTasks}
+                      className="px-3 py-1.5 bg-accent-600 text-white text-sm font-medium rounded-md hover:bg-accent-700 transition-colors"
+                    >
+                      Yes, add suggested tasks
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setShowSuggestedTasks(false)}
+                      className="px-3 py-1.5 bg-white border border-gray-300 text-gray-700 text-sm font-medium rounded-md hover:bg-gray-50 transition-colors"
+                    >
+                      No thanks, I'll add my own
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
           <div className="flex gap-3 pt-4 border-t border-gray-200">
             <button
               type="submit"

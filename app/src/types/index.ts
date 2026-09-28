@@ -7,6 +7,8 @@ export interface Project {
   deadline?: string;
   folder?: string;
   description?: string;
+  tasks?: Task[];
+  rank?: number; // Lower number = higher priority (1 = top)
 }
 
 export interface Task {
@@ -49,9 +51,4 @@ export interface Decision {
     date: string;
     note: string;
   }>;
-}
-
-export interface ChatMessage {
-  role: 'user' | 'assistant';
-  content: string;
 }

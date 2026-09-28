@@ -1,14 +1,19 @@
 'use client';
 
 import { useState } from 'react';
-import { Edit, Trash2, CheckCircle2, Clock, AlertCircle, Pause, XCircle } from 'lucide-react';
+import { Edit, Trash2, CheckCircle2, Clock, AlertCircle, Pause, XCircle, ChevronDown, ChevronUp, ArrowUp, ArrowDown } from 'lucide-react';
 import type { Project } from '@/types';
+import TaskList from './TaskList';
 
 interface ProjectCardProps {
   project: Project;
   onEdit: (project: Project) => void;
   onDelete: (id: string) => void;
   onQuickStatusChange: (id: string, status: Project['status']) => void;
+  onTasksChange: (id: string, tasks: Project['tasks']) => void;
+  onRankChange?: (id: string, direction: 'up' | 'down') => void;
+  isFirst?: boolean;
+  isLast?: boolean;
 }
 
 const statusConfig = {
@@ -50,10 +55,15 @@ const statusConfig = {
   },
 };
 
-export default function ProjectCard({ project, onEdit, onDelete, onQuickStatusChange }: ProjectCardProps) {
+export default function ProjectCard({ project, onEdit, onDelete, onQuickStatusChange, onTasksChange, onRankChange, isFirst, isLast }: ProjectCardProps) {
   const [showStatusMenu, setShowStatusMenu] = useState(false);
+  const [showTasks, setShowTasks] = useState(true);
+  const [showAllTasks, setShowAllTasks] = useState(false);
   const config = statusConfig[project.status];
   const StatusIcon = config.icon;
+  
+  const incompleteTasks = project.tasks?.filter(t => !t.completed) || [];
+  const hasMultipleTasks = incompleteTasks.length > 1;
 
   const quickStatuses: Project['status'][] = ['not-started', 'in-progress', 'active', 'complete'];
 
@@ -75,21 +85,45 @@ export default function ProjectCard({ project, onEdit, onDelete, onQuickStatusCh
           </div>
 
           {/* Actions */}
-          <div className="flex gap-1 ml-4 opacity-0 group-hover:opacity-100 transition-opacity">
-            <button
-              onClick={() => onEdit(project)}
-              className="p-2 text-gray-600 hover:bg-gray-100 rounded transition-colors"
-              title="Edit"
-            >
-              <Edit size={18} />
-            </button>
-            <button
-              onClick={() => onDelete(project.id)}
-              className="p-2 text-red-600 hover:bg-red-50 rounded transition-colors"
-              title="Delete"
-            >
-              <Trash2 size={18} />
-            </button>
+          <div className="flex gap-1 ml-4">
+            {/* Rank controls - always visible */}
+            {onRankChange && (
+              <div className="flex flex-col gap-0.5 mr-1">
+                <button
+                  onClick={() => onRankChange(project.id, 'up')}
+                  disabled={isFirst}
+                  className="p-0.5 text-gray-400 hover:text-gray-700 hover:bg-gray-100 rounded transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                  title="Move up"
+                >
+                  <ArrowUp size={14} />
+                </button>
+                <button
+                  onClick={() => onRankChange(project.id, 'down')}
+                  disabled={isLast}
+                  className="p-0.5 text-gray-400 hover:text-gray-700 hover:bg-gray-100 rounded transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                  title="Move down"
+                >
+                  <ArrowDown size={14} />
+                </button>
+              </div>
+            )}
+            {/* Edit/Delete - show on hover */}
+            <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+              <button
+                onClick={() => onEdit(project)}
+                className="p-2 text-gray-600 hover:bg-gray-100 rounded transition-colors"
+                title="Edit"
+              >
+                <Edit size={18} />
+              </button>
+              <button
+                onClick={() => onDelete(project.id)}
+                className="p-2 text-red-600 hover:bg-red-50 rounded transition-colors"
+                title="Delete"
+              >
+                <Trash2 size={18} />
+              </button>
+            </div>
           </div>
         </div>
 
@@ -142,6 +176,38 @@ export default function ProjectCard({ project, onEdit, onDelete, onQuickStatusCh
             </div>
           )}
         </div>
+
+        {/* Tasks Section */}
+        {(project.tasks && project.tasks.length > 0) || showTasks ? (
+          <div className="mt-4 pt-4 border-t border-gray-100">
+            <div className="flex items-center justify-between mb-2">
+              <button
+                onClick={() => setShowTasks(!showTasks)}
+                className="flex items-center gap-2 text-xs font-medium text-gray-600 hover:text-gray-900 transition-colors"
+              >
+                {showTasks ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
+                Tasks {project.tasks && project.tasks.length > 0 && `(${incompleteTasks.length}/${project.tasks.length})`}
+              </button>
+              {showTasks && hasMultipleTasks && (
+                <button
+                  onClick={() => setShowAllTasks(!showAllTasks)}
+                  className="text-xs text-gray-500 hover:text-gray-700 transition-colors"
+                >
+                  {showAllTasks ? 'Show next only' : 'View all'}
+                </button>
+              )}
+            </div>
+            {showTasks && (
+              <TaskList
+                projectId={project.id}
+                tasks={project.tasks || []}
+                onTasksChange={(tasks) => onTasksChange(project.id, tasks)}
+                highlightNext={!showAllTasks}
+                showOnlyNext={!showAllTasks && incompleteTasks.length > 1}
+              />
+            )}
+          </div>
+        ) : null}
       </div>
     </div>
   );

@@ -3,60 +3,262 @@
     "id": "1727539200001",
     "name": "Educator Segment ICP & Exploration",
     "status": "in-progress",
+    "rank": 2,
     "owner": "",
     "nextAction": "Complete ICP questions in icp-questions.md",
     "deadline": "",
     "folder": "work-in-progress/educator-segment/",
-    "description": "Define educator ICP and validate market demand. Testing hypothesis: educators will adopt Athena for their classroom without institutional buy-in."
+    "description": "Define educator ICP and validate market demand. Testing hypothesis: educators will adopt Athena for their classroom without institutional buy-in.",
+    "tasks": [
+      {
+        "id": "task-edu-1",
+        "projectId": "1727539200001",
+        "title": "Review existing customer data",
+        "completed": true,
+        "createdAt": "2026-09-28T10:00:00Z",
+        "completedAt": "2026-09-28T11:00:00Z"
+      },
+      {
+        "id": "task-edu-2",
+        "projectId": "1727539200001",
+        "title": "Answer ICP definition questions",
+        "completed": false,
+        "createdAt": "2026-09-28T10:00:00Z"
+      },
+      {
+        "id": "task-edu-3",
+        "projectId": "1727539200001",
+        "title": "Interview 5-10 target educators",
+        "completed": false,
+        "createdAt": "2026-09-28T10:00:00Z"
+      },
+      {
+        "id": "task-edu-4",
+        "projectId": "1727539200001",
+        "title": "Draft educator persona document",
+        "completed": false,
+        "createdAt": "2026-09-28T10:00:00Z"
+      },
+      {
+        "id": "task-edu-5",
+        "projectId": "1727539200001",
+        "title": "Validate persona with team",
+        "completed": false,
+        "createdAt": "2026-09-28T10:00:00Z"
+      }
+    ]
   },
   {
     "id": "1727539200002",
     "name": "Drip Campaign Planning & Build",
     "status": "not-started",
+    "rank": 4,
     "owner": "",
     "nextAction": "Define student trial nurture sequence (Priority 1)",
     "deadline": "",
     "folder": "work-in-progress/drip-campaigns/",
-    "description": "Build email lifecycle campaigns for D2C trial users, institutional pilots, and (if validated) educator segment."
+    "description": "Build email lifecycle campaigns for D2C trial users, institutional pilots, and (if validated) educator segment.",
+    "tasks": [
+      {
+        "id": "task-drip-1",
+        "projectId": "1727539200002",
+        "title": "Map trial user journey and trigger points",
+        "completed": false,
+        "createdAt": "2026-09-28T10:00:00Z"
+      },
+      {
+        "id": "task-drip-2",
+        "projectId": "1727539200002",
+        "title": "Define sequence goals and KPIs",
+        "completed": false,
+        "createdAt": "2026-09-28T10:00:00Z"
+      },
+      {
+        "id": "task-drip-3",
+        "projectId": "1727539200002",
+        "title": "Write email copy (all messages)",
+        "completed": false,
+        "createdAt": "2026-09-28T10:00:00Z"
+      },
+      {
+        "id": "task-drip-4",
+        "projectId": "1727539200002",
+        "title": "Review copy with stakeholders",
+        "completed": false,
+        "createdAt": "2026-09-28T10:00:00Z"
+      },
+      {
+        "id": "task-drip-5",
+        "projectId": "1727539200002",
+        "title": "Build sequence in email tool",
+        "completed": false,
+        "createdAt": "2026-09-28T10:00:00Z"
+      },
+      {
+        "id": "task-drip-6",
+        "projectId": "1727539200002",
+        "title": "Test with small cohort",
+        "completed": false,
+        "createdAt": "2026-09-28T10:00:00Z"
+      }
+    ]
   },
   {
     "id": "1727539200003",
     "name": "Institutional Page Revamp",
     "status": "in-progress",
+    "rank": 4,
     "owner": "",
     "nextAction": "Draft institutional value prop and hero messaging",
     "deadline": "",
     "folder": "work-in-progress/institutional-page-revamp/",
-    "description": "Redesign institutional landing page with focus on safety, Canvas integration, and pilot CTA. Target: Fall 2026 pilot recruitment."
+    "description": "Redesign institutional landing page with focus on safety, Canvas integration, and pilot CTA. Target: Fall 2026 pilot recruitment.",
+    "tasks": [
+      {
+        "id": "task-inst-1",
+        "projectId": "1727539200003",
+        "title": "Draft messaging and institutional value prop",
+        "completed": false,
+        "createdAt": "2026-09-28T10:00:00Z"
+      },
+      {
+        "id": "task-inst-2",
+        "projectId": "1727539200003",
+        "title": "Create wireframes/mockups",
+        "completed": false,
+        "createdAt": "2026-09-28T10:00:00Z"
+      },
+      {
+        "id": "task-inst-3",
+        "projectId": "1727539200003",
+        "title": "Write all page copy",
+        "completed": false,
+        "createdAt": "2026-09-28T10:00:00Z"
+      },
+      {
+        "id": "task-inst-4",
+        "projectId": "1727539200003",
+        "title": "Design and build page",
+        "completed": false,
+        "createdAt": "2026-09-28T10:00:00Z"
+      },
+      {
+        "id": "task-inst-5",
+        "projectId": "1727539200003",
+        "title": "Review with design team",
+        "completed": false,
+        "createdAt": "2026-09-28T10:00:00Z"
+      },
+      {
+        "id": "task-inst-6",
+        "projectId": "1727539200003",
+        "title": "Set up analytics and tracking",
+        "completed": false,
+        "createdAt": "2026-09-28T10:00:00Z"
+      }
+    ]
   },
   {
     "id": "1727539200004",
     "name": "Launch Updated Educator Landing Site",
     "status": "not-started",
+    "rank": 6,
     "owner": "",
     "nextAction": "Validate educator ICP first, then decide if separate page is needed",
     "deadline": "",
     "folder": "work-in-progress/educator-segment/",
-    "description": "Create educator-specific landing page (contingent on ICP validation showing distinct value prop and messaging needs)."
+    "description": "Create educator-specific landing page (contingent on ICP validation showing distinct value prop and messaging needs).",
+    "tasks": [
+      {
+        "id": "task-launch-1",
+        "projectId": "1727539200004",
+        "title": "Draft educator-specific messaging and value prop",
+        "completed": false,
+        "createdAt": "2026-09-28T10:00:00Z"
+      },
+      {
+        "id": "task-launch-2",
+        "projectId": "1727539200004",
+        "title": "Create wireframes/mockups",
+        "completed": false,
+        "createdAt": "2026-09-28T10:00:00Z"
+      },
+      {
+        "id": "task-launch-3",
+        "projectId": "1727539200004",
+        "title": "Write all page copy",
+        "completed": false,
+        "createdAt": "2026-09-28T10:00:00Z"
+      },
+      {
+        "id": "task-launch-4",
+        "projectId": "1727539200004",
+        "title": "Design and build page",
+        "completed": false,
+        "createdAt": "2026-09-28T10:00:00Z"
+      },
+      {
+        "id": "task-launch-5",
+        "projectId": "1727539200004",
+        "title": "Review with design team",
+        "completed": false,
+        "createdAt": "2026-09-28T10:00:00Z"
+      },
+      {
+        "id": "task-launch-6",
+        "projectId": "1727539200004",
+        "title": "Set up analytics and tracking",
+        "completed": false,
+        "createdAt": "2026-09-28T10:00:00Z"
+      }
+    ]
   },
   {
     "id": "1727539200005",
     "name": "FAQ Redux for Better Communication Routes",
-    "status": "not-started",
+    "status": "in-progress",
+    "rank": 5,
     "owner": "",
     "nextAction": "Audit existing FAQs across all docs and identify gaps",
     "deadline": "",
     "folder": "",
-    "description": "Consolidate and improve FAQ structure across student-facing, institutional, and internal docs to streamline communication."
-  },
-  {
-    "id": "1727539200006",
-    "name": "Fall 2026 Institutional Pilot Recruitment",
-    "status": "active",
-    "owner": "",
-    "nextAction": "Outreach to Canvas admins and success centers",
-    "deadline": "2026-08-01",
-    "folder": "",
-    "description": "Recruit 10-15 institutions for Fall 2026 pilot. Current: Hinds CC confirmed. Focus on community colleges and undergraduate universities."
+    "description": "Consolidate and improve FAQ structure across student-facing, institutional, and internal docs to streamline communication.",
+    "tasks": [
+      {
+        "id": "task-faq-1",
+        "projectId": "1727539200005",
+        "title": "Audit existing FAQs and docs",
+        "completed": false,
+        "createdAt": "2026-09-28T10:00:00Z"
+      },
+      {
+        "id": "task-faq-2",
+        "projectId": "1727539200005",
+        "title": "Identify common questions/gaps",
+        "completed": false,
+        "createdAt": "2026-09-28T10:00:00Z"
+      },
+      {
+        "id": "task-faq-3",
+        "projectId": "1727539200005",
+        "title": "Draft new/updated content",
+        "completed": false,
+        "createdAt": "2026-09-28T10:00:00Z"
+      },
+      {
+        "id": "task-faq-4",
+        "projectId": "1727539200005",
+        "title": "Review with support team",
+        "completed": false,
+        "createdAt": "2026-09-28T10:00:00Z"
+      },
+      {
+        "id": "task-faq-5",
+        "projectId": "1727539200005",
+        "title": "Publish and organize",
+        "completed": false,
+        "createdAt": "2026-09-28T10:00:00Z"
+      }
+    ]
   }
 ]
