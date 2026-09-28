@@ -1,6 +1,39 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getExperiments, saveExperiments } from '@/lib/storage';
-import type { Experiment } from '@/types';
+import type { Experiment, ExperimentHistoryEntry } from '@/types';
+
+// Fields to track changes for
+const TRACKED_FIELDS = ['hypothesis', 'status', 'decision', 'channel', 'segment'] as const;
+
+function trackChanges(oldExp: Experiment, newExp: Experiment): ExperimentHistoryEntry[] {
+  const changes: ExperimentHistoryEntry[] = [];
+  const now = new Date().toISOString();
+
+  for (const field of TRACKED_FIELDS) {
+    const oldVal = oldExp[field];
+    const newVal = newExp[field];
+    if (oldVal !== newVal) {
+      changes.push({
+        date: now,
+        field,
+        from: oldVal?.toString() || '(empty)',
+        to: newVal?.toString() || '(empty)',
+      });
+    }
+  }
+
+  // Track result.fit changes
+  if (oldExp.result?.fit !== newExp.result?.fit) {
+    changes.push({
+      date: now,
+      field: 'result.fit',
+      from: oldExp.result?.fit || '(empty)',
+      to: newExp.result?.fit || '(empty)',
+    });
+  }
+
+  return changes;
+}
 
 export async function GET() {
   try {
@@ -31,6 +64,21 @@ export async function PUT(req: NextRequest) {
     if (index === -1) {
       return NextResponse.json({ error: 'Experiment not found' }, { status: 404 });
     }
+    
+    // Auto-track history of changes
+    const oldExperiment = experiments[index];
+    const newChanges = trackChanges(oldExperiment, updatedExperiment);
+    
+    if (newChanges.length > 0) {
+      updatedExperiment.history = [
+        ...(oldExperiment.history || []),
+        ...newChanges,
+      ];
+    } else {
+      // Preserve existing history
+      updatedExperiment.history = oldExperiment.history;
+    }
+    
     experiments[index] = updatedExperiment;
     await saveExperiments(experiments);
     return NextResponse.json(updatedExperiment);

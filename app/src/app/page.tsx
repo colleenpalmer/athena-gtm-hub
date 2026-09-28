@@ -14,7 +14,7 @@ export default function Home() {
     <div className="min-h-screen bg-white">
       {/* Header */}
       <header className="border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-6 py-5">
+        <div className="max-w-3xl mx-auto px-6 py-5">
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-2xl font-semibold text-gray-900">Athena GTM Hub</h1>
@@ -22,17 +22,13 @@ export default function Home() {
                 Go-to-Market command center
               </p>
             </div>
-            <div className="flex items-center gap-2 text-sm text-gray-500">
-              <div className="w-2 h-2 bg-success-500 rounded-full"></div>
-              <span className="font-medium">Connected</span>
-            </div>
           </div>
         </div>
       </header>
 
       {/* Tabs */}
       <div className="border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-6">
+        <div className="max-w-3xl mx-auto px-6">
           <div className="flex items-center justify-between">
             <div className="flex gap-1" data-active-tab={activeTab}>
               <button
@@ -75,7 +71,7 @@ export default function Home() {
       {/* Keyboard Shortcuts Help */}
       {showShortcuts && (
         <div className="bg-gray-50 border-b border-gray-200">
-          <div className="max-w-7xl mx-auto px-6 py-3">
+          <div className="max-w-3xl mx-auto px-6 py-3">
             <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm">
               <div>
                 <kbd className="px-2 py-1 bg-white border border-gray-200 rounded text-xs font-mono text-gray-700">⌘ 1/2</kbd>
@@ -95,7 +91,7 @@ export default function Home() {
       )}
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-6 py-8">
+      <main className="max-w-3xl mx-auto px-6 py-8">
         <div>
           {activeTab === 'projects' && <ProjectList />}
           {activeTab === 'experiments' && <ExperimentTracker />}

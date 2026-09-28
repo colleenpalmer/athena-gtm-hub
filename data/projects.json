@@ -1,23 +1,14 @@
 [
   {
     "id": "1727539200001",
-    "name": "Educator Segment ICP & Exploration",
-    "status": "in-progress",
-    "rank": 3,
+    "name": "Educator/Teachers Segment ICP & Exploration",
+    "status": "not-started",
     "owner": "",
     "nextAction": "Complete ICP questions in icp-questions.md",
     "deadline": "",
     "folder": "work-in-progress/educator-segment/",
     "description": "Define educator ICP and validate market demand. Testing hypothesis: educators will adopt Athena for their classroom without institutional buy-in.",
     "tasks": [
-      {
-        "id": "task-edu-1",
-        "projectId": "1727539200001",
-        "title": "Review existing customer data",
-        "completed": true,
-        "createdAt": "2026-09-28T10:00:00Z",
-        "completedAt": "2026-09-28T11:00:00Z"
-      },
       {
         "id": "task-edu-2",
         "projectId": "1727539200001",
@@ -38,21 +29,14 @@
         "title": "Draft educator persona document",
         "completed": false,
         "createdAt": "2026-09-28T10:00:00Z"
-      },
-      {
-        "id": "task-edu-5",
-        "projectId": "1727539200001",
-        "title": "Validate persona with team",
-        "completed": false,
-        "createdAt": "2026-09-28T10:00:00Z"
       }
-    ]
+    ],
+    "rank": 3
   },
   {
     "id": "1727539200002",
-    "name": "Drip Campaign Planning & Build",
+    "name": "Drip Campaign for Hinds Students",
     "status": "not-started",
-    "rank": 5,
     "owner": "",
     "nextAction": "Define student trial nurture sequence (Priority 1)",
     "deadline": "",
@@ -60,11 +44,11 @@
     "description": "Build email lifecycle campaigns for D2C trial users, institutional pilots, and (if validated) educator segment.",
     "tasks": [
       {
-        "id": "task-drip-1",
+        "id": "1790621825785",
         "projectId": "1727539200002",
-        "title": "Map trial user journey and trigger points",
+        "title": "Define student journey",
         "completed": false,
-        "createdAt": "2026-09-28T10:00:00Z"
+        "createdAt": "2026-09-28T18:57:05.785Z"
       },
       {
         "id": "task-drip-2",
@@ -72,6 +56,13 @@
         "title": "Define sequence goals and KPIs",
         "completed": false,
         "createdAt": "2026-09-28T10:00:00Z"
+      },
+      {
+        "id": "1790621870105",
+        "projectId": "1727539200002",
+        "title": "Figure out what system we're using for drip campaigns (attio, posthog, resend?)",
+        "completed": false,
+        "createdAt": "2026-09-28T18:57:50.105Z"
       },
       {
         "id": "task-drip-3",
@@ -101,7 +92,8 @@
         "completed": false,
         "createdAt": "2026-09-28T10:00:00Z"
       }
-    ]
+    ],
+    "rank": 3
   },
   {
     "id": "1727539200003",
@@ -115,46 +107,33 @@
     "description": "Redesign institutional landing page with focus on safety, Canvas integration, and pilot CTA. Target: Fall 2026 pilot recruitment.",
     "tasks": [
       {
+        "id": "1790624889871",
+        "projectId": "1727539200003",
+        "title": "get the forms working correctly with better after-captures",
+        "completed": false,
+        "createdAt": "2026-09-28T19:48:09.871Z"
+      },
+      {
         "id": "task-inst-1",
         "projectId": "1727539200003",
-        "title": "Draft messaging and institutional value prop",
+        "title": "Review the copy changes w/ product team",
         "completed": false,
         "createdAt": "2026-09-28T10:00:00Z"
       },
       {
-        "id": "task-inst-2",
+        "id": "1790621013257",
         "projectId": "1727539200003",
-        "title": "Create wireframes/mockups",
-        "completed": false,
-        "createdAt": "2026-09-28T10:00:00Z"
-      },
+        "title": "Get video and segementing on video working",
+        "completed": true,
+        "createdAt": "2026-09-28T18:43:33.257Z",
+        "completedAt": "2026-09-28T19:47:49.192Z"
+      }
+    ],
+    "notes": [
       {
-        "id": "task-inst-3",
-        "projectId": "1727539200003",
-        "title": "Write all page copy",
-        "completed": false,
-        "createdAt": "2026-09-28T10:00:00Z"
-      },
-      {
-        "id": "task-inst-4",
-        "projectId": "1727539200003",
-        "title": "Design and build page",
-        "completed": false,
-        "createdAt": "2026-09-28T10:00:00Z"
-      },
-      {
-        "id": "task-inst-5",
-        "projectId": "1727539200003",
-        "title": "Review with design team",
-        "completed": false,
-        "createdAt": "2026-09-28T10:00:00Z"
-      },
-      {
-        "id": "task-inst-6",
-        "projectId": "1727539200003",
-        "title": "Set up analytics and tracking",
-        "completed": false,
-        "createdAt": "2026-09-28T10:00:00Z"
+        "id": "1790623127567",
+        "date": "2026-09-28T19:18:47.567Z",
+        "note": "PR for the new landing here: https://github.com/instructure/athena-poc/pull/2325"
       }
     ]
   },
@@ -162,56 +141,13 @@
     "id": "1727539200004",
     "name": "Launch Updated Educator Landing Site",
     "status": "not-started",
-    "rank": 4,
+    "rank": 5,
     "owner": "",
     "nextAction": "Validate educator ICP first, then decide if separate page is needed",
     "deadline": "",
     "folder": "work-in-progress/educator-segment/",
     "description": "Create educator-specific landing page (contingent on ICP validation showing distinct value prop and messaging needs).",
-    "tasks": [
-      {
-        "id": "task-launch-1",
-        "projectId": "1727539200004",
-        "title": "Draft educator-specific messaging and value prop",
-        "completed": false,
-        "createdAt": "2026-09-28T10:00:00Z"
-      },
-      {
-        "id": "task-launch-2",
-        "projectId": "1727539200004",
-        "title": "Create wireframes/mockups",
-        "completed": false,
-        "createdAt": "2026-09-28T10:00:00Z"
-      },
-      {
-        "id": "task-launch-3",
-        "projectId": "1727539200004",
-        "title": "Write all page copy",
-        "completed": false,
-        "createdAt": "2026-09-28T10:00:00Z"
-      },
-      {
-        "id": "task-launch-4",
-        "projectId": "1727539200004",
-        "title": "Design and build page",
-        "completed": false,
-        "createdAt": "2026-09-28T10:00:00Z"
-      },
-      {
-        "id": "task-launch-5",
-        "projectId": "1727539200004",
-        "title": "Review with design team",
-        "completed": false,
-        "createdAt": "2026-09-28T10:00:00Z"
-      },
-      {
-        "id": "task-launch-6",
-        "projectId": "1727539200004",
-        "title": "Set up analytics and tracking",
-        "completed": false,
-        "createdAt": "2026-09-28T10:00:00Z"
-      }
-    ]
+    "tasks": []
   },
   {
     "id": "1727539200005",
@@ -227,37 +163,16 @@
       {
         "id": "task-faq-1",
         "projectId": "1727539200005",
-        "title": "Audit existing FAQs and docs",
+        "title": "Record video overview of what should change for FAQs to be better",
         "completed": false,
         "createdAt": "2026-09-28T10:00:00Z"
-      },
+      }
+    ],
+    "notes": [
       {
-        "id": "task-faq-2",
-        "projectId": "1727539200005",
-        "title": "Identify common questions/gaps",
-        "completed": false,
-        "createdAt": "2026-09-28T10:00:00Z"
-      },
-      {
-        "id": "task-faq-3",
-        "projectId": "1727539200005",
-        "title": "Draft new/updated content",
-        "completed": false,
-        "createdAt": "2026-09-28T10:00:00Z"
-      },
-      {
-        "id": "task-faq-4",
-        "projectId": "1727539200005",
-        "title": "Review with support team",
-        "completed": false,
-        "createdAt": "2026-09-28T10:00:00Z"
-      },
-      {
-        "id": "task-faq-5",
-        "projectId": "1727539200005",
-        "title": "Publish and organize",
-        "completed": false,
-        "createdAt": "2026-09-28T10:00:00Z"
+        "id": "note-faq-1",
+        "date": "2026-09-27T11:00:00Z",
+        "note": "[EXAMPLE NOTE] Current FAQ locations: https://athena.edu/faq and https://help.athena.edu — need to consolidate"
       }
     ]
   }

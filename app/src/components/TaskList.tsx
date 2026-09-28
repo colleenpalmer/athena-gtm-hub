@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Plus, Check, X, Edit2 } from 'lucide-react';
+import { Plus, Check, X, Edit2, ArrowUp, ArrowDown } from 'lucide-react';
 import type { Task } from '@/types';
 
 interface TaskListProps {
@@ -69,6 +69,25 @@ export default function TaskList({ projectId, tasks = [], onTasksChange, compact
   const handleCancelEdit = () => {
     setEditingTaskId(null);
     setEditingText('');
+  };
+
+  const handleMoveTask = (taskId: string, direction: 'up' | 'down') => {
+    const incompleteIds = tasks.filter(t => !t.completed).map(t => t.id);
+    const currentIndex = incompleteIds.indexOf(taskId);
+    if (currentIndex === -1) return;
+
+    const targetIndex = direction === 'up' ? currentIndex - 1 : currentIndex + 1;
+    if (targetIndex < 0 || targetIndex >= incompleteIds.length) return;
+
+    // Swap in the incomplete list
+    const newIncompleteIds = [...incompleteIds];
+    [newIncompleteIds[currentIndex], newIncompleteIds[targetIndex]] = 
+      [newIncompleteIds[targetIndex], newIncompleteIds[currentIndex]];
+
+    // Rebuild full task list: reordered incomplete + completed
+    const completedTasks = tasks.filter(t => t.completed);
+    const reorderedIncomplete = newIncompleteIds.map(id => tasks.find(t => t.id === id)!).filter(Boolean);
+    onTasksChange([...reorderedIncomplete, ...completedTasks]);
   };
 
   const incompleteTasks = tasks.filter(t => !t.completed);
@@ -143,6 +162,25 @@ export default function TaskList({ projectId, tasks = [], onTasksChange, compact
                       {isNext && <span className="text-accent-600 mr-1.5">→</span>}
                       {task.title}
                     </span>
+                    {/* Reorder controls */}
+                    <div className="flex gap-0.5 opacity-0 group-hover:opacity-100 transition-all">
+                      <button
+                        onClick={() => handleMoveTask(task.id, 'up')}
+                        disabled={actualIndex === 0}
+                        className="text-gray-400 hover:text-gray-600 p-1 rounded transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                        title="Move up"
+                      >
+                        <ArrowUp size={12} />
+                      </button>
+                      <button
+                        onClick={() => handleMoveTask(task.id, 'down')}
+                        disabled={actualIndex === incompleteTasks.length - 1}
+                        className="text-gray-400 hover:text-gray-600 p-1 rounded transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                        title="Move down"
+                      >
+                        <ArrowDown size={12} />
+                      </button>
+                    </div>
                     <button
                       onClick={() => handleStartEdit(task)}
                       className="opacity-0 group-hover:opacity-100 text-gray-400 hover:text-gray-600 p-1 rounded transition-all"

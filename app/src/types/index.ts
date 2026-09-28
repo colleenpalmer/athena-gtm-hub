@@ -1,3 +1,9 @@
+export interface ProjectNote {
+  id: string;
+  date: string;
+  note: string;
+}
+
 export interface Project {
   id: string;
   name: string;
@@ -9,6 +15,7 @@ export interface Project {
   description?: string;
   tasks?: Task[];
   rank?: number; // Lower number = higher priority (1 = top)
+  notes?: ProjectNote[];
 }
 
 export interface Task {
@@ -18,6 +25,19 @@ export interface Task {
   completed: boolean;
   createdAt: string;
   completedAt?: string;
+}
+
+export interface ExperimentUpdate {
+  id: string;
+  date: string;
+  note: string;
+}
+
+export interface ExperimentHistoryEntry {
+  date: string;
+  field: string;
+  from: string;
+  to: string;
 }
 
 export interface Experiment {
@@ -34,6 +54,8 @@ export interface Experiment {
   };
   decision?: 'Scale' | 'Iterate' | 'Kill';
   status: 'planned' | 'running' | 'complete';
+  updates?: ExperimentUpdate[];
+  history?: ExperimentHistoryEntry[];
 }
 
 export interface Decision {

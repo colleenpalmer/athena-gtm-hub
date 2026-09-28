@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Edit, Trash2, CheckCircle2, Clock, AlertCircle, Pause, XCircle, ChevronDown, ChevronUp, ArrowUp, ArrowDown } from 'lucide-react';
+import { Edit, Trash2, CheckCircle2, Clock, AlertCircle, Pause, XCircle, ChevronDown, ChevronUp, ArrowUp, ArrowDown, MessageSquarePlus, Link2, X, StickyNote } from 'lucide-react';
 import type { Project } from '@/types';
 import TaskList from './TaskList';
 
@@ -11,10 +11,60 @@ interface ProjectCardProps {
   onDelete: (id: string) => void;
   onQuickStatusChange: (id: string, status: Project['status']) => void;
   onTasksChange: (id: string, tasks: Project['tasks']) => void;
+  onNotesChange: (id: string, notes: Project['notes']) => void;
   onRankChange?: (id: string, direction: 'up' | 'down') => void;
   isFirst?: boolean;
   isLast?: boolean;
+  rankNumber?: number;
 }
+
+// Extract URLs from text
+const extractLinks = (text: string): { url: string; label: string }[] => {
+  const urlRegex = /(https?:\/\/[^\s]+)/g;
+  const matches = text.match(urlRegex) || [];
+  return matches.map(url => {
+    // Clean trailing punctuation
+    const cleanUrl = url.replace(/[.,;:!?)]+$/, '');
+    // Try to get a readable label from the URL
+    try {
+      const urlObj = new URL(cleanUrl);
+      const pathParts = urlObj.pathname.split('/').filter(Boolean);
+      const label = pathParts.length > 0 
+        ? `${urlObj.hostname}/${pathParts.slice(-1)[0].substring(0, 20)}${pathParts.slice(-1)[0].length > 20 ? '...' : ''}`
+        : urlObj.hostname;
+      return { url: cleanUrl, label };
+    } catch {
+      return { url: cleanUrl, label: cleanUrl.substring(0, 30) + '...' };
+    }
+  });
+};
+
+// Render text with clickable links
+const renderNoteWithLinks = (text: string) => {
+  const urlRegex = /(https?:\/\/[^\s]+)/g;
+  const parts = text.split(urlRegex);
+  
+  return parts.map((part, i) => {
+    if (part.match(urlRegex)) {
+      const cleanUrl = part.replace(/[.,;:!?)]+$/, '');
+      const trailing = part.slice(cleanUrl.length);
+      return (
+        <span key={i}>
+          <a 
+            href={cleanUrl} 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-accent-600 hover:text-accent-700 underline"
+          >
+            {cleanUrl}
+          </a>
+          {trailing}
+        </span>
+      );
+    }
+    return part;
+  });
+};
 
 const statusConfig = {
   'not-started': {
@@ -55,59 +105,95 @@ const statusConfig = {
   },
 };
 
-export default function ProjectCard({ project, onEdit, onDelete, onQuickStatusChange, onTasksChange, onRankChange, isFirst, isLast }: ProjectCardProps) {
+export default function ProjectCard({ project, onEdit, onDelete, onQuickStatusChange, onTasksChange, onNotesChange, onRankChange, isFirst, isLast, rankNumber }: ProjectCardProps) {
   const [showStatusMenu, setShowStatusMenu] = useState(false);
   const [showTasks, setShowTasks] = useState(true);
   const [showAllTasks, setShowAllTasks] = useState(false);
+  const [showNotes, setShowNotes] = useState(true);
+  const [isAddingNote, setIsAddingNote] = useState(false);
+  const [newNote, setNewNote] = useState('');
+  const [showLinks, setShowLinks] = useState(false);
   const config = statusConfig[project.status];
   const StatusIcon = config.icon;
   
   const incompleteTasks = project.tasks?.filter(t => !t.completed) || [];
   const hasMultipleTasks = incompleteTasks.length > 1;
 
-  const quickStatuses: Project['status'][] = ['not-started', 'in-progress', 'active', 'complete'];
+  // Collect all links from all notes
+  const allLinks = (project.notes || []).flatMap(n => 
+    extractLinks(n.note).map(link => ({ ...link, noteDate: n.date }))
+  );
+
+  const handleAddNote = () => {
+    if (!newNote.trim()) return;
+    const note = {
+      id: Date.now().toString(),
+      date: new Date().toISOString(),
+      note: newNote,
+    };
+    onNotesChange(project.id, [...(project.notes || []), note]);
+    setNewNote('');
+    setIsAddingNote(false);
+  };
+
+  const handleDeleteNote = (noteId: string) => {
+    onNotesChange(project.id, (project.notes || []).filter(n => n.id !== noteId));
+  };
+
+  const formatDate = (dateStr: string) => {
+    const d = new Date(dateStr);
+    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  };
 
   return (
-    <div className={`bg-white rounded-lg border-2 ${config.color} hover:shadow-lg transition-all group`}>
-      <div className="p-4">
+    <div className={`bg-white rounded-lg border-2 ${config.color} hover:shadow-lg transition-all group flex`}>
+      {/* Rank indicator */}
+      {rankNumber !== undefined && (
+        <div className={`flex flex-col items-center justify-center px-4 border-r border-gray-100 ${
+          rankNumber <= 2 ? 'bg-accent-50' : 'bg-gray-50'
+        }`}>
+          <span className={`text-2xl font-bold ${
+            rankNumber === 1 ? 'text-accent-600' : rankNumber === 2 ? 'text-accent-500' : 'text-gray-400'
+          }`}>
+            {rankNumber}
+          </span>
+          {onRankChange && (
+            <div className="flex flex-col gap-0.5 mt-1">
+              <button
+                onClick={() => onRankChange(project.id, 'up')}
+                disabled={isFirst}
+                className="p-0.5 text-gray-400 hover:text-gray-700 hover:bg-white rounded transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                title="Move up"
+              >
+                <ArrowUp size={14} />
+              </button>
+              <button
+                onClick={() => onRankChange(project.id, 'down')}
+                disabled={isLast}
+                className="p-0.5 text-gray-400 hover:text-gray-700 hover:bg-white rounded transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                title="Move down"
+              >
+                <ArrowDown size={14} />
+              </button>
+            </div>
+          )}
+        </div>
+      )}
+      
+      <div className="p-4 flex-1">
         {/* Header */}
         <div className="flex items-start justify-between mb-3">
-          <div className="flex items-start gap-3 flex-1">
-            <StatusIcon size={24} className="mt-1 shrink-0" />
-            <div className="flex-1 min-w-0">
+          <div className="flex-1 min-w-0">
               <h3 className="text-lg font-semibold text-gray-900 mb-1 break-words">
                 {project.name}
               </h3>
               {project.description && (
                 <p className="text-sm text-gray-600 line-clamp-2">{project.description}</p>
               )}
-            </div>
           </div>
 
-          {/* Actions */}
+          {/* Actions - Edit/Delete show on hover */}
           <div className="flex gap-1 ml-4">
-            {/* Rank controls - always visible */}
-            {onRankChange && (
-              <div className="flex flex-col gap-0.5 mr-1">
-                <button
-                  onClick={() => onRankChange(project.id, 'up')}
-                  disabled={isFirst}
-                  className="p-0.5 text-gray-400 hover:text-gray-700 hover:bg-gray-100 rounded transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
-                  title="Move up"
-                >
-                  <ArrowUp size={14} />
-                </button>
-                <button
-                  onClick={() => onRankChange(project.id, 'down')}
-                  disabled={isLast}
-                  className="p-0.5 text-gray-400 hover:text-gray-700 hover:bg-gray-100 rounded transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
-                  title="Move down"
-                >
-                  <ArrowDown size={14} />
-                </button>
-              </div>
-            )}
-            {/* Edit/Delete - show on hover */}
             <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
               <button
                 onClick={() => onEdit(project)}
@@ -127,36 +213,8 @@ export default function ProjectCard({ project, onEdit, onDelete, onQuickStatusCh
           </div>
         </div>
 
-        {/* Quick Status Pills */}
-        <div className="flex flex-wrap gap-2 mb-3">
-          {quickStatuses.map((status) => {
-            const isActive = project.status === status;
-            const statusConf = statusConfig[status];
-            return (
-              <button
-                key={status}
-                onClick={() => !isActive && onQuickStatusChange(project.id, status)}
-                className={`px-3 py-1 rounded-md text-xs font-medium transition-all ${
-                  isActive
-                    ? statusConf.badge + ' ring-1 ring-inset ring-gray-900/10'
-                    : 'bg-gray-50 text-gray-600 hover:bg-gray-100 border border-gray-200'
-                }`}
-                disabled={isActive}
-              >
-                {statusConf.label}
-              </button>
-            );
-          })}
-        </div>
-
         {/* Metadata Grid */}
         <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
-          {project.nextAction && (
-            <div className="col-span-2">
-              <span className="font-medium text-gray-700">Next:</span>{' '}
-              <span className="text-gray-900">{project.nextAction}</span>
-            </div>
-          )}
           {project.owner && (
             <div>
               <span className="font-medium text-gray-700">Owner:</span>{' '}
@@ -208,6 +266,126 @@ export default function ProjectCard({ project, onEdit, onDelete, onQuickStatusCh
             )}
           </div>
         ) : null}
+
+        {/* Notes Section */}
+        <div className="mt-4 pt-4 border-t border-gray-100">
+          <div className="flex items-center justify-between mb-2">
+            <button
+              onClick={() => setShowNotes(!showNotes)}
+              className="flex items-center gap-2 text-xs font-medium text-gray-600 hover:text-gray-900 transition-colors"
+            >
+              {showNotes ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
+              <StickyNote size={14} />
+              Notes {project.notes && project.notes.length > 0 && `(${project.notes.length})`}
+            </button>
+            <div className="flex items-center gap-2">
+              {allLinks.length > 0 && (
+                <button
+                  onClick={() => setShowLinks(!showLinks)}
+                  className={`flex items-center gap-1 text-xs px-2 py-1 rounded transition-colors ${
+                    showLinks ? 'bg-accent-100 text-accent-700' : 'text-gray-500 hover:text-gray-700 hover:bg-gray-100'
+                  }`}
+                >
+                  <Link2 size={12} />
+                  {allLinks.length} link{allLinks.length !== 1 ? 's' : ''}
+                </button>
+              )}
+              <button
+                onClick={() => setIsAddingNote(!isAddingNote)}
+                className="flex items-center gap-1 text-xs text-gray-500 hover:text-gray-700 px-2 py-1 rounded hover:bg-gray-100 transition-colors"
+              >
+                <MessageSquarePlus size={14} />
+                Add
+              </button>
+            </div>
+          </div>
+
+          {/* Links Panel */}
+          {showLinks && allLinks.length > 0 && (
+            <div className="mb-3 p-2 bg-accent-50 rounded-lg">
+              <div className="text-xs font-medium text-accent-700 mb-1.5">Quick Links</div>
+              <div className="flex flex-wrap gap-2">
+                {allLinks.map((link, i) => (
+                  <a
+                    key={i}
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 text-xs bg-white px-2 py-1 rounded border border-accent-200 text-accent-700 hover:bg-accent-100 transition-colors"
+                  >
+                    <Link2 size={10} />
+                    {link.label}
+                  </a>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Add Note Form */}
+          {isAddingNote && (
+            <div className="mb-3">
+              <textarea
+                value={newNote}
+                onChange={(e) => setNewNote(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' && e.metaKey) handleAddNote();
+                  if (e.key === 'Escape') {
+                    setIsAddingNote(false);
+                    setNewNote('');
+                  }
+                }}
+                placeholder="Add a note... (paste links and they'll be tracked)"
+                autoFocus
+                rows={2}
+                className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-accent-500"
+              />
+              <div className="flex justify-end gap-2 mt-2">
+                <button
+                  onClick={() => {
+                    setIsAddingNote(false);
+                    setNewNote('');
+                  }}
+                  className="px-3 py-1.5 text-sm text-gray-600 hover:bg-gray-100 rounded transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleAddNote}
+                  className="px-3 py-1.5 text-sm bg-gray-900 text-white rounded hover:bg-gray-800 transition-colors"
+                >
+                  Add Note
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Notes List */}
+          {showNotes && (project.notes || []).length > 0 && (
+            <div className="space-y-2">
+              {[...(project.notes || [])].reverse().map((note) => (
+                <div key={note.id} className="group/note text-sm bg-gray-50 rounded-lg p-2.5">
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="flex-1 min-w-0">
+                      <span className="text-xs text-gray-400">{formatDate(note.date)}</span>
+                      <p className="text-gray-700 mt-0.5 break-words">{renderNoteWithLinks(note.note)}</p>
+                    </div>
+                    <button
+                      onClick={() => handleDeleteNote(note.id)}
+                      className="opacity-0 group-hover/note:opacity-100 p-1 text-gray-400 hover:text-red-600 rounded transition-all"
+                      title="Delete note"
+                    >
+                      <X size={14} />
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {showNotes && (!project.notes || project.notes.length === 0) && !isAddingNote && (
+            <p className="text-xs text-gray-400 italic">No notes yet</p>
+          )}
+        </div>
       </div>
     </div>
   );

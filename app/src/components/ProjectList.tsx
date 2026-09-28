@@ -100,6 +100,19 @@ export default function ProjectList() {
     await handleTasksChange(projectId, updatedTasks);
   };
 
+  const handleNotesChange = async (projectId: string, notes: Project['notes']) => {
+    const project = projects.find(p => p.id === projectId);
+    if (!project) return;
+
+    const updated = { ...project, notes };
+    await fetch('/api/projects', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(updated),
+    });
+    fetchProjects();
+  };
+
   const handleRankChange = async (projectId: string, direction: 'up' | 'down') => {
     const currentIndex = projects.findIndex(p => p.id === projectId);
     if (currentIndex === -1) return;
@@ -247,7 +260,7 @@ export default function ProjectList() {
           }}
         />
       ) : (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <div className="flex flex-col gap-3">
           {filteredProjects.length > 0 ? (
             filteredProjects.map((project, index) => (
               <ProjectCard
@@ -257,9 +270,11 @@ export default function ProjectList() {
                 onDelete={handleDelete}
                 onQuickStatusChange={handleQuickStatusChange}
                 onTasksChange={handleTasksChange}
+                onNotesChange={handleNotesChange}
                 onRankChange={filter === 'all' ? handleRankChange : undefined}
                 isFirst={filter === 'all' && index === 0}
                 isLast={filter === 'all' && index === filteredProjects.length - 1}
+                rankNumber={filter === 'all' ? index + 1 : undefined}
               />
             ))
           ) : (

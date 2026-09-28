@@ -1,1 +1,113 @@
-[]
+[
+  {
+    "id": "exp-example-001",
+    "date": "2026-09-15",
+    "channel": "[EXAMPLE] Email Drip Campaign",
+    "segment": "D2C",
+    "hypothesis": "A 7-day trial nurture sequence will increase trial-to-paid conversion by 15% by reinforcing key features and addressing common objections at the right moments.",
+    "status": "running",
+    "result": null,
+    "decision": null,
+    "updates": [
+      {
+        "id": "upd-001-0",
+        "date": "2026-09-14T09:00:00Z",
+        "note": "⚠️ THIS IS AN EXAMPLE EXPERIMENT — Delete this when you create real ones. Shows how to track a drip campaign day-by-day."
+      },
+      {
+        "id": "upd-001-1",
+        "date": "2026-09-15T10:00:00Z",
+        "note": "Launched sequence to first cohort of 150 trial signups. Emails scheduled for days 1, 3, 5, 7."
+      },
+      {
+        "id": "upd-001-2",
+        "date": "2026-09-16T14:30:00Z",
+        "note": "Day 1 email: 62% open rate, 18% CTR. Subject line 'Your first win with Athena' performing well."
+      },
+      {
+        "id": "upd-001-3",
+        "date": "2026-09-18T09:15:00Z",
+        "note": "Day 3 email: 48% open rate, 12% CTR. Seeing drop-off — may need stronger hook. 3 replies asking about pricing."
+      },
+      {
+        "id": "upd-001-4",
+        "date": "2026-09-21T16:00:00Z",
+        "note": "Day 5 email sent. Added testimonial from nursing student based on early feedback. Will compare to control."
+      }
+    ],
+    "history": []
+  },
+  {
+    "id": "exp-example-002",
+    "date": "2026-09-01",
+    "channel": "[EXAMPLE] LinkedIn Ads",
+    "segment": "Institutional",
+    "hypothesis": "Targeting department chairs and academic deans on LinkedIn with case study content will generate qualified pilot interest at <$150 CAC.",
+    "status": "complete",
+    "result": {
+      "cac": 187,
+      "conversion": 2.3,
+      "fit": "Meh",
+      "notes": "Generated 12 leads over 3 weeks. CAC higher than target ($187 vs $150 goal). Lead quality was mixed — 4 were decision-makers, 8 were individual faculty with no purchasing authority. Engagement on case study content was strong (4.2% CTR), but targeting needs refinement to filter out non-buyers."
+    },
+    "decision": "Iterate",
+    "updates": [
+      {
+        "id": "upd-002-0",
+        "date": "2026-08-31T09:00:00Z",
+        "note": "⚠️ THIS IS AN EXAMPLE EXPERIMENT — Delete this when you create real ones. Shows a completed channel test with results and a Scale/Iterate/Kill decision."
+      },
+      {
+        "id": "upd-002-1",
+        "date": "2026-09-01T09:00:00Z",
+        "note": "Campaign launched. $500 budget, targeting: Higher Ed, Dept Chairs, Academic Deans, 25mi radius from top 50 nursing schools."
+      },
+      {
+        "id": "upd-002-2",
+        "date": "2026-09-05T11:30:00Z",
+        "note": "First week: 4 leads, $125 spent. CPL at $31 but quality TBD. One lead already replied — community college dean, interested in pilot."
+      },
+      {
+        "id": "upd-002-3",
+        "date": "2026-09-12T14:00:00Z",
+        "note": "Week 2: 5 more leads. Noticing pattern — many are individual faculty, not decision-makers. Need to tighten targeting."
+      },
+      {
+        "id": "upd-002-4",
+        "date": "2026-09-15T10:00:00Z",
+        "note": "Added job title exclusions to filter out 'Professor' and 'Instructor' — want chairs/deans only."
+      },
+      {
+        "id": "upd-002-5",
+        "date": "2026-09-22T16:30:00Z",
+        "note": "Campaign ended. Final tally: 12 leads, $500 spent, 4 qualified. Calling it 'Meh' — not bad but not scalable yet."
+      }
+    ],
+    "history": [
+      {
+        "date": "2026-09-15T10:05:00Z",
+        "field": "hypothesis",
+        "from": "Targeting educators on LinkedIn with case study content will generate pilot interest at <$150 CAC.",
+        "to": "Targeting department chairs and academic deans on LinkedIn with case study content will generate qualified pilot interest at <$150 CAC."
+      },
+      {
+        "date": "2026-09-22T16:45:00Z",
+        "field": "status",
+        "from": "running",
+        "to": "complete"
+      },
+      {
+        "date": "2026-09-22T16:45:00Z",
+        "field": "result.fit",
+        "from": "(empty)",
+        "to": "Meh"
+      },
+      {
+        "date": "2026-09-22T16:50:00Z",
+        "field": "decision",
+        "from": "(empty)",
+        "to": "Iterate"
+      }
+    ]
+  }
+]

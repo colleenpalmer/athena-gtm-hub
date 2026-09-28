@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Plus, Trash2, Edit } from 'lucide-react';
+import { Plus, Trash2, Edit, MessageSquarePlus, ChevronDown, ChevronUp, History, Clock } from 'lucide-react';
 import type { Experiment } from '@/types';
 
 const statusColors = {
@@ -15,6 +15,10 @@ export default function ExperimentTracker() {
   const [isAdding, setIsAdding] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [formData, setFormData] = useState<Partial<Experiment>>({});
+  const [addingUpdateTo, setAddingUpdateTo] = useState<string | null>(null);
+  const [newUpdateNote, setNewUpdateNote] = useState('');
+  const [expandedTimelines, setExpandedTimelines] = useState<Set<string>>(new Set());
+  const [expandedHistory, setExpandedHistory] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     fetchExperiments();
@@ -70,6 +74,62 @@ export default function ExperimentTracker() {
     setFormData(experiment);
     setEditingId(experiment.id);
     setIsAdding(true);
+  };
+
+  const handleAddUpdate = async (experimentId: string) => {
+    if (!newUpdateNote.trim()) return;
+    
+    const experiment = experiments.find(e => e.id === experimentId);
+    if (!experiment) return;
+
+    const newUpdate = {
+      id: Date.now().toString(),
+      date: new Date().toISOString(),
+      note: newUpdateNote,
+    };
+
+    const updated = {
+      ...experiment,
+      updates: [...(experiment.updates || []), newUpdate],
+    };
+
+    await fetch('/api/experiments', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(updated),
+    });
+
+    setNewUpdateNote('');
+    setAddingUpdateTo(null);
+    fetchExperiments();
+  };
+
+  const toggleTimeline = (id: string) => {
+    setExpandedTimelines(prev => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  };
+
+  const toggleHistory = (id: string) => {
+    setExpandedHistory(prev => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  };
+
+  const formatDate = (dateStr: string) => {
+    const d = new Date(dateStr);
+    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  };
+
+  const formatDateTime = (dateStr: string) => {
+    const d = new Date(dateStr);
+    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
   };
 
   return (
@@ -307,6 +367,103 @@ export default function ExperimentTracker() {
                     }`}>
                       Decision: {experiment.decision}
                     </span>
+                  </div>
+                )}
+
+                {/* Updates Timeline */}
+                <div className="mt-4 border-t pt-3">
+                  <div className="flex items-center justify-between mb-2">
+                    <button
+                      onClick={() => toggleTimeline(experiment.id)}
+                      className="flex items-center gap-2 text-sm font-medium text-gray-700 hover:text-gray-900"
+                    >
+                      {expandedTimelines.has(experiment.id) ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
+                      <Clock size={14} />
+                      Updates {experiment.updates?.length ? `(${experiment.updates.length})` : ''}
+                    </button>
+                    <button
+                      onClick={() => setAddingUpdateTo(addingUpdateTo === experiment.id ? null : experiment.id)}
+                      className="flex items-center gap-1 text-xs text-gray-500 hover:text-gray-700 px-2 py-1 rounded hover:bg-gray-100"
+                    >
+                      <MessageSquarePlus size={14} />
+                      Add note
+                    </button>
+                  </div>
+
+                  {/* Add update form */}
+                  {addingUpdateTo === experiment.id && (
+                    <div className="flex gap-2 mb-3">
+                      <input
+                        type="text"
+                        value={newUpdateNote}
+                        onChange={(e) => setNewUpdateNote(e.target.value)}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter') handleAddUpdate(experiment.id);
+                          if (e.key === 'Escape') {
+                            setAddingUpdateTo(null);
+                            setNewUpdateNote('');
+                          }
+                        }}
+                        placeholder="What's happening with this experiment?"
+                        autoFocus
+                        className="flex-1 px-3 py-1.5 text-sm border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                      <button
+                        onClick={() => handleAddUpdate(experiment.id)}
+                        className="px-3 py-1.5 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700"
+                      >
+                        Add
+                      </button>
+                    </div>
+                  )}
+
+                  {/* Updates list */}
+                  {expandedTimelines.has(experiment.id) && (
+                    <div className="space-y-2 ml-1">
+                      {(experiment.updates || []).length > 0 ? (
+                        <div className="border-l-2 border-gray-200 pl-4 space-y-3">
+                          {[...(experiment.updates || [])].reverse().map((update) => (
+                            <div key={update.id} className="text-sm">
+                              <span className="text-gray-500 text-xs">{formatDateTime(update.date)}</span>
+                              <p className="text-gray-700 mt-0.5">{update.note}</p>
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        <p className="text-sm text-gray-400 italic">No updates yet</p>
+                      )}
+                    </div>
+                  )}
+                </div>
+
+                {/* History (auto-tracked changes) */}
+                {experiment.history && experiment.history.length > 0 && (
+                  <div className="mt-3 border-t pt-3">
+                    <button
+                      onClick={() => toggleHistory(experiment.id)}
+                      className="flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-gray-700"
+                    >
+                      {expandedHistory.has(experiment.id) ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
+                      <History size={14} />
+                      Change history ({experiment.history.length})
+                    </button>
+
+                    {expandedHistory.has(experiment.id) && (
+                      <div className="mt-2 space-y-1 ml-1">
+                        {[...experiment.history].reverse().map((entry, i) => (
+                          <div key={i} className="text-xs text-gray-500 flex gap-2">
+                            <span className="text-gray-400 shrink-0">{formatDateTime(entry.date)}</span>
+                            <span>
+                              <span className="font-medium text-gray-600">{entry.field}</span>
+                              {' changed from '}
+                              <span className="text-red-600 line-through">{entry.from}</span>
+                              {' → '}
+                              <span className="text-green-600">{entry.to}</span>
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
