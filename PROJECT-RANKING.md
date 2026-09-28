@@ -53,64 +53,62 @@ Each project card has **up/down arrows** on the right side:
 
 Your projects are now ranked in this priority order:
 
-1. **Fall 2026 Institutional Pilot Recruitment** (rank: 1)
-   - Status: Active
-   - Most urgent - Aug 2026 deadline
+### 🎯 Top Priority
 
-2. **Educator Segment ICP & Exploration** (rank: 2)
+1. **Institutional Page Revamp** (rank: 1)
+   - Status: In Progress
+   - Supports Fall 2026 pilot recruitment
+
+2. **FAQ Redux for Better Communication Routes** (rank: 2)
+   - Status: In Progress
+   - Streamline communication across all docs
+
+### 📋 Up Next
+
+3. **Educator Segment ICP & Exploration** (rank: 3)
    - Status: In Progress
    - Foundation for educator motion
 
-3. **Drip Campaign Planning & Build** (rank: 3)
-   - Status: Not Started
-   - High-impact infrastructure
-
-4. **Institutional Page Revamp** (rank: 4)
-   - Status: In Progress
-   - Supports pilot recruitment
-
-5. **FAQ Redux for Better Communication Routes** (rank: 5)
-   - Status: Not Started
-   - Important but not urgent
-
-6. **Launch Updated Educator Landing Site** (rank: 6)
+4. **Launch Updated Educator Landing Site** (rank: 4)
    - Status: Not Started
    - Depends on ICP validation first
+
+5. **Drip Campaign Planning & Build** (rank: 5)
+   - Status: Not Started
+   - High-impact infrastructure
 
 ---
 
 ## Why These Rankings?
 
-**1. Pilot Recruitment (rank 1):**
-- Active status
-- Concrete deadline (Aug 2026)
+**1. Institutional Page Revamp (rank 1):**
+- Critical for Fall 2026 pilot recruitment
+- Already in progress
 - Revenue-generating motion
 - Top priority
 
-**2. Educator ICP (rank 2):**
+**2. FAQ Redux (rank 2):**
+- Important for communication clarity
+- Supports all segments
 - Already in progress
-- Blocks educator landing page (#6)
+
+---
+
+### Up Next
+
+**3. Educator ICP (rank 3):**
+- Already in progress
+- Blocks educator landing page (#4)
 - Strategic foundation work
 
-**3. Drip Campaigns (rank 3):**
+**4. Educator Landing (rank 4):**
+- Depends on #3 (ICP validation)
+- Can't proceed until persona is validated
+
+**5. Drip Campaigns (rank 5):**
 - High ROI potential
 - Lifecycle infrastructure
 - Benefits all segments
-
-**4. Institutional Page (rank 4):**
-- Supports #1 (pilot recruitment)
-- Already in progress
-- Lower priority than ICP validation
-
-**5. FAQ Redux (rank 5):**
-- Important for communication
-- Not blocking other work
-- Can be done later
-
-**6. Educator Landing (rank 6):**
-- Explicitly depends on #2 (ICP validation)
-- Can't proceed until persona is validated
-- Lowest priority until then
 
 ---
 
