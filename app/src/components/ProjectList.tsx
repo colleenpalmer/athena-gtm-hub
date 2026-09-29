@@ -20,8 +20,12 @@ export default function ProjectList() {
   const fetchProjects = async () => {
     const res = await fetch('/api/projects');
     const data = await res.json();
-    // Sort by rank (lower number = higher priority)
+    // Completed projects sink to the bottom; otherwise sort by rank (lower number = higher priority).
+    // Rank is preserved on completion so a reopened project returns to its old spot.
     const sorted = data.sort((a: Project, b: Project) => {
+      const completeA = a.status === 'complete' ? 1 : 0;
+      const completeB = b.status === 'complete' ? 1 : 0;
+      if (completeA !== completeB) return completeA - completeB;
       const rankA = a.rank ?? 999;
       const rankB = b.rank ?? 999;
       return rankA - rankB;
@@ -145,6 +149,8 @@ export default function ProjectList() {
     fetchProjects();
   };
 
+  const openProjectCount = projects.filter(p => p.status !== 'complete').length;
+
   const filteredProjects = filter === 'all' 
     ? projects 
     : filter === 'tasks'
@@ -260,7 +266,7 @@ export default function ProjectList() {
           }}
         />
       ) : (
-        <div className="flex flex-col gap-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {filteredProjects.length > 0 ? (
             filteredProjects.map((project, index) => (
               <ProjectCard
@@ -271,14 +277,14 @@ export default function ProjectList() {
                 onQuickStatusChange={handleQuickStatusChange}
                 onTasksChange={handleTasksChange}
                 onNotesChange={handleNotesChange}
-                onRankChange={filter === 'all' ? handleRankChange : undefined}
+                onRankChange={filter === 'all' && project.status !== 'complete' ? handleRankChange : undefined}
                 isFirst={filter === 'all' && index === 0}
-                isLast={filter === 'all' && index === filteredProjects.length - 1}
+                isLast={filter === 'all' && index === openProjectCount - 1}
                 rankNumber={filter === 'all' ? index + 1 : undefined}
               />
             ))
           ) : (
-            <div className="text-center py-16 bg-gray-50 rounded-lg border-2 border-dashed border-gray-200">
+            <div className="col-span-full text-center py-16 bg-gray-50 rounded-lg border-2 border-dashed border-gray-200">
               <p className="text-gray-400 text-sm mb-4">
                 {filter === 'all' 
                   ? 'No projects yet' 

@@ -115,6 +115,7 @@ export default function ProjectCard({ project, onEdit, onDelete, onQuickStatusCh
   const [showLinks, setShowLinks] = useState(false);
   const config = statusConfig[project.status];
   const StatusIcon = config.icon;
+  const isComplete = project.status === 'complete';
   
   const incompleteTasks = project.tasks?.filter(t => !t.completed) || [];
   const hasMultipleTasks = incompleteTasks.length > 1;
@@ -150,13 +151,17 @@ export default function ProjectCard({ project, onEdit, onDelete, onQuickStatusCh
       {/* Rank indicator */}
       {rankNumber !== undefined && (
         <div className={`flex flex-col items-center justify-center px-4 border-r border-gray-100 ${
-          rankNumber <= 2 ? 'bg-accent-50' : 'bg-gray-50'
+          !isComplete && rankNumber <= 2 ? 'bg-accent-50' : 'bg-gray-50'
         }`}>
-          <span className={`text-2xl font-bold ${
-            rankNumber === 1 ? 'text-accent-600' : rankNumber === 2 ? 'text-accent-500' : 'text-gray-400'
-          }`}>
-            {rankNumber}
-          </span>
+          {isComplete ? (
+            <CheckCircle2 size={24} className="text-success-500" />
+          ) : (
+            <span className={`text-2xl font-bold ${
+              rankNumber === 1 ? 'text-accent-600' : rankNumber === 2 ? 'text-accent-500' : 'text-gray-400'
+            }`}>
+              {rankNumber}
+            </span>
+          )}
           {onRankChange && (
             <div className="flex flex-col gap-0.5 mt-1">
               <button
@@ -180,11 +185,13 @@ export default function ProjectCard({ project, onEdit, onDelete, onQuickStatusCh
         </div>
       )}
       
-      <div className="p-4 flex-1">
+      <div className="p-4 flex-1 min-w-0">
         {/* Header */}
-        <div className="flex items-start justify-between mb-3">
+        <div className="flex items-start justify-between gap-2 mb-3">
           <div className="flex-1 min-w-0">
-              <h3 className="text-lg font-semibold text-gray-900 mb-1 break-words">
+              <h3 className={`text-lg font-semibold mb-1 break-words ${
+                isComplete ? 'text-gray-400 line-through' : 'text-gray-900'
+              }`}>
                 {project.name}
               </h3>
               {project.description && (
@@ -192,26 +199,38 @@ export default function ProjectCard({ project, onEdit, onDelete, onQuickStatusCh
               )}
           </div>
 
-          {/* Actions - Edit/Delete show on hover */}
-          <div className="flex gap-1 ml-4">
-            <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-              <button
-                onClick={() => onEdit(project)}
-                className="p-2 text-gray-600 hover:bg-gray-100 rounded transition-colors"
-                title="Edit"
-              >
-                <Edit size={18} />
-              </button>
-              <button
-                onClick={() => onDelete(project.id)}
-                className="p-2 text-red-600 hover:bg-red-50 rounded transition-colors"
-                title="Delete"
-              >
-                <Trash2 size={18} />
-              </button>
-            </div>
+          {/* Edit/Delete - show on hover */}
+          <div className="flex gap-0.5 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
+            <button
+              onClick={() => onEdit(project)}
+              className="p-1.5 text-gray-600 hover:bg-gray-100 rounded transition-colors"
+              title="Edit"
+            >
+              <Edit size={16} />
+            </button>
+            <button
+              onClick={() => onDelete(project.id)}
+              className="p-1.5 text-red-600 hover:bg-red-50 rounded transition-colors"
+              title="Delete"
+            >
+              <Trash2 size={16} />
+            </button>
           </div>
         </div>
+
+        {/* Complete toggle */}
+        <button
+          onClick={() => onQuickStatusChange(project.id, isComplete ? 'in-progress' : 'complete')}
+          className={`inline-flex items-center gap-1.5 mb-3 px-2.5 py-1.5 text-xs font-medium rounded-md border transition-colors ${
+            isComplete
+              ? 'bg-success-50 text-success-700 border-success-200 hover:bg-success-100'
+              : 'text-gray-600 border-gray-200 hover:bg-gray-50 hover:text-gray-900'
+          }`}
+          title={isComplete ? 'Reopen project' : 'Mark project complete'}
+        >
+          <CheckCircle2 size={14} />
+          {isComplete ? 'Completed' : 'Mark complete'}
+        </button>
 
         {/* Metadata Grid */}
         <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">

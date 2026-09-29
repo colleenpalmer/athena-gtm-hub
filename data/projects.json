@@ -98,7 +98,7 @@
   {
     "id": "1727539200003",
     "name": "Institutional Page Revamp",
-    "status": "in-progress",
+    "status": "complete",
     "rank": 1,
     "owner": "",
     "nextAction": "Draft institutional value prop and hero messaging",
@@ -110,15 +110,17 @@
         "id": "1790624889871",
         "projectId": "1727539200003",
         "title": "get the forms working correctly with better after-captures",
-        "completed": false,
-        "createdAt": "2026-09-28T19:48:09.871Z"
+        "completed": true,
+        "createdAt": "2026-09-28T19:48:09.871Z",
+        "completedAt": "2026-09-28T23:35:37.506Z"
       },
       {
         "id": "task-inst-1",
         "projectId": "1727539200003",
         "title": "Review the copy changes w/ product team",
-        "completed": false,
-        "createdAt": "2026-09-28T10:00:00Z"
+        "completed": true,
+        "createdAt": "2026-09-28T10:00:00Z",
+        "completedAt": "2026-09-28T23:35:39.875Z"
       },
       {
         "id": "1790621013257",
@@ -127,6 +129,14 @@
         "completed": true,
         "createdAt": "2026-09-28T18:43:33.257Z",
         "completedAt": "2026-09-28T19:47:49.192Z"
+      },
+      {
+        "id": "1790638552631",
+        "projectId": "1727539200003",
+        "title": "MERGE AND LAUNCH!",
+        "completed": true,
+        "createdAt": "2026-09-28T23:35:52.631Z",
+        "completedAt": "2026-09-29T15:59:21.810Z"
       }
     ],
     "notes": [
