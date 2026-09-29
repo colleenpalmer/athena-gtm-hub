@@ -1,15 +1,18 @@
 # Educator Segment Exploration
 
-**Hypothesis:** Is Athena useful enough that educators would adopt it for their classroom without full institutional buy-in?
+**Hypothesis:** An educator will champion Athena and **sponsor it for their own students** ($5 per
+monthly active user, averaged over the contract) without institutional procurement. Their Canvas admin
+enables the connection, and we help with that step.
 
-**Status:** 🟡 ICP definition in progress
+**Status:** 🟡 ICP questions complete (2026-09-29) → educator interviews next
 
 ---
 
 ## What We're Testing
 
-- Can we create a classroom adoption motion (instructor-led) that bypasses institutional procurement?
-- Is there a market of educators willing to pay/recommend Athena to their students?
+- Can we create an instructor-led sponsorship motion that bypasses institutional procurement?
+- Will educators spend their own or departmental budget to sponsor their students?
+- Will Canvas admins enable course-level access when an instructor asks?
 - Do educators differ enough from students & institutions to warrant separate GTM?
 
 ---
@@ -17,10 +20,11 @@
 ## Work To Do
 
 ### Phase 1: Define the ICP (In Progress)
-- [ ] Answer ICP questions (see `icp-questions.md`)
+- [x] Answer ICP questions (see `icp-questions.md`)
+- [x] Identify trigger events and disqualifiers (draft, in `icp-questions.md`)
+- [x] Define Jobs To Be Done (draft, in `icp-questions.md`)
+- [ ] Interview 8–10 educators (see `interview-guide.md`)
 - [ ] Draft educator persona
-- [ ] Identify trigger events and disqualifiers
-- [ ] Define Jobs To Be Done
 
 ### Phase 2: Validate Demand (Not Started)
 - [ ] Design cheap channel test ($500–1k, 2–3 weeks)
@@ -34,20 +38,21 @@
 
 ---
 
-## Open Questions
+## Answered in `icp-questions.md`
 
-1. What level of educator? (K–12 / Community college / University?)
-2. What subjects/courses?
-3. What's the economic model? (Instructor pays / Students pay / Freemium?)
-4. What's the trigger event that makes an educator adopt now?
-5. What proof would convince them to try?
+1. **Level:** Community college + 4-year instructors, first/second-year courses; full-time faculty with budget access
+2. **Courses:** High-enrollment, exam-heavy gateway courses (A&P, bio, chem, intro psych, stats)
+3. **Economic model:** Educator sponsors at $5/MAU; fallback is students paying $5/mo individually
+4. **Trigger:** First exam results; students using AI without oversight
+5. **Proof:** Short demo on real course material + integrity/privacy facts + design-partner invitation
 
 ---
 
 ## Files in This Folder
 
 - `README.md` — This overview
-- `icp-questions.md` — Questions to answer before finalizing persona
+- `icp-questions.md` — ICP answers (complete)
+- `interview-guide.md` — Educator interview guide, recruiting messages, and synthesis rubric
 - `educator-persona-draft.md` — Draft persona (once ready)
 - `channel-test-plan.md` — Validation test design (once persona is clear)
 - `learnings.md` — What we learned from tests (update as we go)

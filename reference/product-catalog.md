@@ -23,6 +23,10 @@
     post, edit, grade, or submit). Encrypted OAuth credentials at rest (AES-256-GCM);
     disconnecting revokes access. No LTI install; runs on an Instructure-managed
     developer key; unaffected by personal-access-token restrictions.
+  - **Institution opt-in:** Since the Aug 14 (2026) Canvas release, students can connect only
+    if their institution has enabled the Athena–Canvas connection. Root and subaccount control,
+    plus course-level enablement (rolling out October 2026), are set by Canvas admins.
+    Instructors can't enable their own courses yet; they work with their admin.
   - **What it reads (student's own permissions only):** enrollments, course info, syllabi,
     files, assignments, submissions/submission status, modules, pages, planner items,
     todo items, quizzes, and the student's own grades. Can read other GET endpoints
@@ -37,7 +41,10 @@
   for payments. *by Instructure* endorsement; *powered by IgniteAI* (institutional register).
 - **Limitations / not-yet (honest gaps):**
   - Canvas connection is optional — about half of current users don't connect it and use
-    Athena as a general study tool.
+    Athena as a general study tool. Athena is fully capable without it (tutoring, knowledge
+    mapping, personalization, knowledge that builds over time). The connection is a head
+    start: Study Spaces and study objectives are generated right away, and Athena picks up
+    grade/assignment context, so students do less manual uploading.
   - Institutional admin controls, usage/visibility reporting, and course-level
     configuration are **in active design/discovery** — do not promise features or dates.
   - U.S.-only data hosting today; regional hosting is the kind of capability that comes as
@@ -54,7 +61,8 @@ Two paths to access: an individual consumer subscription, and institution-sponso
 subscriptions (free to the student). See `reference/pricing-and-packaging.md`.
 
 ## Roadmap themes (shareable, no dates/promises)
-- Institutional controls for the Canvas connection (e.g. root-account opt-out).
+- Institutional controls for the Canvas connection (opt-in at root, subaccount, and course level).
+- Instructor visibility, co-designed with faculty while protecting student privacy.
 - Privacy-preserving, admin-facing usage reporting for institution-sponsored subscriptions.
 - Exploring course-level configuration options for instructional designers/instructors.
 > Guidance: describe these as "in design/discovery." Never promise dashboards, admin

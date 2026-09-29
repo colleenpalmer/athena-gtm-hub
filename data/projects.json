@@ -2,19 +2,27 @@
   {
     "id": "1727539200001",
     "name": "Educator/Teachers Segment ICP & Exploration",
-    "status": "not-started",
+    "status": "in-progress",
     "owner": "",
-    "nextAction": "Complete ICP questions in icp-questions.md",
+    "nextAction": "Review ICP answers + interview guide, then recruit 8-10 educators (start with Hinds CC faculty)",
     "deadline": "",
     "folder": "work-in-progress/educator-segment/",
-    "description": "Define educator ICP and validate market demand. Testing hypothesis: educators will adopt Athena for their classroom without institutional buy-in.",
+    "description": "Define educator ICP and validate market demand. Testing hypothesis: educators will champion Athena and sponsor it for their own students ($5/MAU) without institutional procurement.",
     "tasks": [
       {
         "id": "task-edu-2",
         "projectId": "1727539200001",
         "title": "Answer ICP definition questions",
+        "completed": true,
+        "createdAt": "2026-09-28T10:00:00Z",
+        "completedAt": "2026-09-29T12:00:00Z"
+      },
+      {
+        "id": "task-edu-review-1",
+        "projectId": "1727539200001",
+        "title": "Review ICP answers (icp-questions.md) + interview guide (see Quick Links); confirm decision rule, Hinds contact, and demo",
         "completed": false,
-        "createdAt": "2026-09-28T10:00:00Z"
+        "createdAt": "2026-09-29T13:40:00Z"
       },
       {
         "id": "task-edu-3",
@@ -29,6 +37,13 @@
         "title": "Draft educator persona document",
         "completed": false,
         "createdAt": "2026-09-28T10:00:00Z"
+      }
+    ],
+    "notes": [
+      {
+        "id": "note-edu-guide-1",
+        "date": "2026-09-29T13:40:00Z",
+        "note": "Educator interview guide (HTML, needs app running): http://localhost:3000/educator-segment/interview-guide.html — Files: work-in-progress/educator-segment/interview-guide.html (+ .md source) and icp-questions.md"
       }
     ],
     "rank": 3

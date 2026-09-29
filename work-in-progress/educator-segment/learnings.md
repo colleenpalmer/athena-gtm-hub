@@ -4,17 +4,21 @@
 
 ## Hypotheses We're Testing
 
-1. **Educators will adopt Athena for their classroom without institutional buy-in**
+1. **Educators will sponsor Athena for their own students ($5/MAU) without institutional procurement**
    - Status: Not tested yet
-   - How we'll test: TBD
+   - How we'll test: Educator interviews (`interview-guide.md`, A1–A2), then a small sponsorship test
 
-2. **Educators' value prop differs enough from students to warrant separate GTM**
+2. **Canvas admins will enable course-level access when an instructor asks**
    - Status: Not tested yet
-   - How we'll test: TBD
+   - How we'll test: Interviews (A3), then the first real sponsorships
 
-3. **Educators will recommend/pay for Athena if students show results**
+3. **Being a design partner is enough without an instructor dashboard**
    - Status: Not tested yet
-   - How we'll test: TBD
+   - How we'll test: Interviews (A4)
+
+4. **Educators' value prop differs enough from students to warrant separate GTM**
+   - Status: Not tested yet
+   - How we'll test: Interviews (A5–A6)
 
 ---
 

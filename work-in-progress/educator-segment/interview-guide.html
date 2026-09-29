@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Educator Interview Guide · Athena</title>
+<style>
+  :root {
+    --g50:#FAFAFA; --g100:#F5F5F5; --g200:#E5E5E5; --g300:#D4D4D4; --g400:#A3A3A3;
+    --g500:#737373; --g600:#525252; --g700:#404040; --g800:#262626; --g900:#171717;
+    --a50:#EEF2FF; --a100:#E0E7FF; --a200:#C7D2FE; --a500:#6366F1; --a600:#4F46E5; --a700:#4338CA;
+    --s50:#F0FDF4; --s200:#BBF7D0; --s600:#16A34A; --s700:#15803D;
+    --r50:#FEF2F2; --r200:#FECACA; --r700:#B91C1C;
+    --radius:10px;
+  }
+  * { box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body {
+    margin:0; background:var(--g50); color:var(--g600);
+    font:15px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif;
+  }
+  h1,h2,h3,h4 { color:var(--g900); line-height:1.25; margin:0 0 .5em; }
+  h1 { font-size:30px; letter-spacing:-.02em; }
+  h2 { font-size:21px; letter-spacing:-.01em; }
+  h3 { font-size:16px; }
+  p { margin:0 0 .8em; }
+  strong { color:var(--g800); }
+  code { background:var(--g100); border:1px solid var(--g200); border-radius:4px; padding:1px 5px; font-size:13px; }
+
+  .layout { display:grid; grid-template-columns:230px 1fr; max-width:1180px; margin:0 auto; }
+  nav.toc {
+    position:sticky; top:0; align-self:start; height:100vh; overflow:auto;
+    padding:32px 16px 32px 24px; border-right:1px solid var(--g200);
+  }
+  .toc .brand { font-weight:700; color:var(--g900); font-size:14px; margin-bottom:2px; }
+  .toc .sub { font-size:12px; color:var(--g500); margin-bottom:20px; }
+  .toc a {
+    display:block; padding:6px 10px; margin:1px 0; border-radius:6px;
+    color:var(--g600); text-decoration:none; font-size:14px;
+  }
+  .toc a:hover { background:var(--g100); color:var(--g900); }
+  .toc a.active { background:var(--a50); color:var(--a700); font-weight:600; }
+  .toc .num { display:inline-block; width:20px; color:var(--g400); font-variant-numeric:tabular-nums; }
+
+  main { padding:40px 48px 80px; min-width:0; }
+  section { margin-bottom:28px; scroll-margin-top:24px; }
+  .card { background:#fff; border:1px solid var(--g200); border-radius:var(--radius); padding:24px 26px; }
+  .eyebrow { font-size:12px; text-transform:uppercase; letter-spacing:.08em; color:var(--g500); font-weight:600; margin-bottom:8px; }
+  .muted { color:var(--g500); font-size:13px; }
+
+  .badge { display:inline-block; font-size:12px; font-weight:600; padding:2px 9px; border-radius:999px; border:1px solid; vertical-align:middle; }
+  .b-accent { background:var(--a50); color:var(--a700); border-color:var(--a200); }
+  .b-success { background:var(--s50); color:var(--s700); border-color:var(--s200); }
+  .b-gray { background:var(--g100); color:var(--g700); border-color:var(--g200); }
+
+  /* Hero */
+  .hero { background:var(--g900); color:#E5E5E5; border-radius:14px; padding:32px 34px; margin-bottom:28px; }
+  .hero h1 { color:#fff; }
+  .hero .eyebrow { color:var(--g400); }
+  .hypothesis { background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12); border-radius:10px; padding:16px 18px; margin:18px 0 20px; font-size:16px; color:#fff; }
+  .hypothesis strong { color:#fff; }
+  .meta { display:flex; flex-wrap:wrap; gap:10px 28px; font-size:13px; color:var(--g400); }
+  .meta b { color:#fff; font-weight:600; }
+
+  /* Assumptions */
+  .grid { display:grid; gap:14px; }
+  .grid-2 { grid-template-columns:repeat(2, minmax(0,1fr)); }
+  .grid-3 { grid-template-columns:repeat(3, minmax(0,1fr)); }
+  .assump { background:#fff; border:1px solid var(--g200); border-radius:var(--radius); padding:18px 18px 16px; display:flex; flex-direction:column; }
+  .assump.risk { border-color:var(--a200); box-shadow:0 0 0 3px var(--a50); }
+  .assump .id { font-weight:700; color:var(--a600); font-size:13px; margin-bottom:4px; }
+  .assump h3 { font-size:15px; margin-bottom:12px; }
+  .signal { font-size:13px; padding:8px 10px; border-radius:6px; margin-top:6px; }
+  .signal.yes { background:var(--s50); color:var(--s700); }
+  .signal.no { background:var(--r50); color:var(--r700); }
+  .signal b { display:block; font-size:11px; text-transform:uppercase; letter-spacing:.06em; margin-bottom:2px; }
+
+  /* Tables */
+  table { width:100%; border-collapse:collapse; font-size:14px; }
+  th { text-align:left; font-size:12px; text-transform:uppercase; letter-spacing:.06em; color:var(--g500); font-weight:600; padding:10px 12px; border-bottom:1px solid var(--g200); background:var(--g50); }
+  td { padding:12px; border-bottom:1px solid var(--g200); vertical-align:top; }
+  tr:last-child td { border-bottom:none; }
+  .table-wrap { border:1px solid var(--g200); border-radius:var(--radius); overflow:hidden; background:#fff; }
+
+  /* Checklists */
+  ul.check { list-style:none; padding:0; margin:0; }
+  ul.check li { padding:5px 0 5px 28px; position:relative; }
+  ul.check li::before { position:absolute; left:0; top:5px; width:18px; height:18px; border-radius:50%; font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; }
+  ul.check li.y::before { content:"✓"; background:var(--s50); color:var(--s600); border:1px solid var(--s200); }
+  ul.check li.n::before { content:"✕"; background:var(--r50); color:var(--r700); border:1px solid var(--r200); }
+  ul.plain { margin:0; padding-left:20px; }
+  ul.plain li { margin:4px 0; }
+
+  /* Emails */
+  .email { background:#fff; border:1px solid var(--g200); border-radius:var(--radius); overflow:hidden; display:flex; flex-direction:column; }
+  .email-head { display:flex; justify-content:space-between; align-items:center; padding:12px 16px; border-bottom:1px solid var(--g200); background:var(--g50); }
+  .email-head .who { font-weight:600; color:var(--g900); font-size:14px; }
+  .email-body { padding:16px 18px; font-size:14px; white-space:pre-wrap; color:var(--g700); flex:1; }
+  .email-body .subj { display:block; font-weight:600; color:var(--g900); margin-bottom:10px; }
+  button.copy {
+    font:inherit; font-size:12px; font-weight:600; cursor:pointer;
+    background:#fff; color:var(--g700); border:1px solid var(--g300); border-radius:6px; padding:4px 10px;
+  }
+  button.copy:hover { background:var(--g100); }
+  button.copy.done { background:var(--s50); color:var(--s700); border-color:var(--s200); }
+
+  /* Principles */
+  .principle { display:flex; gap:14px; padding:12px 0; border-bottom:1px solid var(--g200); }
+  .principle:last-child { border-bottom:none; }
+  .principle .n { flex:0 0 28px; height:28px; border-radius:50%; background:var(--g900); color:#fff; font-weight:700; font-size:13px; display:flex; align-items:center; justify-content:center; }
+
+  /* Timing bar */
+  .timebar { display:flex; height:44px; border-radius:8px; overflow:hidden; border:1px solid var(--g200); margin:6px 0 8px; }
+  .timebar a { display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:600; text-decoration:none; color:var(--g700); background:var(--g100); border-right:1px solid #fff; text-align:center; line-height:1.15; padding:0 4px; }
+  .timebar a:hover { filter:brightness(.96); }
+  .timebar a.pitch { background:var(--a100); color:var(--a700); }
+  .timebar a.ask { background:var(--g900); color:#fff; }
+  .timebar a:last-child { border-right:none; }
+  .timelegend { display:flex; justify-content:space-between; font-size:12px; color:var(--g400); font-variant-numeric:tabular-nums; }
+
+  /* Interview blocks */
+  details.block { background:#fff; border:1px solid var(--g200); border-radius:var(--radius); margin-bottom:10px; overflow:hidden; }
+  details.block[open] { border-color:var(--g300); }
+  details.block > summary {
+    list-style:none; cursor:pointer; display:flex; align-items:center; gap:14px; padding:14px 18px;
+  }
+  details.block > summary::-webkit-details-marker { display:none; }
+  details.block > summary::after { content:"+"; margin-left:auto; font-size:20px; color:var(--g400); line-height:1; }
+  details.block[open] > summary::after { content:"−"; }
+  .step { flex:0 0 30px; height:30px; border-radius:8px; background:var(--g100); color:var(--g800); font-weight:700; display:flex; align-items:center; justify-content:center; font-size:14px; }
+  .block.pitch .step { background:var(--a100); color:var(--a700); }
+  .block.ask .step { background:var(--g900); color:#fff; }
+  .s-title { font-weight:600; color:var(--g900); }
+  .s-meta { font-size:12px; color:var(--g500); }
+  .tags { display:flex; gap:6px; margin-left:8px; }
+  .tag { font-size:11px; font-weight:700; color:var(--a700); background:var(--a50); border:1px solid var(--a200); border-radius:4px; padding:1px 6px; }
+  .block-body { padding:4px 22px 18px 62px; }
+  ol.q { margin:0; padding-left:0; list-style:none; counter-reset:none; }
+  ol.q > li { padding:8px 0; border-top:1px dashed var(--g200); }
+  ol.q > li:first-child { border-top:none; }
+  ol.q .qn { display:inline-block; min-width:26px; font-weight:700; color:var(--g400); font-variant-numeric:tabular-nums; }
+  .followup { margin:6px 0 0 26px; font-size:14px; color:var(--g600); }
+  .followup div { margin:2px 0; }
+  .followup i { color:var(--g500); }
+
+  .script { background:var(--a50); border-left:3px solid var(--a500); border-radius:0 8px 8px 0; padding:14px 18px; margin:10px 0 14px; color:var(--g800); font-size:14.5px; }
+  .script .label { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.07em; color:var(--a700); margin-bottom:4px; }
+  .showbox { display:flex; gap:10px; align-items:center; background:var(--g100); border-radius:8px; padding:10px 14px; font-size:14px; margin-bottom:10px; }
+
+  .callout { border:1px solid var(--g200); border-radius:var(--radius); background:#fff; padding:18px 20px; }
+  .callout.accent { border-color:var(--a200); background:var(--a50); }
+  .callout h3 { margin-bottom:8px; }
+
+  /* Can / can't */
+  .say { display:grid; grid-template-columns:1fr 1fr; gap:0; border:1px solid var(--g200); border-radius:var(--radius); overflow:hidden; background:#fff; }
+  .say .col-h { padding:12px 16px; font-weight:700; font-size:13px; border-bottom:1px solid var(--g200); }
+  .say .can-h { background:var(--s50); color:var(--s700); }
+  .say .cant-h { background:var(--r50); color:var(--r700); border-left:1px solid var(--g200); }
+  .say .cell { padding:12px 16px; font-size:14px; border-bottom:1px solid var(--g200); }
+  .say .cell.r { border-left:1px solid var(--g200); }
+  .say .cell.last { border-bottom:none; }
+
+  /* Decision rule */
+  .decision { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+  .dec { border-radius:var(--radius); padding:16px 18px; border:1px solid var(--g200); background:#fff; }
+  .dec .t { font-weight:700; margin-bottom:6px; }
+  .dec.go { border-color:var(--s200); background:var(--s50); } .dec.go .t { color:var(--s700); }
+  .dec.re { border-color:var(--a200); background:var(--a50); } .dec.re .t { color:var(--a700); }
+  .dec.stop { background:var(--g100); } .dec.stop .t { color:var(--g700); }
+
+  pre.template { background:var(--g900); color:#E5E5E5; border-radius:var(--radius); padding:18px 20px; font-size:13px; line-height:1.55; overflow:auto; margin:0; white-space:pre-wrap; }
+  .template-wrap { position:relative; }
+  .template-wrap button.copy { position:absolute; top:12px; right:12px; background:#262626; color:#E5E5E5; border-color:#404040; }
+  .template-wrap button.copy.done { background:var(--s600); color:#fff; border-color:var(--s600); }
+
+  .steps-after { counter-reset:after; list-style:none; padding:0; margin:0; display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+  .steps-after li { background:#fff; border:1px solid var(--g200); border-radius:var(--radius); padding:14px 16px; font-size:14px; }
+  .steps-after li::before { counter-increment:after; content:counter(after); display:inline-flex; width:22px; height:22px; border-radius:50%; background:var(--g900); color:#fff; font-size:12px; font-weight:700; align-items:center; justify-content:center; margin-right:8px; }
+
+  footer { font-size:12px; color:var(--g400); margin-top:40px; border-top:1px solid var(--g200); padding-top:16px; }
+
+  @media (max-width:960px) {
+    .layout { grid-template-columns:1fr; }
+    nav.toc { display:none; }
+    main { padding:24px 18px 60px; }
+    .grid-2, .grid-3, .decision, .steps-after { grid-template-columns:1fr; }
+    .block-body { padding-left:22px; }
+  }
+  @media print {
+    nav.toc, button.copy { display:none !important; }
+    .layout { display:block; }
+    main { padding:0; }
+    body { background:#fff; font-size:12px; }
+    .hero { background:#fff; color:var(--g700); border:1px solid var(--g300); }
+    .hero h1, .hypothesis, .hypothesis strong, .meta b { color:var(--g900); }
+    .hypothesis { background:var(--g100); border-color:var(--g200); }
+    details.block { break-inside:avoid; }
+    section { break-inside:avoid-page; }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+
+<nav class="toc" aria-label="Contents">
+  <div class="brand">Athena · Educator Segment</div>
+  <div class="sub">Interview guide</div>
+  <a href="#overview"><span class="num">·</span>Overview</a>
+  <a href="#assumptions"><span class="num">1</span>What we're testing</a>
+  <a href="#who"><span class="num">2</span>Who to interview</a>
+  <a href="#recruit"><span class="num">3</span>Recruiting emails</a>
+  <a href="#before"><span class="num">4</span>Before the call</a>
+  <a href="#interview"><span class="num">5</span>The 30-min interview</a>
+  <a href="#say"><span class="num">6</span>Can / can't say</a>
+  <a href="#after"><span class="num">7</span>After each call</a>
+  <a href="#synthesis"><span class="num">8</span>Synthesis &amp; decision</a>
+  <a href="#template"><span class="num">9</span>Notes template</a>
+</nav>
+
+<main>
+
+<!-- HERO -->
+<section id="overview" class="hero">
+  <div class="eyebrow">Project task · Interview 5–10 target educators</div>
+  <h1>Educator Interview Guide</h1>
+  <div class="hypothesis">
+    <strong>Hypothesis:</strong> An educator will champion Athena and <strong>sponsor it for their own students</strong>
+    ($5 per monthly active user, averaged over the contract) without going through institutional procurement.
+  </div>
+  <div class="meta">
+    <span><b>8–10</b> interviews</span>
+    <span><b>~3</b> weeks</span>
+    <span><b>30</b> min each</span>
+    <span>Built from <b>icp-questions.md</b> (2026-09-29)</span>
+    <span>Log in <b>learnings.md</b></span>
+  </div>
+</section>
+
+<!-- ASSUMPTIONS -->
+<section id="assumptions">
+  <div class="eyebrow">1 · Why we're doing this</div>
+  <h2>What we're testing</h2>
+  <p>We're testing our riskiest assumptions before spending anything on a channel test. <span class="badge b-accent">Highlighted</span> = riskiest.</p>
+  <div class="grid grid-3">
+    <div class="assump risk">
+      <div class="id">A1</div>
+      <h3>Instructors will spend their own or departmental budget on a tool for their students</h3>
+      <div class="signal yes"><b>Confirms</b>They've paid for student-facing tools or resources before and name a budget source without prompting</div>
+      <div class="signal no"><b>Kills / reshapes</b>"I've never spent my own money on this" · "I'd need the dean to approve anything"</div>
+    </div>
+    <div class="assump risk">
+      <div class="id">A2</div>
+      <h3>They can use that budget without institutional sign-off</h3>
+      <div class="signal yes"><b>Confirms</b>They describe a real path (P-card, discretionary funds, grant) they've used before</div>
+      <div class="signal no"><b>Kills / reshapes</b>Every path runs through procurement or IT review</div>
+    </div>
+    <div class="assump risk">
+      <div class="id">A3</div>
+      <h3>Canvas admins will enable course-level access when an instructor asks</h3>
+      <div class="signal yes"><b>Confirms</b>They know their admin and have asked for (and gotten) a Canvas change before</div>
+      <div class="signal no"><b>Kills / reshapes</b>"I don't know who that is" · past requests took months</div>
+    </div>
+    <div class="assump">
+      <div class="id">A4</div>
+      <h3>Being a design partner is enough without an instructor dashboard</h3>
+      <div class="signal yes"><b>Confirms</b>They're energized by shaping the tool, or care more about results than reports</div>
+      <div class="signal no"><b>Kills / reshapes</b>They won't pay without seeing individual student usage</div>
+    </div>
+    <div class="assump">
+      <div class="id">A5</div>
+      <h3>Their pains match our draft</h3>
+      <p class="muted" style="margin:-6px 0 6px">Gaps surface too late · AI used without oversight · no 1:1 capacity · slow procurement</p>
+      <div class="signal yes"><b>Confirms</b>They bring these up <em>before</em> we mention them</div>
+      <div class="signal no"><b>Reshapes</b>Their real pains are different (rethink the messaging, not necessarily a kill)</div>
+    </div>
+    <div class="assump">
+      <div class="id">A6</div>
+      <h3>Educator messaging needs to differ from student messaging</h3>
+      <div class="signal yes"><b>Confirms</b>Their words and priorities differ clearly from students'</div>
+      <div class="signal no"><b>Reshapes</b>They describe value the same way students would (no separate page needed)</div>
+    </div>
+  </div>
+</section>
+
+<!-- WHO -->
+<section id="who">
+  <div class="eyebrow">2 · Sample</div>
+  <h2>Who to interview</h2>
+  <p>First exam results are coming in now, which is our primary trigger, so recent pain will be fresh.</p>
+  <div class="grid grid-2" style="margin-bottom:14px">
+    <div class="card">
+      <span class="badge b-gray">3–4 interviews</span>
+      <h3 style="margin-top:10px">Hinds Community College faculty</h3>
+      <p>Their students already have Athena through institutional sponsorship. They show us how instructors think about, introduce, and judge Athena in real use.</p>
+      <p class="muted" style="margin:0"><strong>Doesn't test</strong> willingness to pay.</p>
+    </div>
+    <div class="card" style="border-color:var(--a200)">
+      <span class="badge b-accent">5–6 interviews</span>
+      <h3 style="margin-top:10px">Instructors at Canvas schools with no Athena relationship</h3>
+      <p>The real test of the sponsor hypothesis. Mix community colleges and 4-year schools.</p>
+    </div>
+  </div>
+  <div class="grid grid-2">
+    <div class="card">
+      <h3>Screening criteria (non-Hinds)</h3>
+      <ul class="check">
+        <li class="y">Teaches a first- or second-year, high-enrollment course that's mostly graded by exams (A&amp;P, bio, chem, intro psych, stats, college algebra/precalc)</li>
+        <li class="y">School uses Canvas, and they post course materials there</li>
+        <li class="y">Full-time faculty, or anyone with access to some budget (department, grant, P-card)</li>
+        <li class="y">Not hostile to AI (neutral or curious is fine, and even useful)</li>
+        <li class="n">K–8 · no Canvas · writing- or discussion-only courses</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Where to find them (our network first)</h3>
+      <ul class="plain">
+        <li><strong>Hinds:</strong> coordinate through whoever owns the Hinds relationship before reaching out to faculty</li>
+        <li><strong>Instructure/CSM relationships</strong> at Canvas schools (ask CSMs for faculty contacts, not admins)</li>
+        <li><strong>Our own networks</strong> and referrals from each interview: "Who else should we talk to?"</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- RECRUIT -->
+<section id="recruit">
+  <div class="eyebrow">3 · Outreach</div>
+  <h2>Recruiting emails</h2>
+  <p>Keep it short, honest, and clearly <em>not</em> a sales pitch. We're asking for their expertise.</p>
+  <div class="grid grid-2">
+    <div class="email">
+      <div class="email-head"><span class="who">Non-Hinds instructors</span><button class="copy" data-copy="email1">Copy</button></div>
+      <div class="email-body" id="email1"><span class="subj">Subject: 30 minutes on how your students study?</span>Hi [Name],
+
+I'm [Your name] on the Athena team at Instructure. Athena is a study coach for college students that knows their courses and coaches them to real understanding instead of handing over answers.
+
+We're trying to learn how instructors like you think about student support, especially in courses like [course]. Would you be open to a 30-minute conversation in the next couple of weeks? No pitch and no prep. We mostly want to hear how things work in your course today.
+
+[Scheduling link]
+
+Thanks,
+[Your name]</div>
+    </div>
+    <div class="email">
+      <div class="email-head"><span class="who">Hinds faculty</span><button class="copy" data-copy="email2">Copy</button></div>
+      <div class="email-body" id="email2"><span class="subj">Subject: Your take on Athena at Hinds?</span>Hi [Name],
+
+I'm [Your name] on the Athena team. Hinds is offering Athena to all students this fall, and we'd love to hear how it looks from an instructor's side: what you've noticed, what you've told your students (if anything), and what would make it more useful.
+
+Would you have 30 minutes in the next couple of weeks? [Scheduling link]
+
+Thanks,
+[Your name]</div>
+    </div>
+  </div>
+</section>
+
+<!-- BEFORE -->
+<section id="before">
+  <div class="eyebrow">4 · Prep</div>
+  <h2>Before each call</h2>
+  <div class="grid grid-2">
+    <div class="card">
+      <h3>Logistics</h3>
+      <ul class="plain">
+        <li><strong>30 minutes.</strong> Two people if possible: one leads, one takes notes.</li>
+        <li>Ask permission to record. Recording is optional; notes are enough.</li>
+        <li>Look up their course in the course catalog so you can ask specific questions.</li>
+        <li>Open the <a href="#template">notes template</a>.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Interviewing principles</h3>
+      <div class="principle"><div class="n">1</div><div><strong>Ask about the past, not the hypothetical.</strong> "Tell me about the last time…" beats "Would you ever…?"</div></div>
+      <div class="principle"><div class="n">2</div><div><strong>Let them name the pain first.</strong> Don't mention our draft pains until the concept section.</div></div>
+      <div class="principle"><div class="n">3</div><div><strong>Don't pitch until minute ~18.</strong> The first half is about <em>their</em> world.</div></div>
+      <div class="principle"><div class="n">4</div><div><strong>Listen for money and effort they've already spent.</strong> Past spending predicts future spending better than opinions do.</div></div>
+      <div class="principle"><div class="n">5</div><div><strong>End with a real ask.</strong> A concrete next step shows interest far better than "sounds great!"</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- INTERVIEW -->
+<section id="interview">
+  <div class="eyebrow">5 · The script</div>
+  <h2>The 30-minute interview</h2>
+  <p>Click a segment to jump to it. The first ~18 minutes are about <em>their</em> world. The pitch comes late.</p>
+  <div class="timebar">
+    <a href="#s1" style="flex:3">Warm-up<br>3m</a>
+    <a href="#s2" style="flex:7">Struggle &amp; support<br>7m</a>
+    <a href="#s3" style="flex:4">AI<br>4m</a>
+    <a href="#s4" style="flex:5">Budget<br>5m</a>
+    <a href="#s5" style="flex:3">Admin<br>3m</a>
+    <a href="#s6" class="pitch" style="flex:6">Concept &amp; offer<br>6m</a>
+    <a href="#s7" class="ask" style="flex:2">Ask<br>2m</a>
+  </div>
+  <div class="timelegend"><span>0:00</span><span>0:10</span><span>0:20</span><span>0:30</span></div>
+  <div style="height:16px"></div>
+
+  <details class="block" id="s1" open>
+    <summary><span class="step">1</span><span><span class="s-title">Warm-up &amp; context</span><br><span class="s-meta">3 min · 0:00–0:03</span></span></summary>
+    <div class="block-body"><ol class="q">
+      <li><span class="qn">1</span>Tell me about the course(s) you're teaching this term. How many students, and who are they?</li>
+      <li><span class="qn">2</span>How much of the course lives in Canvas?</li>
+    </ol></div>
+  </details>
+
+  <details class="block" id="s2" open>
+    <summary><span class="step">2</span><span><span class="s-title">Student struggle &amp; support</span><br><span class="s-meta">7 min · 0:03–0:10</span></span><span class="tags"><span class="tag">A5</span></span></summary>
+    <div class="block-body"><ol class="q">
+      <li><span class="qn">3</span>Walk me through what happened after your first exam this term. How did students do?</li>
+      <li><span class="qn">4</span>When a student is struggling, when do you usually find out? What happens next?</li>
+      <li><span class="qn">5</span>What do you do today to support students outside class? (Office hours, tutoring referrals, review sessions.) What works, and what doesn't?</li>
+      <li><span class="qn">6</span>What's the hardest part of supporting [number] students at once?</li>
+    </ol></div>
+  </details>
+
+  <details class="block" id="s3" open>
+    <summary><span class="step">3</span><span><span class="s-title">AI in their course</span><br><span class="s-meta">4 min · 0:10–0:14</span></span><span class="tags"><span class="tag">A5</span><span class="tag">A6</span></span></summary>
+    <div class="block-body"><ol class="q">
+      <li><span class="qn">7</span>How are your students using AI in your course right now, as far as you know?</li>
+      <li><span class="qn">8</span>What's your stance on it? Do you have a policy in your syllabus?</li>
+      <li><span class="qn">9</span>Have you ever pointed students <em>to</em> a specific tool, AI or not? What was it, and why?</li>
+    </ol></div>
+  </details>
+
+  <details class="block" id="s4" open>
+    <summary><span class="step">4</span><span><span class="s-title">Budget &amp; buying behavior</span><br><span class="s-meta">5 min · 0:14–0:19 · Hinds: swap, see below</span></span><span class="tags"><span class="tag">A1</span><span class="tag">A2</span></span></summary>
+    <div class="block-body"><ol class="q">
+      <li><span class="qn">10</span>Have you ever paid for something for your students yourself, like a tool, software, supplies, or review materials? Tell me about the last time.
+        <div class="followup">
+          <div><i>If yes:</i> Where did the money come from? Personal, department, P-card, grant? Who else was involved?</div>
+          <div><i>If no:</i> What would it take? Who would you have to ask?</div>
+        </div>
+      </li>
+      <li><span class="qn">11</span>If you wanted to get a new tool for your class <em>this term</em>, what would that process look like? Who would say yes or no?</li>
+    </ol></div>
+  </details>
+
+  <details class="block" id="s5" open>
+    <summary><span class="step">5</span><span><span class="s-title">Canvas admin relationship</span><br><span class="s-meta">3 min · 0:19–0:22</span></span><span class="tags"><span class="tag">A3</span></span></summary>
+    <div class="block-body"><ol class="q">
+      <li><span class="qn">12</span>Have you ever asked your Canvas admin to turn on or change something for your course? How did that go, and how long did it take?</li>
+      <li><span class="qn">13</span>Do you know who your Canvas admin is?</li>
+    </ol></div>
+  </details>
+
+  <details class="block pitch" id="s6" open>
+    <summary><span class="step">6</span><span><span class="s-title">Concept reaction</span><br><span class="s-meta">6 min · 0:22–0:28 · Hinds: swap, see below</span></span><span class="tags"><span class="tag">A1</span><span class="tag">A4</span><span class="tag">A6</span></span></summary>
+    <div class="block-body">
+      <div class="showbox"><span class="badge b-accent">Show</span> A 2-minute demo of Athena tutoring on real course material (coaching, not answering).</div>
+      <div class="script">
+        <div class="label">Then explain the offer in plain terms</div>
+        "Some instructors want to give this to their whole class. The way that works: you sponsor your students, it's free for them, and you pay $5 per student who actually uses it each month. You decide how to introduce it. Students sign up and connect their Canvas account. Your Canvas admin turns on the connection for your course, and we help you with that step. We don't have an instructor view yet. Instructors who sponsor early would help us design what instructors see, while keeping students' privacy protected."
+      </div>
+      <ol class="q">
+        <li><span class="qn">14</span>What's your honest first reaction?</li>
+        <li><span class="qn">15</span>What would you need to see or know before doing this for your class?</li>
+        <li><span class="qn">16</span>Paying per student who actually uses it: how does that land for you?</li>
+        <li><span class="qn">17</span>We don't have an instructor view yet. How much does that matter? What would you want to see, and what would feel like too much, from a student-privacy standpoint?</li>
+        <li><span class="qn">18</span>How would you describe this to a colleague?</li>
+      </ol>
+    </div>
+  </details>
+
+  <details class="block ask" id="s7" open>
+    <summary><span class="step">7</span><span><span class="s-title">Wrap-up &amp; the ask</span><br><span class="s-meta">2 min · 0:28–0:30</span></span></summary>
+    <div class="block-body"><ol class="q">
+      <li><span class="qn">19</span>Who else should we talk to? (A colleague, or your Canvas admin)</li>
+      <li><span class="qn">20</span><strong>The real ask</strong> (pick one that fits):
+        <div class="followup">
+          <div>→ "Would you be open to us looping in your Canvas admin to see what enabling this would take?"</div>
+          <div>→ "Would you want to try this with one section next term?"</div>
+          <div>→ "Could we follow up in a few weeks once we've talked to more instructors?"</div>
+        </div>
+      </li>
+    </ol></div>
+  </details>
+
+  <div class="callout accent" style="margin-top:14px">
+    <h3>Hinds-only swap <span class="muted" style="font-weight:400">(replaces sections 4 and 6)</span></h3>
+    <ul class="plain">
+      <li>Have you mentioned Athena to your students? Why or why not? How did you frame it?</li>
+      <li>Have you noticed any difference, or heard anything from students?</li>
+      <li>What would make you actively recommend it?</li>
+      <li>If the school <em>weren't</em> covering it, would you consider sponsoring your own class? What would hold you back?</li>
+    </ul>
+  </div>
+</section>
+
+<!-- SAY -->
+<section id="say">
+  <div class="eyebrow">6 · Guardrails</div>
+  <h2>What we can and can't say</h2>
+  <div class="say">
+    <div class="col-h can-h">✓ Can say</div>
+    <div class="col-h cant-h">✕ Don't say</div>
+    <div class="cell">$5 per monthly active user, averaged over the contract (public)</div>
+    <div class="cell r">Any discount, annual deal, or custom rate</div>
+    <div class="cell">Under a sponsorship, Instructure acts as a FERPA-designated school official</div>
+    <div class="cell r">"FERPA compliant" or "FERPA certified"</div>
+    <div class="cell">No instructor view yet; we want to design it <em>with</em> instructors, protecting student privacy</div>
+    <div class="cell r">Any promised dashboard, feature, or date</div>
+    <div class="cell">Athena coaches instead of answering; won't produce submission-ready work; can't see unpublished quiz questions</div>
+    <div class="cell r">That Athena is part of Canvas, endorsed by their school, or required for coursework</div>
+    <div class="cell">Course-level enablement goes through their Canvas admin, and we'll help</div>
+    <div class="cell r">That the instructor can turn it on themselves</div>
+    <div class="cell">Hinds CC offers Athena to all students this fall</div>
+    <div class="cell r">Internal adoption numbers</div>
+    <div class="cell last"></div>
+    <div class="</div>cell r last">Coupons for non-Canvas schools (possible future, not an offer)</div>
+  </div>
+</section>
+
+<!-- AFTER -->
+<section id="after">
+  <div class="eyebrow">7 · Follow-through</div>
+  <h2>After each call</h2>
+  <ol class="steps-after">
+    <li>Fill in the <a href="#template">notes template</a> within an hour, while it's fresh.</li>
+    <li>Add a short entry to <code>learnings.md</code>.</li>
+    <li>Send a thank-you, and follow up on any referral or ask they agreed to.</li>
+  </ol>
+</section>
+
+<!-- SYNTHESIS -->
+<section id="synthesis">
+  <div class="eyebrow">8 · After all interviews</div>
+  <h2>Synthesis &amp; decision</h2>
+  <p>Score each assumption across the non-Hinds interviews.</p>
+  <div class="table-wrap" style="margin-bottom:18px">
+    <table>
+      <thead><tr><th>Assumption</th><th>Strong signal</th><th>Weak / mixed</th><th>Against</th><th>Verdict</th></tr></thead>
+      <tbody>
+        <tr><td><strong>A1</strong> Will spend budget</td><td></td><td></td><td></td><td></td></tr>
+        <tr><td><strong>A2</strong> Can spend without sign-off</td><td></td><td></td><td></td><td></td></tr>
+        <tr><td><strong>A3</strong> Admin will enable</td><td></td><td></td><td></td><td></td></tr>
+        <tr><td><strong>A4</strong> Design partner is enough</td><td></td><td></td><td></td><td></td></tr>
+        <tr><td><strong>A5</strong> Pains match</td><td></td><td></td><td></td><td></td></tr>
+        <tr><td><strong>A6</strong> Distinct messaging needed</td><td></td><td></td><td></td><td></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <h3>Proposed decision rule <span class="badge b-gray">Team to confirm</span></h3>
+  <div class="decision" style="margin-top:10px">
+    <div class="dec go"><div class="t">Proceed to a sponsorship test</div>At least <strong>3 non-Hinds instructors</strong> agree to a concrete next step (an intro to their admin, a trial with one section, or checking a budget source) <em>and</em> A1 and A2 aren't clearly against us.</div>
+    <div class="dec re"><div class="t">Reshape</div>The pains are strong but budget is the blocker. Revisit Scenario B (the instructor recommends Athena and students pay individually).</div>
+    <div class="dec stop"><div class="t">Pause the segment</div>Instructors show little pain <em>and</em> little willingness to spend.</div>
+  </div>
+  <p class="muted" style="margin-top:12px">Record the outcome in <code>learnings.md</code> and <code>decisions/DECISION-LOG.md</code>, then draft the persona with <code>templates/icp-persona.md</code>.</p>
+</section>
+
+<!-- TEMPLATE -->
+<section id="template">
+  <div class="eyebrow">9 · Copy for each interview</div>
+  <h2>Interview notes template</h2>
+  <div class="template-wrap">
+    <button class="copy" data-copy="tpl">Copy</button>
+<pre class="template" id="tpl">### Interview [#] — [Name], [Title], [School] ([CC / 4-year]) — [Date]
+**Course(s):** [course, # students]  **Group:** Hinds / Non-Hinds  **Interviewer(s):** [names]
+
+**Top pains (in their words):**
+-
+
+**AI stance:**
+
+**Past spending on students (source, amount, who approved):**
+
+**Canvas admin relationship:**
+
+**Reaction to concept / price / no instructor view:**
+
+**Best quote:**
+> ""
+
+**Assumption signals:** A1 [+/~/-] · A2 [+/~/-] · A3 [+/~/-] · A4 [+/~/-] · A5 [+/~/-] · A6 [+/~/-]
+
+**Next step they agreed to:**
+
+**Referrals:**</pre>
+  </div>
+</section>
+
+<footer>
+  Source of truth: <code>work-in-progress/educator-segment/interview-guide.md</code>. If this page and the markdown disagree, the markdown wins.
+  · Internal. Don't share externally.
+</footer>
+
+</main>
+</div>
+
+<script>
+  document.querySelectorAll('button.copy').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var el = document.getElementById(btn.dataset.copy);
+      var text = el.innerText;
+      navigator.clipboard.writeText(text).then(function () {
+        btn.textContent = 'Copied'; btn.classList.add('done');
+        setTimeout(function () { btn.textContent = 'Copy'; btn.classList.remove('done'); }, 1600);
+      });
+    });
+  });
+
+  var links = Array.prototype.slice.call(document.querySelectorAll('.toc a'));
+  var targets = links.map(function (a) { return document.querySelector(a.getAttribute('href')); });
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        links.forEach(function (a) { a.classList.toggle('active', a.getAttribute('href') === '#' + entry.target.id); });
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+  targets.forEach(function (t) { if (t) observer.observe(t); });
+</script>
+</body>
+</html>

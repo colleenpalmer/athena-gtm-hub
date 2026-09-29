@@ -46,8 +46,8 @@ buying seats on behalf of students. See `reference/icp-and-personas.md`.
    larger marketing push.
 2. Grow the institutional motion — actively recruiting 10–15 institutions to pilot in
    Fall 2026 and shape institutional support features.
-3. Add institutional controls (e.g. Canvas-connection opt-out; usage visibility for
-   sponsored subscriptions) in the spirit of partnership.
+3. Add institutional controls (e.g. Canvas-connection opt-in at root, subaccount, and course
+   level; usage visibility for sponsored subscriptions) in the spirit of partnership.
 
 ## Proof points
 - Instructure research released at InstructureCon: **90% of higher-ed students already
