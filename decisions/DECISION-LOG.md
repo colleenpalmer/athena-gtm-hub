@@ -34,6 +34,22 @@
 
 ## Active Decisions
 
+### Drip Priority: Hinds Student Onboarding First
+**Date:** 2026-09-29  
+**Context:** Hinds Community College is offering Athena to all students this fall, and we're seeing drop-off after students register. Hinds is our first sponsored customer and the key proof point for Fall 2026 pilot recruitment.
+
+**Options considered:**
+1. Keep D2C trial nurture as Phase 1 (previous decision)
+2. Prioritize Hinds student onboarding (register → connect Canvas → open Study Space → activate)
+
+**Decision:** Hinds student onboarding is Phase 1. D2C trial nurture moves to the backlog and will reuse the onboarding stages once they're validated.  
+**Reasoning:** Sponsored access is billed per monthly active user, and an active Hinds student base is the story we tell prospective pilots. Registration drop-off is a live problem today.  
+**Owner:** TBD  
+**Success criteria:** Higher % of Hinds registrants activating within 14 days vs. a pre-launch baseline; better conversion at each stage.  
+**Status:** Approved, planning (`work-in-progress/drip-campaigns/hinds-student-onboarding.html`)
+
+---
+
 ### Educator Segment: Build Separate Landing Page?
 **Date:** 2026-09-28  
 **Context:** Exploring educator market without institutional buy-in. Need to decide if educators need distinct messaging/GTM.
@@ -74,7 +90,7 @@
 **Reasoning:** Student trial conversion directly impacts revenue and we have volume to optimize. Institutional pilot is higher-touch but lower volume. Educator/parent are still hypotheses.
 
 **Owner:** TBD  
-**Status:** Approved, not started
+**Status:** Superseded 2026-09-29 by "Drip Priority: Hinds Student Onboarding First"
 
 ---
 

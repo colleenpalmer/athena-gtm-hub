@@ -53,11 +53,25 @@
     "name": "Drip Campaign for Hinds Students",
     "status": "not-started",
     "owner": "",
-    "nextAction": "Define student trial nurture sequence (Priority 1)",
+    "nextAction": "Pull baseline Hinds funnel in PostHog + take engineering asks (sponsorship in PostHog) to product/eng (see project page in Notes)",
     "deadline": "",
     "folder": "work-in-progress/drip-campaigns/",
-    "description": "Build email lifecycle campaigns for D2C trial users, institutional pilots, and (if validated) educator segment.",
+    "description": "Onboarding drip for Hinds CC students (sponsored): registered → connect Canvas → open a Study Space → activate (message, chat, quiz/flashcards, or tutoring session). D2C trial, institutional pilot, and educator drips are backlog.",
     "tasks": [
+      {
+        "id": "task-drip-hinds-1",
+        "projectId": "1727539200002",
+        "title": "Answer blocking questions with product/eng + Hinds owner (where's the drop-off, how we identify Hinds students, trial/paywall behavior, events)",
+        "completed": false,
+        "createdAt": "2026-09-29T16:00:00Z"
+      },
+      {
+        "id": "task-drip-hinds-2",
+        "projectId": "1727539200002",
+        "title": "Pull baseline Hinds onboarding funnel (registered → connected → Study Space → activated)",
+        "completed": false,
+        "createdAt": "2026-09-29T16:00:00Z"
+      },
       {
         "id": "1790621825785",
         "projectId": "1727539200002",
@@ -75,14 +89,14 @@
       {
         "id": "1790621870105",
         "projectId": "1727539200002",
-        "title": "Figure out what system we're using for drip campaigns (attio, posthog, resend?)",
+        "title": "Confirm sending setup: PostHog triggers are decided; PostHog workflow → Resend, or a job in athena-poc?",
         "completed": false,
         "createdAt": "2026-09-28T18:57:50.105Z"
       },
       {
         "id": "task-drip-3",
         "projectId": "1727539200002",
-        "title": "Write email copy (all messages)",
+        "title": "Write email copy (9 emails across 3 stages)",
         "completed": false,
         "createdAt": "2026-09-28T10:00:00Z"
       },
@@ -106,6 +120,18 @@
         "title": "Test with small cohort",
         "completed": false,
         "createdAt": "2026-09-28T10:00:00Z"
+      }
+    ],
+    "notes": [
+      {
+        "id": "note-drip-hinds-page-1",
+        "date": "2026-09-29T17:00:00Z",
+        "note": "Project page (HTML, needs app running): http://localhost:3000/drip-campaigns/hinds-student-onboarding.html. Source: work-in-progress/drip-campaigns/hinds-student-onboarding.html (app copy in app/public/drip-campaigns/)"
+      },
+      {
+        "id": "note-drip-hinds-posthog-1",
+        "date": "2026-09-29T18:00:00Z",
+        "note": "Triggers mapped to PostHog (see project page §7). Key gaps: PostHog can't see sponsorship (Hinds students show subscription_status = none), no sign-up event for standard registration, no quiz/flashcard creation event. Sponsored sign-up students skip the Connect Canvas stage."
       }
     ],
     "rank": 3

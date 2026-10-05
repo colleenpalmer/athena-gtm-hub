@@ -20,19 +20,20 @@ You now have an organized system for managing GTM work. Here's how to move forwa
 
 ## 2. Plan Drip Campaigns (This Week)
 
-**What:** Define which email sequences to build first.
+**What:** Build the Hinds student onboarding drip (connect Canvas → open a Study Space → activate).
 
 **Next steps:**
-1. Open `work-in-progress/drip-campaigns/README.md`
-2. Answer the planning questions for **Student Trial Nurture** (Priority 1)
-3. Outline the email sequence
-4. Identify content/proof gaps
+1. Open `work-in-progress/drip-campaigns/hinds-student-onboarding.html` (or http://localhost:3000/drip-campaigns/hinds-student-onboarding.html with the app running)
+2. Answer the blocking questions (with product/eng + the Hinds relationship owner)
+3. Pull the baseline Hinds onboarding funnel
+4. Draft the 9 emails and run them through `messaging-review`
 5. Build and test
 
 **Recommended order:**
-1. D2C student trial nurture (Priority 1 — do this first)
-2. Institutional pilot nurture (Priority 2)
-3. Educator drip (only if segment validates)
+1. Hinds student onboarding (Priority 1, do this first)
+2. D2C student trial nurture (reuse the onboarding stages)
+3. Institutional pilot nurture
+4. Educator drip (only if segment validates)
 
 ---
 
@@ -84,12 +85,12 @@ Based on our conversation today:
 1. **Institutions** = primary focus (page revamp + 10–15 Fall 2026 pilots)
 2. **Educators** = experimental (ICP in progress, test if validated)
 3. **Parents** = backlog (low priority — high activation risk)
-4. **Drip campaigns** = infrastructure build (student trial first, then institutional)
+4. **Drip campaigns** = Hinds student onboarding first, then D2C trial, then institutional
 
 You're juggling **3 motions** (institutional, educator, individual students) and need to decide which to double down on based on test results.
 
 **Your next session should be:**
 - Finishing the educator ICP questions, OR
-- Planning the student trial drip campaign
+- Planning the Hinds student onboarding drip
 
 Pick one and go deep. The tracker will keep the rest organized.

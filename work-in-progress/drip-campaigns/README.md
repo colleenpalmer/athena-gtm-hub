@@ -1,120 +1,93 @@
 # Drip Campaign Planning
 
-**Status:** 🔵 Not Started
+**Status:** 🟡 Planning (Hinds student onboarding)
 
 ---
 
 ## What We're Building
 
-Email drip campaigns (automated lifecycle sequences) for different audience segments.
+Email drip campaigns (automated lifecycle sequences), triggered by student behavior, for different
+audience segments.
 
 ---
 
-## Campaign Priorities
+## Current Focus: Hinds Student Onboarding (Priority 1)
 
-### 1. D2C Student Trial Nurture (Priority 1)
-**Audience:** Students who start 7-day free trial  
-**Goal:** Activate trial users → convert to paid  
-**Status:** Not Started
+**Audience:** Hinds Community College students (institution-sponsored, free to the student) who have
+registered but not yet activated
+**Goal:** Registered → activated within 14 days
+**Project page:** `hinds-student-onboarding.html` (open in a browser, or http://localhost:3000/drip-campaigns/hinds-student-onboarding.html with the app running)
 
-**Key emails:**
-- Day 0: Welcome + Canvas connection nudge
-- Day 1: First win / quick activation moment
-- Day 2–3: Feature education (Study Spaces, mastery tracking)
-- Day 5: Social proof + conversion nudge
-- Day 6: Last chance / urgency
-- Day 10 (post-trial): Re-engagement for those who didn't convert
+**Drip path (3 stages, each exits as soon as the step is done):**
+1. **Connect Canvas.** Registered but not connected (up to 3 emails)
+2. **Open a Study Space.** Connected but hasn't opened one (up to 3 emails)
+3. **Activate.** Send a message, chat, create a quiz/flashcards, or start a tutoring session (up to 3 emails)
 
-**Metrics to track:**
-- Trial → paid conversion rate
-- Email open/click rates
-- Canvas connection rate (key activation signal)
+**Why first:** Hinds is our first sponsored customer and our main proof point for pilot recruitment,
+and we're seeing drop-off after registration. See `decisions/DECISION-LOG.md`.
 
 ---
 
-### 2. Institutional Pilot Nurture (Priority 2)
-**Audience:** Institutions who apply for Fall 2026 pilot  
-**Goal:** Move them through pilot → paid contract  
-**Status:** Not Started
+## Backlog
 
-**Key emails:**
-- Application received → kickoff scheduling
-- Pilot kickoff → onboarding
-- Mid-pilot check-in (week 4–6)
-- End-of-pilot testimonial request + renewal offer
-- Post-pilot decision follow-up
+### D2C Student Trial Nurture
+**Audience:** Individual students on the 7-day free trial
+**Goal:** Activate trial users → convert to paid
+**Status:** Deferred. Reuse the Hinds onboarding stages once validated.
+**Watch-outs from earlier review:**
+- Many D2C students can't connect Canvas (their school must opt in since the Aug 14 release), so this
+  needs a "can't connect" path.
+- No approved student testimonials or efficacy stats yet for a social-proof email.
+- Late-trial emails depend on trial mechanics (card up front? auto-convert? App Store vs. web).
 
-**Metrics to track:**
-- Pilot application → kickoff rate
-- Pilot → contract conversion rate
-- Student usage within pilot accounts
+### Institutional Pilot Nurture
+**Audience:** Institutions who apply for the Fall 2026 pilot
+**Goal:** Move them through pilot → paid contract
+**Status:** Not started
 
----
+### Educator Drip (only if validated)
+**Status:** Blocked until the educator segment is validated (`work-in-progress/educator-segment/`)
 
-### 3. Educator Drip (Priority 3 — Only If Validated)
-**Audience:** Educators who express interest in classroom adoption  
-**Goal:** TBD based on educator ICP  
-**Status:** Blocked until educator segment is validated
-
----
-
-### 4. Parent Drip (Backlog — Low Priority)
-**Audience:** Parents who gift subscriptions  
-**Goal:** Ensure student actually activates  
-**Status:** Not planned yet
+### Parent Drip (low priority)
+**Status:** Not planned
 
 ---
 
-## Questions to Answer Before Building
+## Questions to Answer Before Building Any Drip
 
-### For each campaign:
-
-1. **Who is the audience?**  
-   _[Segment definition, entry criteria]_
-
-2. **What's the goal?**  
-   _[The one metric that matters]_
-
-3. **What's the journey?**  
-   _[What stages do they move through? What triggers progression?]_
-
-4. **What actions do we want them to take?**  
-   _[Primary CTA per email]_
-
-5. **What proof/content do we need?**  
-   _[Testimonials, case studies, how-to content, FAQs]_
-
-6. **How do we measure success?**  
-   _[Open/click, conversion rate, activation rate, time to convert]_
+1. **Who is the audience?** Segment definition, entry criteria, how we identify them
+2. **What's the goal?** The one metric that matters
+3. **What's the journey?** Stages, and the events that move someone between them
+4. **What action do we want?** One primary CTA per email
+5. **What proof/content do we need?** Only approved proof points
+6. **How do we measure success?** Stage conversion and goal completion; don't rely on opens
 
 ---
 
 ## Files in This Folder
 
-- `README.md` — This overview
-- `student-trial-nurture.md` — D2C trial sequence (Priority 1)
-- `institutional-pilot-nurture.md` — Institutional pilot sequence (Priority 2)
-- `educator-drip.md` — Educator sequence (if validated)
-- `templates/email-template.md` — Reusable email template
+- `README.md`: this overview
+- `hinds-student-onboarding.html`: Hinds onboarding project page, the source of truth for status, drip path, and open questions (Priority 1). App copy lives in `app/public/drip-campaigns/`.
+- `templates/email-template.md`: reusable email template
 
 ---
 
 ## Tools & Workflow
 
-**Email platform:** _[Fill in — e.g. Customer.io, Mailchimp, HubSpot, Sendgrid]_
+**Triggers:** PostHog (events + person properties from the athena-poc app). See the "PostHog trigger map"
+section of `hinds-student-onboarding.html`.
+**Sending:** TBD. The app already sends lifecycle email through Resend, which reports `engagement_email_*`
+events back to PostHog. Still to decide: a PostHog workflow sending through Resend, or a job in athena-poc.
 
 **Workflow:**
-1. Define audience, goal, and sequence here (in Markdown)
+1. Define audience, goal, and drip path here (in Markdown)
 2. Draft emails using approved messaging from `reference/messaging-framework.md`
-3. Review copy with `messaging-review` skill
+3. Review copy with the `messaging-review` skill
 4. Build in email platform
-5. Test with small cohort before rolling out to all
+5. Test with a small cohort before rolling out to all
 
 ---
 
 ## Next Steps
 
-1. Answer planning questions for **Student Trial Nurture** (Priority 1)
-2. Draft email sequence
-3. Identify content/proof gaps
-4. Build and test
+See "Status → Next steps" in `hinds-student-onboarding.html`. Start by answering the blocking questions.

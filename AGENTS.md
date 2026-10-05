@@ -20,6 +20,7 @@ run structured GTM conversations.
 - `.cursor/skills/` — named playbooks for specific conversations.
 - `.cursor/rules/reference-context.mdc` — always-on rule to ground answers in `reference/`.
 - `templates/` — reusable output formats the skills produce.
+- `templates/project-page.html` — the default format for project tracking pages (see Conventions).
 
 ## Available skills
 
@@ -45,3 +46,16 @@ The three growth skills form a loop — strategy → test → review — grounde
 - Do not invent metrics, customers, or features. Use documented proof points or flag the gap.
 - Respect public vs internal-only labels (especially pricing/discounts).
 - Prefer approved terms from `reference/glossary.md`.
+
+### Project pages are HTML by default
+
+Every project in `work-in-progress/` gets a **single self-contained HTML page** as its tracking doc
+(status, plan, open questions, update log). HTML is easier to share and digest than Markdown.
+
+- Start from `templates/project-page.html`. Save to `work-in-progress/<folder>/<slug>.html`.
+- Keep it self-contained (inline CSS/JS, no external dependencies) so it opens anywhere as one file.
+- Don't keep a parallel `.md` copy of the same plan; the HTML page is the source of truth.
+- Mirror it to `app/public/<folder>/<slug>.html` so the GTM app serves it at
+  `http://localhost:3000/<folder>/<slug>.html`, and add that link as a note on the project in `data/projects.json`.
+- On every edit: update "Last updated" in the hero, add an Update log entry, and re-copy to `app/public/`.
+- Folder `README.md` files, skill outputs from `templates/*.md`, and `reference/` stay Markdown.

@@ -57,7 +57,10 @@ Exploratory work, drafts, experiments. Organized by project.
 - `drip-campaigns/` — Email lifecycle planning
 - `institutional-page-revamp/` — Institutional landing page redesign
 
-**When to use:** 
+**Project pages:** each project's tracking doc is a self-contained HTML page (copy `templates/project-page.html`),
+mirrored to `app/public/<folder>/` so the app can serve it. See "Project pages are HTML by default" in `AGENTS.md`.
+
+**When to use:**
 - Starting a new GTM initiative
 - Exploring a new segment or channel
 - Drafting messaging before it's validated
@@ -71,6 +74,7 @@ Templates for common deliverables.
 
 **What's here:**
 - `icp-persona.md` — Persona template
+- `project-page.html` — Default project tracking page (HTML)
 - Campaign briefs, one-pagers, etc. (add as needed)
 
 **When to use:** Starting a new deliverable from scratch.
