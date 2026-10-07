@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Parents Landing Page · Athena</title>
+<style>
+  :root {
+    --g50:#FAFAFA; --g100:#F5F5F5; --g200:#E5E5E5; --g300:#D4D4D4; --g400:#A3A3A3;
+    --g500:#737373; --g600:#525252; --g700:#404040; --g800:#262626; --g900:#171717;
+    --a50:#EEF2FF; --a100:#E0E7FF; --a200:#C7D2FE; --a500:#6366F1; --a600:#4F46E5; --a700:#4338CA;
+    --s50:#F0FDF4; --s200:#BBF7D0; --s600:#16A34A; --s700:#15803D;
+    --y50:#FFFBEB; --y200:#FDE68A; --y700:#B45309;
+    --r50:#FEF2F2; --r200:#FECACA; --r700:#B91C1C;
+    --radius:10px;
+  }
+  * { box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body {
+    margin:0; background:var(--g50); color:var(--g600);
+    font:15px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif;
+  }
+  h1,h2,h3,h4 { color:var(--g900); line-height:1.25; margin:0 0 .5em; }
+  h1 { font-size:30px; letter-spacing:-.02em; }
+  h2 { font-size:21px; letter-spacing:-.01em; }
+  h3 { font-size:16px; }
+  p { margin:0 0 .8em; }
+  strong { color:var(--g800); }
+  code { background:var(--g100); border:1px solid var(--g200); border-radius:4px; padding:1px 5px; font-size:13px; }
+
+  .layout { display:grid; grid-template-columns:230px 1fr; max-width:1180px; margin:0 auto; }
+  nav.toc {
+    position:sticky; top:0; align-self:start; height:100vh; overflow:auto;
+    padding:32px 16px 32px 24px; border-right:1px solid var(--g200);
+  }
+  .toc .brand { font-weight:700; color:var(--g900); font-size:14px; margin-bottom:2px; }
+  .toc .sub { font-size:12px; color:var(--g500); margin-bottom:20px; }
+  .toc a { display:block; padding:6px 10px; margin:1px 0; border-radius:6px; color:var(--g600); text-decoration:none; font-size:14px; }
+  .toc a:hover { background:var(--g100); color:var(--g900); }
+  .toc a.active { background:var(--a50); color:var(--a700); font-weight:600; }
+  .toc .num { display:inline-block; width:20px; color:var(--g400); font-variant-numeric:tabular-nums; }
+
+  main { padding:40px 48px 80px; min-width:0; }
+  section { margin-bottom:34px; scroll-margin-top:24px; }
+  .card { background:#fff; border:1px solid var(--g200); border-radius:var(--radius); padding:22px 24px; }
+  .eyebrow { font-size:12px; text-transform:uppercase; letter-spacing:.08em; color:var(--g500); font-weight:600; margin-bottom:8px; }
+  .muted { color:var(--g500); font-size:13px; }
+
+  /* Hero */
+  .hero { background:var(--g900); color:#E5E5E5; border-radius:14px; padding:32px 34px; margin-bottom:28px; }
+  .hero h1 { color:#fff; }
+  .hero .eyebrow { color:var(--g400); }
+  .hypothesis { background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12); border-radius:10px; padding:16px 18px; margin:18px 0 20px; font-size:16px; color:#fff; }
+  .hypothesis strong { color:#fff; }
+  .meta { display:flex; flex-wrap:wrap; gap:10px 28px; font-size:13px; color:var(--g400); }
+  .meta b { color:#fff; font-weight:600; }
+
+  /* Status pills */
+  .pill { display:inline-block; font-size:11.5px; font-weight:700; padding:2px 9px; border-radius:999px; border:1px solid; white-space:nowrap; vertical-align:middle; }
+  .st-done  { background:var(--s50); color:var(--s700); border-color:var(--s200); }
+  .st-prog  { background:var(--a50); color:var(--a700); border-color:var(--a200); }
+  .st-open  { background:var(--g100); color:var(--g700); border-color:var(--g200); }
+  .st-block { background:var(--r50); color:var(--r700); border-color:var(--r200); }
+  .st-unk   { background:var(--y50); color:var(--y700); border-color:var(--y200); }
+  .hero .pill { font-size:12px; }
+
+  /* Grids */
+  .grid { display:grid; gap:14px; }
+  .grid-2 { grid-template-columns:repeat(2, minmax(0,1fr)); }
+  .grid-3 { grid-template-columns:repeat(3, minmax(0,1fr)); }
+  .grid-4 { grid-template-columns:repeat(4, minmax(0,1fr)); }
+
+  /* Stat tiles */
+  .stat { background:#fff; border:1px solid var(--g200); border-radius:var(--radius); padding:16px 18px; }
+  .stat .k { font-size:12px; text-transform:uppercase; letter-spacing:.06em; color:var(--g500); font-weight:600; }
+  .stat .v { font-size:26px; font-weight:700; color:var(--g900); line-height:1.2; margin:4px 0 2px; font-variant-numeric:tabular-nums; }
+  .progress { height:8px; background:var(--g100); border-radius:999px; overflow:hidden; margin-top:8px; }
+  .progress > span { display:block; height:100%; background:var(--a500); }
+
+  /* Tables */
+  table { width:100%; border-collapse:collapse; font-size:14px; }
+  th { text-align:left; font-size:12px; text-transform:uppercase; letter-spacing:.06em; color:var(--g500); font-weight:600; padding:10px 12px; border-bottom:1px solid var(--g200); background:var(--g50); }
+  td { padding:12px; border-bottom:1px solid var(--g200); vertical-align:top; }
+  tr:last-child td { border-bottom:none; }
+  td.n { font-weight:700; color:var(--g400); white-space:nowrap; font-variant-numeric:tabular-nums; }
+  td.t { white-space:nowrap; color:var(--g800); font-weight:600; }
+  .table-wrap { border:1px solid var(--g200); border-radius:var(--radius); overflow:auto; background:#fff; }
+  .cta { display:inline-block; font-size:12.5px; font-weight:600; color:var(--g900); background:var(--g100); border:1px solid var(--g200); border-radius:6px; padding:2px 8px; white-space:nowrap; }
+  .pillar { font-size:11px; font-weight:700; color:var(--a700); background:var(--a50); border:1px solid var(--a200); border-radius:4px; padding:1px 6px; white-space:nowrap; }
+
+  /* Funnel */
+  .funnel { display:grid; grid-template-columns:1fr auto 1fr auto 1fr auto 1fr; align-items:stretch; gap:0; }
+  .node { background:#fff; border:1px solid var(--g200); border-radius:var(--radius); padding:14px 14px 12px; text-align:center; }
+  .node .lbl { font-size:11px; text-transform:uppercase; letter-spacing:.07em; font-weight:700; color:var(--g400); }
+  .node .nm { font-weight:700; color:var(--g900); margin:2px 0 4px; }
+  .node .ev { font-size:12px; color:var(--g500); }
+  .node .ev code { font-size:11.5px; }
+  .node.start { background:var(--g100); }
+  .node.goal { background:var(--s50); border-color:var(--s200); }
+  .node.goal .nm { color:var(--s700); }
+  .arrow { display:flex; flex-direction:column; align-items:center; justify-content:center; padding:0 8px; min-width:92px; text-align:center; }
+  .arrow .stg { font-size:11px; font-weight:700; color:var(--a700); background:var(--a50); border:1px solid var(--a200); border-radius:999px; padding:1px 8px; margin-bottom:4px; white-space:nowrap; }
+  .arrow .line { width:100%; height:2px; background:var(--a200); position:relative; }
+  .arrow .line::after { content:""; position:absolute; right:-1px; top:-4px; border:5px solid transparent; border-left:7px solid var(--a500); border-right:0; }
+  .arrow .em { font-size:11px; color:var(--g500); margin-top:4px; white-space:nowrap; }
+  .funnel-note { display:flex; gap:10px; flex-wrap:wrap; margin-top:12px; font-size:13px; }
+  .funnel-note span { background:#fff; border:1px dashed var(--g300); border-radius:8px; padding:6px 10px; }
+
+  /* Lists */
+  ul.plain { margin:0; padding-left:20px; }
+  ul.plain li { margin:5px 0; }
+  ul.check { list-style:none; padding:0; margin:0; }
+  ul.check li { padding:5px 0 5px 28px; position:relative; }
+  ul.check li::before { position:absolute; left:0; top:6px; width:18px; height:18px; border-radius:50%; font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; }
+  ul.check li.y::before { content:"✓"; background:var(--s50); color:var(--s600); border:1px solid var(--s200); }
+  ul.check li.n::before { content:"✕"; background:var(--r50); color:var(--r700); border:1px solid var(--r200); }
+
+  .callout { border:1px solid var(--g200); border-radius:var(--radius); background:#fff; padding:18px 20px; }
+  .callout.accent { border-color:var(--a200); background:var(--a50); }
+  .callout.warn { border-color:var(--y200); background:var(--y50); }
+  .callout h3 { margin-bottom:8px; }
+
+  /* Steps */
+  .steps { list-style:none; padding:0; margin:0; counter-reset:s; }
+  .steps li { display:flex; align-items:flex-start; gap:12px; background:#fff; border:1px solid var(--g200); border-radius:var(--radius); padding:12px 16px; margin-bottom:8px; }
+  .steps li::before { counter-increment:s; content:counter(s); flex:0 0 24px; height:24px; border-radius:50%; background:var(--g900); color:#fff; font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center; margin-top:1px; }
+  .steps li .txt { flex:1; }
+  .steps li .pill { margin-left:auto; }
+
+  /* Log */
+  .log { border-left:2px solid var(--g200); padding-left:16px; margin:0; list-style:none; }
+  .log li { position:relative; margin-bottom:10px; font-size:14px; }
+  .log li::before { content:""; position:absolute; left:-22px; top:7px; width:10px; height:10px; border-radius:50%; background:var(--a500); }
+  .log .d { font-weight:700; color:var(--g800); margin-right:6px; font-variant-numeric:tabular-nums; }
+
+  footer { font-size:12px; color:var(--g400); margin-top:40px; border-top:1px solid var(--g200); padding-top:16px; }
+
+  @media (max-width:960px) {
+    .layout { grid-template-columns:1fr; }
+    nav.toc { display:none; }
+    main { padding:24px 18px 60px; }
+    .grid-2, .grid-3, .grid-4 { grid-template-columns:1fr; }
+    .funnel { grid-template-columns:1fr; }
+    .arrow { padding:8px 0; }
+    .arrow .line { width:2px; height:18px; }
+    .arrow .line::after { right:-4px; top:auto; bottom:-2px; border:5px solid transparent; border-top:7px solid var(--a500); border-bottom:0; }
+  }
+  @media print {
+    nav.toc { display:none !important; }
+    .layout { display:block; }
+    main { padding:0; }
+    body { background:#fff; font-size:12px; }
+    .hero { background:#fff; color:var(--g700); border:1px solid var(--g300); }
+    .hero h1, .hypothesis, .hypothesis strong, .meta b { color:var(--g900); }
+    .hypothesis { background:var(--g100); border-color:var(--g200); }
+    section { break-inside:avoid-page; }
+  }
+  .src { display:inline-block; font-size:11px; font-weight:700; padding:1px 7px; border-radius:4px; border:1px solid; white-space:nowrap; margin:0 2px 2px 0; }
+  .src.sv { background:var(--s50); color:var(--s700); border-color:var(--s200); }
+  .src.cl { background:var(--g100); color:var(--g700); border-color:var(--g200); }
+  .src.pp { background:var(--a50); color:var(--a700); border-color:var(--a200); }
+  .ref { font:11.5px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace; color:var(--g500); margin-top:4px; word-break:break-word; }
+</style>
+</head>
+<body>
+<div class="layout">
+
+<nav class="toc" aria-label="Contents">
+  <div class="brand">Athena · Parents</div>
+  <div class="sub">Parents Landing Page</div>
+  <a href="#overview"><span class="num">·</span>Overview</a>
+  <a href="#status"><span class="num">1</span>Status</a>
+  <a href="#why"><span class="num">2</span>Why this, why now</a>
+  <a href="#audience"><span class="num">3</span>Audience &amp; goal</a>
+  <a href="#positioning"><span class="num">4</span>Positioning</a>
+  <a href="#page"><span class="num">5</span>Page &amp; funnel</a>
+  <a href="#plan"><span class="num">6</span>The plan</a>
+  <a href="#measure"><span class="num">7</span>Measurement</a>
+  <a href="#questions"><span class="num">8</span>Open questions</a>
+  <a href="#guardrails"><span class="num">9</span>Guardrails</a>
+  <a href="#log"><span class="num">10</span>Update log</a>
+</nav>
+
+<main>
+
+<!-- HERO -->
+<section id="overview" class="hero">
+  <div class="eyebrow">Project · Parents Landing Page</div>
+  <h1>Parents Landing Page</h1>
+  <div class="hypothesis">
+    <strong>Goal:</strong> Find out whether we can reach and earn the trust of parents of college students, with one
+    landing page that gives them something worth sending to their student. This is a learning project first and a
+    conversion project second.
+  </div>
+  <div class="meta">
+    <span>Status <span class="pill st-prog">In progress</span></span>
+    <span>Owner <b>TBD</b></span>
+    <span>Target date <b>TBD</b></span>
+    <span>Primary metric <b>Students activated via a parent referral</b></span>
+    <span>Last updated <b>2026-10-06</b></span>
+  </div>
+</section>
+
+<!-- STATUS -->
+<section id="status">
+  <div class="eyebrow">1 · Where things stand</div>
+  <h2>Status</h2>
+  <div class="grid grid-4" style="margin-bottom:16px">
+    <div class="stat">
+      <div class="k">Plan steps</div>
+      <div class="v">2 / 8</div>
+      <div class="muted">done (positioning direction, decision log)</div>
+      <div class="progress"><span style="width:25%"></span></div>
+    </div>
+    <div class="stat">
+      <div class="k">Open questions</div>
+      <div class="v">0 / 8</div>
+      <div class="muted">answered (Q1 to Q3 block the build)</div>
+      <div class="progress"><span style="width:0%"></span></div>
+    </div>
+    <div class="stat">
+      <div class="k">Parent-to-student handoff</div>
+      <div class="v" style="font-size:18px;margin:10px 0 6px">Lightweight</div>
+      <div class="muted">A link with a referral tag; no build needed for v1</div>
+    </div>
+    <div class="stat">
+      <div class="k">Parent pays for student</div>
+      <div class="v" style="font-size:18px;margin:10px 0 6px">Unknown</div>
+      <div class="muted">Not in product or pricing docs. Don't promise it.</div>
+    </div>
+  </div>
+
+  <h3>Next steps</h3>
+  <ol class="steps">
+    <li><span class="txt"><strong>Name an owner and a checkpoint date.</strong> A project without a success date can't be called a win or a miss.</span><span class="pill st-unk">Decision needed</span></li>
+    <li><span class="txt"><strong>Approve the positioning direction and pick the headline pair to test</strong> (H1 vs H2 in section 4).</span><span class="pill st-unk">Decision needed</span></li>
+    <li><span class="txt"><strong>Send Q1 to Q3 to product and eng</strong> (parent-pays, parent-facing features, referral tracking).</span><span class="pill st-open">Not started</span></li>
+    <li><span class="txt"><strong>Draft page copy</strong> against the chosen headline, then review with <code>messaging-review</code> and the copy director.</span><span class="pill st-block">Blocked by 2</span></li>
+  </ol>
+</section>
+
+<!-- WHY -->
+<section id="why">
+  <div class="eyebrow">2 · Context</div>
+  <h2>Why this, why now</h2>
+  <div class="card">
+    <p>Parents aren't in our ICP today. The only trace is a backlog line in the drip plan ("Parent drip: low priority,
+    activation risk") and a Meta ad set called <code>Athena AI | Parents</code> that never ran. We have no evidence
+    either way, so this project exists to get some, cheaply.</p>
+    <p>There is a real upside. Our riskiest assumption is the student's willingness to pay ($5/month against a free
+    stack). A parent who pays, or who simply sends the link, could remove that barrier. There is also a real risk: a
+    parent can't connect Canvas or open a Study Space, so a parent-bought account the student never opens is the same
+    activation problem we already see at Hinds.</p>
+    <p style="margin:0" class="muted">Related: <code>decisions/DECISION-LOG.md</code> (Parent segment: test with a page first, 2026-10-06);
+    <code>work-in-progress/educator-segment/</code> is the closest precedent for how we test a new segment.</p>
+  </div>
+  <div class="grid grid-2" style="margin-top:14px">
+    <div class="callout">
+      <h3>What the Meta export says <span class="src cl">Jan 1 to Aug 4, 2026</span></h3>
+      <ul class="plain">
+        <li><strong>Parents ad set:</strong> inactive, $0 spend, no impressions. No data on parents at all.</li>
+        <li><strong>Students | Sales:</strong> 123 trial starts for about $20,958, roughly <strong>$170 per trial start</strong>, against a $5/month product.</li>
+      </ul>
+      <p class="muted" style="margin:8px 0 0">Source: <code>docs/social analytics/metaAthena-AI-Campaigns-Jan-1-2026-Aug-4-2026.csv</code></p>
+    </div>
+    <div class="callout warn">
+      <h3>So</h3>
+      <p style="margin:0">Paid social is not the first test for parents. Start with owned and relational channels
+      (see section 6), keep any paid test inside the ~$1k Bullseye convention, and don't run mass-scale paid before the
+      product is validated (strategic priority #1).</p>
+    </div>
+  </div>
+</section>
+
+<!-- AUDIENCE -->
+<section id="audience">
+  <div class="eyebrow">3 · Who and what</div>
+  <h2>Audience &amp; goal</h2>
+  <div class="grid grid-2">
+    <div class="card">
+      <h3>Audience</h3>
+      <ul class="plain">
+        <li><strong>Who:</strong> Parents of college undergraduates (the student is the Persona 1 undergrad in <code>reference/icp-and-personas.md</code>).</li>
+        <li><strong>Trigger:</strong> "My student uses ChatGPT for school. Is it doing their work for them?"</li>
+        <li><strong>Wants:</strong> Their student to learn the material and do well, without hovering.</li>
+        <li><strong>Entry criteria:</strong> To be sharpened with parent conversations (Q4). Candidates: parents of first-year students, parents of community college students.</li>
+        <li><strong>Out of scope:</strong> Parents of minors or high schoolers (not today; COPPA and terms not reviewed). Parents who want to monitor their student.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Goal</h3>
+      <p><strong>One metric that matters:</strong> students who start a trial through a parent referral and then activate.
+      Target and timeframe: <em>to be set before launch</em> (no parent baseline exists).</p>
+      <p class="muted" style="margin:0">Assumptions: parents will share a link if it's easy and doesn't embarrass their student;
+      the student, not the parent, completes sign-up; parent-referred students activate about as well as other D2C students.</p>
+    </div>
+  </div>
+</section>
+
+<!-- POSITIONING -->
+<section id="positioning">
+  <div class="eyebrow">4 · The story</div>
+  <h2>Positioning</h2>
+
+  <div class="callout accent" style="margin-bottom:14px">
+    <h3>The direction in one line</h3>
+    <p style="margin:0"><strong>The AI study tool that makes your student do the work.</strong> A low-commitment page that
+    gives parents something good to send to their student, rather than something to buy or monitor.</p>
+  </div>
+
+  <div class="grid grid-3" style="margin-bottom:14px">
+    <div class="card">
+      <h3>GTM director</h3>
+      <ul class="plain">
+        <li>A parent "sign up" breaks the funnel: only the student can connect Canvas and activate. CTA is "send to your student."</li>
+        <li>Measure students activated via a parent referral, not parent signups.</li>
+        <li>Not a paid-first test: ~$170 per student trial start already.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Product marketing director</h3>
+      <ul class="plain">
+        <li>Parents are a third register: trust and integrity first, results second. No ZPD, no IgniteAI.</li>
+        <li>Lead with coach-don't-tell. It is the parent's actual fear and our sharpest differentiator.</li>
+        <li>Don't hide AI. For parents it's the anxiety; answer it in the first scroll.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Product design director</h3>
+      <ul class="plain">
+        <li>The student will read this page too. It must pass the gut-test over a student's shoulder.</li>
+        <li>One CTA above the fold; answer "what is it, is it safe, what does it cost" on the first screen.</li>
+        <li>Mobile first; parents arrive from a text, email forward, or social.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Headline options</h3>
+  <div class="table-wrap" style="margin-bottom:6px">
+    <table>
+      <thead><tr><th>#</th><th>Headline</th><th>Why it could work</th><th>Risk</th></tr></thead>
+      <tbody>
+        <tr><td class="n">H1</td><td><strong>Most students already study with AI. This one coaches them to the answer.</strong></td><td>Leads with proof (Instructure research: 90% of higher-ed students use AI at least occasionally) and the differentiator.</td><td>Longer; "most students already use AI" can read as normalizing it.</td></tr>
+        <tr><td class="n">H2</td><td><strong>Study help that makes your student do the work.</strong></td><td>Short and distinct. A competitor couldn't say it.</td><td>"Makes" can sound like pressure. Check it against the student-reads-it test.</td></tr>
+        <tr><td class="n">H3</td><td><strong>The AI study tool you'd feel good about your student using.</strong></td><td>Parent-centered and trust-led.</td><td>Weakest on differentiation. Puts "AI" in the headline, against our own guardrail.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="muted">Recommendation: test H1 vs H2, hold H3 as a fallback. Working copy only; not approved.</p>
+
+  <h3 style="margin-top:20px">Message pillars for parents</h3>
+  <div class="table-wrap" style="margin-bottom:14px">
+    <table>
+      <thead><tr><th>Pillar</th><th>Parent-facing message</th><th>Proof we have</th></tr></thead>
+      <tbody>
+        <tr><td><span class="pillar">Pillar 3</span> <strong>Coaches, doesn't do the work</strong></td><td>It guides your student to the answer instead of handing it over, and it won't produce work they can turn in.</td><td>Coach-don't-tell method; won't produce submission-ready work. <em>No efficacy stats yet.</em></td></tr>
+        <tr><td><span class="pillar">Pillar 1</span> <strong>Built around their real classes</strong></td><td>It can connect to your student's Canvas courses, if their school allows it, so practice matches what's due.</td><td>Read-only OAuth2. Since Aug 14 the school must opt in. About half of users don't connect Canvas, so don't promise it for everyone.</td></tr>
+        <tr><td><span class="pillar">Pillar 4</span> <strong>Their account, their privacy</strong></td><td>It's your student's own account. Access is read-only, and no outside AI model trains on their data. From Instructure, the company behind Canvas.</td><td>Read-only and revocable; no training by any provider; Instructure as parent company. <em>Boilerplate wording needs comms sign-off.</em></td></tr>
+        <tr><td><strong>Price line</strong></td><td>$5 a month after a 7-day free trial, or free if their school sponsors it.</td><td>Public pricing.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="muted">Pillar 2 (knows you / no wasted effort) is left out on purpose: it's student-register language.</p>
+
+  <h3 style="margin-top:20px">Parent FAQ: honest answers</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Parent asks</th><th>Honest answer</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Can I see what my student does?</strong></td><td>No, by design. It's their account, and a coach only works when the student trusts it. Frame as a feature, and expect some parents to bounce. That's an acceptable disqualifier.</td><td><span class="pill st-unk">Confirm with product (Q2)</span></td></tr>
+        <tr><td><strong>Will it do their homework?</strong></td><td>No. It coaches toward the answer and won't produce submission-ready work.</td><td><span class="pill st-done">Approved claim</span></td></tr>
+        <tr><td><strong>What does it cost?</strong></td><td>$5 a month after a 7-day free trial. Free if their school sponsors it.</td><td><span class="pill st-done">Public</span></td></tr>
+        <tr><td><strong>Is their data safe?</strong></td><td>Read-only access, revocable by disconnecting, and no outside model trains on it. Never say "FERPA compliant."</td><td><span class="pill st-done">Approved claim</span></td></tr>
+        <tr><td><strong>Does their school have to approve it?</strong></td><td>Athena works without Canvas. The Canvas connection only works if the school has enabled it.</td><td><span class="pill st-done">Public FAQ</span></td></tr>
+        <tr><td><strong>Can I pay for my student?</strong></td><td>Unknown. Don't publish an answer.</td><td><span class="pill st-unk">Open (Q1)</span></td></tr>
+        <tr><td><strong>Is it for high schoolers?</strong></td><td>The page says "college students" explicitly. Nothing on minors until terms and COPPA are reviewed.</td><td><span class="pill st-unk">Confirm (Q5)</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- PAGE & FUNNEL -->
+<section id="page">
+  <div class="eyebrow">5 · What the page does</div>
+  <h2>Page &amp; funnel</h2>
+
+  <h3>Page structure</h3>
+  <ol class="steps" style="margin-bottom:18px">
+    <li><span class="txt"><strong>Hero.</strong> Headline, one-line subhead, primary CTA, price line, "from Instructure, the company behind Canvas."</span></li>
+    <li><span class="txt"><strong>Three-pillar strip.</strong> Coaches, doesn't do the work · built around their real classes · their account, their privacy.</span></li>
+    <li><span class="txt"><strong>How it works, student-first.</strong> The student starts their own trial, connects Canvas if their school allows it, and gets coached. Needs a real screenshot or demo clip (the "watch, it just knows" moment).</span></li>
+    <li><span class="txt"><strong>"Their account. Their privacy."</strong> The honest answer to "can I see what they do?"</span></li>
+    <li><span class="txt"><strong>Parent FAQ.</strong> The table in section 4.</span></li>
+    <li><span class="txt"><strong>Secondary CTA.</strong> Email capture for parent updates, followed by a short reply-to question set. This is the "get close to parents" lever.</span></li>
+  </ol>
+
+  <h3>Calls to action</h3>
+  <div class="table-wrap" style="margin-bottom:18px">
+    <table>
+      <thead><tr><th>Path</th><th>What happens</th><th>Needs</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td><span class="cta">Send Athena to your student</span> <strong>(primary)</strong></td><td>Parent copies a link or a pre-written text/email. The link carries a referral tag and lands on the normal student sign-up. The student starts their own trial.</td><td>Referral tag captured in PostHog through trial start and activation (Q3). Pre-written message that passes the student-reads-it test.</td><td><span class="pill st-open">Not started</span></td></tr>
+        <tr><td><span class="cta">Get parent updates</span> <strong>(secondary)</strong></td><td>Parent leaves an email; we follow up with 3 short questions.</td><td>Form, a way to send, a consent line. Sending tool still TBD.</td><td><span class="pill st-open">Not started</span></td></tr>
+        <tr><td><span class="cta">Buy for my student</span></td><td>Parent pays for a student's subscription.</td><td>Product support that isn't in the docs (Q1).</td><td><span class="pill st-unk">Not offered</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Funnel</h3>
+  <div class="funnel">
+    <div class="node start"><div class="lbl">Step 1</div><div class="nm">Parent visits</div><div class="ev">page view, source / tag</div></div>
+    <div class="arrow"><div class="stg">Share</div><div class="line"></div><div class="em">link copied</div></div>
+    <div class="node"><div class="lbl">Step 2</div><div class="nm">Parent acts</div><div class="ev">share sent or email captured</div></div>
+    <div class="arrow"><div class="stg">Handoff</div><div class="line"></div><div class="em">student opens it</div></div>
+    <div class="node"><div class="lbl">Step 3</div><div class="nm">Student starts trial</div><div class="ev">trial start with the referral tag</div></div>
+    <div class="arrow"><div class="stg">Activation</div><div class="line"></div><div class="em">first real use</div></div>
+    <div class="node goal"><div class="lbl">Goal</div><div class="nm">Student activates</div><div class="ev">message, chat, quiz or flashcards, or tutoring session</div></div>
+  </div>
+  <div class="funnel-note">
+    <span><strong>Blind spot:</strong> we can't see whether the student received the message. The first observable event is the student's visit carrying the tag.</span>
+    <span><strong>Activation</strong> uses the same definition as the Hinds onboarding plan. Canvas connection is optional.</span>
+    <span>Event names above are proposed, not existing.</span>
+  </div>
+</section>
+
+<!-- PLAN -->
+<section id="plan">
+  <div class="eyebrow">6 · What we'll do</div>
+  <h2>The plan</h2>
+  <p>Cheap, time-boxed, and relational first. Parent conversations run in parallel with the page build, not before it,
+  so they sharpen the copy without blocking it.</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>#</th><th>Workstream / asset</th><th>Detail</th><th>Owner</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td class="n">1</td><td><strong>Positioning direction</strong></td><td>GTM, PMM, and design review against <code>reference/</code>. Captured in section 4.</td><td>TBD</td><td><span class="pill st-done">Done</span></td></tr>
+        <tr><td class="n">2</td><td><strong>Decision-log entry</strong></td><td>Parent segment: test with a page first. Success and kill criteria in section 7.</td><td>TBD</td><td><span class="pill st-done">Done</span></td></tr>
+        <tr><td class="n">3</td><td><strong>Answer blocking questions</strong></td><td>Q1 to Q3 with product and eng; Q5 with legal.</td><td>TBD</td><td><span class="pill st-open">Not started</span></td></tr>
+        <tr><td class="n">4</td><td><strong>5 to 8 parent conversations</strong></td><td>Parents of current students and first-year students. Use the educator interview guide as a model. Ask about AI worries, who pays, and what they'd send their student.</td><td>TBD</td><td><span class="pill st-open">Not started</span></td></tr>
+        <tr><td class="n">5</td><td><strong>Draft page copy</strong></td><td>Hero, pillars, FAQ, share message, email capture. Review with <code>messaging-review</code> and the copy director.</td><td>TBD</td><td><span class="pill st-block">Blocked by position sign-off</span></td></tr>
+        <tr><td class="n">6</td><td><strong>Design and build</strong></td><td>Page in the athena-poc web repo (the institutional revamp went through <code>instructure/athena-poc</code>). Mobile first. Brand per <code>design-context/brand.md</code>.</td><td>TBD</td><td><span class="pill st-open">Not started</span></td></tr>
+        <tr><td class="n">7</td><td><strong>Instrument</strong></td><td>Referral tag through PostHog: page view, share, trial start, activation.</td><td>TBD</td><td><span class="pill st-open">Not started</span></td></tr>
+        <tr><td class="n">8</td><td><strong>Cheap channel test</strong></td><td>One or two relational channels first: campus parent orgs and newsletters, orientation or family-weekend contacts, student-to-parent referral. Paid, if any, stays within ~$1k. Log in <code>reference/traction-channels.md</code>.</td><td>TBD</td><td><span class="pill st-open">Not started</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- MEASURE -->
+<section id="measure">
+  <div class="eyebrow">7 · How we'll know</div>
+  <h2>Measurement</h2>
+  <div class="grid grid-3" style="margin-bottom:14px">
+    <div class="stat"><div class="k">Students activated via parent</div><div class="v">—</div><div class="muted">Primary. No baseline; set target before launch.</div></div>
+    <div class="stat"><div class="k">Share to student trial start</div><div class="v">—</div><div class="muted">Handoff rate. No baseline.</div></div>
+    <div class="stat"><div class="k">Parent-referred vs D2C activation</div><div class="v">—</div><div class="muted">Pull the D2C baseline from PostHog.</div></div>
+  </div>
+  <div class="card" style="margin-bottom:14px">
+    <ul class="plain">
+      <li><strong>Primary:</strong> students who start a trial via a parent referral and activate.</li>
+      <li><strong>Supporting:</strong> share rate per parent visit; email captures; replies to the follow-up questions; cost per activated student if any spend.</li>
+      <li><strong>Guardrails:</strong> students who start via a parent but never open Athena; bounce on the "can I see what they do?" FAQ; any sign a student found the page or message embarrassing; spend before signal.</li>
+      <li><strong>Vanity metrics to ignore:</strong> parent page views and email list size on their own.</li>
+    </ul>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Outcome</th><th>What we'd see</th><th>Decision</th></tr></thead>
+      <tbody>
+        <tr><td><span class="pill st-done">Scale</span></td><td>Parent-referred students start trials and activate at or above the D2C baseline, and parents' replies show real demand.</td><td>Build out the page, test a second channel.</td></tr>
+        <tr><td><span class="pill st-unk">Iterate</span></td><td>Parents share or leave emails, but few students start trials.</td><td>Handoff or message problem. Test the headline pair and the share text.</td></tr>
+        <tr><td><span class="pill st-block">Park or kill</span></td><td>Parents don't share or sign up even from warm, relational traffic, or parent-referred students activate far below baseline.</td><td>Archive and log the learning.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="muted" style="margin-top:8px">Numeric thresholds to be agreed before launch, as in the educator segment. We have no parent data to anchor them on yet.</p>
+</section>
+
+<!-- QUESTIONS -->
+<section id="questions">
+  <div class="eyebrow">8 · What we need to find out</div>
+  <h2>Open questions</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>#</th><th>Question</th><th>Ask</th><th>Answer</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td class="n">1</td><td><strong>Can a parent pay for or gift a student's subscription?</strong> Nothing in the product or pricing docs says so. Decides whether "buy for my student" can exist, and how the Stripe and App Store accounts would work.</td><td>Product / eng</td><td class="muted">—</td><td><span class="pill st-unk">Open (blocker)</span></td></tr>
+        <tr><td class="n">2</td><td><strong>Is there any parent-facing or shared view today, and any plan for one?</strong> We're writing "no, by design"; confirm that's true and intended.</td><td>Product</td><td class="muted">—</td><td><span class="pill st-unk">Open (blocker)</span></td></tr>
+        <tr><td class="n">3</td><td><strong>Can the student sign-up link carry a referral tag that PostHog keeps through trial start and activation?</strong> Without it we can't measure the primary metric.</td><td>Eng / product</td><td class="muted">—</td><td><span class="pill st-unk">Open (blocker)</span></td></tr>
+        <tr><td class="n">4</td><td><strong>Which parents first?</strong> Community college vs university, first-gen vs not, parent of a first-year vs later. Tight beats broad.</td><td>Team, after parent conversations</td><td class="muted">—</td><td><span class="pill st-open">Open</span></td></tr>
+        <tr><td class="n">5</td><td><strong>Age and terms:</strong> confirm the page scopes to college students and that nothing implies minors; any COPPA or terms implications of parents arriving.</td><td>Legal / product</td><td class="muted">—</td><td><span class="pill st-open">Open</span></td></tr>
+        <tr><td class="n">6</td><td><strong>Boilerplate and "by Instructure" wording</strong> needs Instructure comms sign-off before external use.</td><td>Instructure comms</td><td class="muted">—</td><td><span class="pill st-open">Open</span></td></tr>
+        <tr><td class="n">7</td><td><strong>Where does the page live and who builds it?</strong> Suggest a path on studywithathena.com in the athena-poc repo; confirm.</td><td>Web / eng</td><td class="muted">—</td><td><span class="pill st-open">Open</span></td></tr>
+        <tr><td class="n">8</td><td><strong>Owner, checkpoint date, and numeric thresholds.</strong></td><td>Team</td><td class="muted">—</td><td><span class="pill st-unk">Decision needed</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- GUARDRAILS -->
+<section id="guardrails">
+  <div class="eyebrow">9 · Voice and claims</div>
+  <h2>Guardrails</h2>
+  <div class="grid grid-2">
+    <div class="card">
+      <h3>Do</h3>
+      <ul class="check">
+        <li class="y">Say <strong>college students</strong>, <strong>coach to the answer</strong>, <strong>walk in ready</strong>.</li>
+        <li class="y">Keep it calm and credible. Warm expert coach, not study buddy, not professor.</li>
+        <li class="y">Answer the AI worry in the first scroll without making AI the headline.</li>
+        <li class="y">Say plainly that it's the student's own account.</li>
+        <li class="y">State the price plainly: $5 a month after a 7-day free trial; free if the school sponsors.</li>
+        <li class="y">Write it so a student could read it over a parent's shoulder without cringing.</li>
+        <li class="y">Flag proof gaps as "needs proof" (no efficacy stats, no testimonials).</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Don't</h3>
+      <ul class="check">
+        <li class="n">Invent metrics, customers, quotes, or parent testimonials.</li>
+        <li class="n">Imply parents can see, monitor, or get reports on their student. No dashboards, no progress reports, no dates.</li>
+        <li class="n">Use fear or shame copy ("falling behind", urgency, grade panic).</li>
+        <li class="n">Use banned words: <em>unlock, empower, leverage, harness, future-proof</em>; avoid <em>actually, crush it, grind, hustle</em>.</li>
+        <li class="n">Say "FERPA compliant" or "FERPA certified."</li>
+        <li class="n">Present Athena as part of Canvas, school-endorsed, or required for coursework.</li>
+        <li class="n">Publish internal adoption numbers or invent discounts.</li>
+        <li class="n">Promise that the Canvas connection works for every student; the school must opt in.</li>
+        <li class="n">Address parents of minors or high schoolers.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- LOG -->
+<section id="log">
+  <div class="eyebrow">10 · History</div>
+  <h2>Update log</h2>
+  <ul class="log">
+    <li><span class="d">2026-10-06</span>Project created. GTM, PMM, and product design directors reviewed the idea against <code>reference/</code>; positioning direction, headline options, parent FAQ, funnel, and plan captured. Decision-log entry added. No owner or date yet.</li>
+  </ul>
+</section>
+
+<footer>
+  Source: <code>work-in-progress/parents-landing-page/parents-landing-page.html</code> · App copy: <code>app/public/parents-landing-page/parents-landing-page.html</code> ·
+  Internal working doc; not for external distribution.
+</footer>
+
+</main>
+</div>
+
+<script>
+  var links = Array.prototype.slice.call(document.querySelectorAll('.toc a'));
+  var targets = links.map(function (a) { return document.querySelector(a.getAttribute('href')); });
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        links.forEach(function (a) { a.classList.toggle('active', a.getAttribute('href') === '#' + entry.target.id); });
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+  targets.forEach(function (t) { if (t) observer.observe(t); });
+</script>
+</body>
+</html>

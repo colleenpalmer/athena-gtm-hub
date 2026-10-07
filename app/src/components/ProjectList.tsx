@@ -20,15 +20,11 @@ export default function ProjectList() {
   const fetchProjects = async () => {
     const res = await fetch('/api/projects');
     const data = await res.json();
-    // Completed projects sink to the bottom; otherwise sort by rank (lower number = higher priority).
-    // Rank is preserved on completion so a reopened project returns to its old spot.
+    // Completed projects sink to the bottom; otherwise keep stored order (Array.sort is stable).
     const sorted = data.sort((a: Project, b: Project) => {
       const completeA = a.status === 'complete' ? 1 : 0;
       const completeB = b.status === 'complete' ? 1 : 0;
-      if (completeA !== completeB) return completeA - completeB;
-      const rankA = a.rank ?? 999;
-      const rankB = b.rank ?? 999;
-      return rankA - rankB;
+      return completeA - completeB;
     });
     setProjects(sorted);
   };
@@ -117,45 +113,37 @@ export default function ProjectList() {
     fetchProjects();
   };
 
-  const handleRankChange = async (projectId: string, direction: 'up' | 'down') => {
-    const currentIndex = projects.findIndex(p => p.id === projectId);
-    if (currentIndex === -1) return;
-    
-    const targetIndex = direction === 'up' ? currentIndex - 1 : currentIndex + 1;
-    if (targetIndex < 0 || targetIndex >= projects.length) return;
+  // The API unpins any other project when one is pinned, so this keeps a single pin.
+  const handlePinToggle = async (projectId: string) => {
+    const project = projects.find(p => p.id === projectId);
+    if (!project) return;
 
-    // Swap ranks
-    const newProjects = [...projects];
-    const currentRank = newProjects[currentIndex].rank ?? currentIndex + 1;
-    const targetRank = newProjects[targetIndex].rank ?? targetIndex + 1;
-    
-    newProjects[currentIndex].rank = targetRank;
-    newProjects[targetIndex].rank = currentRank;
-
-    // Save both projects
-    await Promise.all([
-      fetch('/api/projects', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newProjects[currentIndex]),
-      }),
-      fetch('/api/projects', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newProjects[targetIndex]),
-      }),
-    ]);
-
+    await fetch('/api/projects', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ...project, pinned: !project.pinned }),
+    });
     fetchProjects();
   };
 
-  const openProjectCount = projects.filter(p => p.status !== 'complete').length;
-
-  const filteredProjects = filter === 'all' 
+  const matchingProjects = filter === 'all' 
     ? projects 
     : filter === 'tasks'
     ? projects.filter(p => p.tasks && p.tasks.some(t => !t.completed))
     : projects.filter(p => p.status === filter);
+
+  // Pinned project (if it matches the current filter) sits full-width above the grid.
+  const pinnedProject = matchingProjects.find(p => p.pinned);
+  const filteredProjects = matchingProjects.filter(p => !p.pinned);
+
+  const cardProps = {
+    onEdit: handleEdit,
+    onDelete: handleDelete,
+    onQuickStatusChange: handleQuickStatusChange,
+    onTasksChange: handleTasksChange,
+    onNotesChange: handleNotesChange,
+    onPinToggle: handlePinToggle,
+  };
 
   const statusCounts = {
     all: projects.length,
@@ -174,7 +162,7 @@ export default function ProjectList() {
           <div>
             <h2 className="text-2xl font-bold text-gray-900">GTM Projects</h2>
             <p className="text-sm text-gray-600 mt-1">
-              {filteredProjects.length} {filter === 'all' ? 'total' : filter.replace('-', ' ')} project{filteredProjects.length !== 1 ? 's' : ''}
+              {matchingProjects.length} {filter === 'all' ? 'total' : filter.replace('-', ' ')} project{matchingProjects.length !== 1 ? 's' : ''}
             </p>
           </div>
           <button
@@ -266,24 +254,16 @@ export default function ProjectList() {
           }}
         />
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="space-y-4">
+        {pinnedProject && (
+          <ProjectCard key={pinnedProject.id} project={pinnedProject} {...cardProps} />
+        )}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {filteredProjects.length > 0 ? (
-            filteredProjects.map((project, index) => (
-              <ProjectCard
-                key={project.id}
-                project={project}
-                onEdit={handleEdit}
-                onDelete={handleDelete}
-                onQuickStatusChange={handleQuickStatusChange}
-                onTasksChange={handleTasksChange}
-                onNotesChange={handleNotesChange}
-                onRankChange={filter === 'all' && project.status !== 'complete' ? handleRankChange : undefined}
-                isFirst={filter === 'all' && index === 0}
-                isLast={filter === 'all' && index === openProjectCount - 1}
-                rankNumber={filter === 'all' ? index + 1 : undefined}
-              />
+            filteredProjects.map((project) => (
+              <ProjectCard key={project.id} project={project} {...cardProps} />
             ))
-          ) : (
+          ) : !pinnedProject ? (
             <div className="col-span-full text-center py-16 bg-gray-50 rounded-lg border-2 border-dashed border-gray-200">
               <p className="text-gray-400 text-sm mb-4">
                 {filter === 'all' 
@@ -301,7 +281,8 @@ export default function ProjectList() {
                 Create Your First Project
               </button>
             </div>
-          )}
+          ) : null}
+        </div>
         </div>
       )}
 

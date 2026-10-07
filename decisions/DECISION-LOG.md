@@ -34,6 +34,24 @@
 
 ## Active Decisions
 
+### Parent Segment: Test With a Landing Page First
+**Date:** 2026-10-06  
+**Context:** We want to know if we can get close to parents of college students. Parents aren't in the ICP, the parent drip is in the backlog ("activation risk"), and the `Athena AI | Parents` Meta ad set never ran ($0 spend, no data). Willingness to pay is our riskiest D2C assumption, so a parent who pays or refers could help. But a parent can't connect Canvas or activate for the student.
+
+**Options considered:**
+1. Don't pursue parents until the student and institutional motions are validated
+2. Build a parent landing page with a "send to your student" handoff and a parent email capture, tested through cheap relational channels
+3. Run paid social to parents to find out fast
+
+**Decision:** Option 2. Position as "the AI study tool that makes your student do the work." No parent-pays path, no monitoring or visibility claims, college students only. Paid is not the first test (Meta export: about $170 per student trial start).  
+**Reasoning:** Cheapest way to get evidence on a segment we know nothing about, using the same test-before-build approach as the educator segment. Handoff to the student keeps the funnel honest, since only the student can activate.  
+**Owner:** TBD  
+**Success criteria:** Students who start a trial through a parent referral and activate, compared with the D2C baseline. Numeric thresholds to be set before launch. Scale if parent-referred students activate at or above baseline; iterate if parents share but students don't start; park if parents don't share or sign up even from warm traffic.  
+**Status:** Approved, planning (`work-in-progress/parents-landing-page/parents-landing-page.html`)  
+**Next checkpoint:** TBD (needs an owner and date)
+
+---
+
 ### Drip Priority: Hinds Student Onboarding First
 **Date:** 2026-09-29  
 **Context:** Hinds Community College is offering Athena to all students this fall, and we're seeing drop-off after students register. Hinds is our first sponsored customer and the key proof point for Fall 2026 pilot recruitment.

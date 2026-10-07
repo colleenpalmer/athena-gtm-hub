@@ -1,113 +1,38 @@
 [
   {
-    "id": "exp-example-001",
-    "date": "2026-09-15",
-    "channel": "[EXAMPLE] Email Drip Campaign",
-    "segment": "D2C",
-    "hypothesis": "A 7-day trial nurture sequence will increase trial-to-paid conversion by 15% by reinforcing key features and addressing common objections at the right moments.",
-    "status": "running",
+    "id": "exp-hinds-drip-d1",
+    "date": "2026-10-13",
+    "channel": "Hinds D1: 3-message follow-up (opened launch page, never registered)",
+    "segment": "Institutional",
+    "hypothesis": "Students who opened the Hinds launch page and never registered have already found Athena, so we expect most won't return. If three short messages that explain what Athena does for them (reads your courses, tells you what to study, coaches you to the answer) bring in even 3 more out of every 100 than a left-out group, register and covered by Hinds within 14 days, it's worth making the standard follow-up.",
+    "status": "planned",
     "result": null,
     "decision": null,
     "updates": [
       {
-        "id": "upd-001-0",
-        "date": "2026-09-14T09:00:00Z",
-        "note": "⚠️ THIS IS AN EXAMPLE EXPERIMENT — Delete this when you create real ones. Shows how to track a drip campaign day-by-day."
-      },
-      {
-        "id": "upd-001-1",
-        "date": "2026-09-15T10:00:00Z",
-        "note": "Launched sequence to first cohort of 150 trial signups. Emails scheduled for days 1, 3, 5, 7."
-      },
-      {
-        "id": "upd-001-2",
-        "date": "2026-09-16T14:30:00Z",
-        "note": "Day 1 email: 62% open rate, 18% CTR. Subject line 'Your first win with Athena' performing well."
-      },
-      {
-        "id": "upd-001-3",
-        "date": "2026-09-18T09:15:00Z",
-        "note": "Day 3 email: 48% open rate, 12% CTR. Seeing drop-off — may need stronger hook. 3 replies asking about pricing."
-      },
-      {
-        "id": "upd-001-4",
-        "date": "2026-09-21T16:00:00Z",
-        "note": "Day 5 email sent. Added testimonial from nursing student based on early feedback. Will compare to control."
+        "id": "upd-hd1-0",
+        "date": "2026-10-07T12:00:00Z",
+        "note": "Planned. Steps, copy and buttons: http://localhost:3000/hinds-oct-signups/hinds-drip-experiments.html#d1 (source: work-in-progress/hinds-oct-signups/hinds-drip-experiments.html). Parent project: Hinds October Signups. 3 messages, day 0 / 3 / 7 (proposed Oct 13 / 16 / 20), 1 in 5 left out, read Oct 27. Main metric: registered and covered by Hinds within 14 days vs. left-out group; target 3 more out of every 100 (a guess). Blocked on: a way to reach people with no email on file, legal/privacy sign-off, and product confirming 'free'. Copy not yet through messaging-review."
       }
     ],
     "history": []
   },
   {
-    "id": "exp-example-002",
-    "date": "2026-09-01",
-    "channel": "[EXAMPLE] LinkedIn Ads",
+    "id": "exp-hinds-drip-d2",
+    "date": "2026-10-12",
+    "channel": "Hinds D2: 3-message follow-up (registered, haven't come back)",
     "segment": "Institutional",
-    "hypothesis": "Targeting department chairs and academic deans on LinkedIn with case study content will generate qualified pilot interest at <$150 CAC.",
-    "status": "complete",
-    "result": {
-      "cac": 187,
-      "conversion": 2.3,
-      "fit": "Meh",
-      "notes": "Generated 12 leads over 3 weeks. CAC higher than target ($187 vs $150 goal). Lead quality was mixed — 4 were decision-makers, 8 were individual faculty with no purchasing authority. Engagement on case study content was strong (4.2% CTR), but targeting needs refinement to filter out non-buyers."
-    },
-    "decision": "Iterate",
+    "hypothesis": "About 215 Hinds students registered but aren't using Athena. If three short plain-text messages show them one next step and ask what would make Athena worth opening, 10 more out of every 100 will start using it within 10 days than a left-out group.",
+    "status": "planned",
+    "result": null,
+    "decision": null,
     "updates": [
       {
-        "id": "upd-002-0",
-        "date": "2026-08-31T09:00:00Z",
-        "note": "⚠️ THIS IS AN EXAMPLE EXPERIMENT — Delete this when you create real ones. Shows a completed channel test with results and a Scale/Iterate/Kill decision."
-      },
-      {
-        "id": "upd-002-1",
-        "date": "2026-09-01T09:00:00Z",
-        "note": "Campaign launched. $500 budget, targeting: Higher Ed, Dept Chairs, Academic Deans, 25mi radius from top 50 nursing schools."
-      },
-      {
-        "id": "upd-002-2",
-        "date": "2026-09-05T11:30:00Z",
-        "note": "First week: 4 leads, $125 spent. CPL at $31 but quality TBD. One lead already replied — community college dean, interested in pilot."
-      },
-      {
-        "id": "upd-002-3",
-        "date": "2026-09-12T14:00:00Z",
-        "note": "Week 2: 5 more leads. Noticing pattern — many are individual faculty, not decision-makers. Need to tighten targeting."
-      },
-      {
-        "id": "upd-002-4",
-        "date": "2026-09-15T10:00:00Z",
-        "note": "Added job title exclusions to filter out 'Professor' and 'Instructor' — want chairs/deans only."
-      },
-      {
-        "id": "upd-002-5",
-        "date": "2026-09-22T16:30:00Z",
-        "note": "Campaign ended. Final tally: 12 leads, $500 spent, 4 qualified. Calling it 'Meh' — not bad but not scalable yet."
+        "id": "upd-hd2-0",
+        "date": "2026-10-07T12:00:00Z",
+        "note": "Planned. Steps, copy and buttons: http://localhost:3000/hinds-oct-signups/hinds-drip-experiments.html#d2 (source: work-in-progress/hinds-oct-signups/hinds-drip-experiments.html). Parent project: Hinds October Signups. 3 messages, day 0 / 3 / 7 (proposed Oct 12 / 15 / 19), 1 in 5 left out (about 43), read Oct 26. Main metric: start using Athena (chat message, quiz or tutoring session) within 10 days vs. left-out group; target 10 more out of every 100 (a guess, same bar E1 used). Needs: list of registered-not-using students from product, a sender, consent rules, tagged links. Copy not yet through messaging-review."
       }
     ],
-    "history": [
-      {
-        "date": "2026-09-15T10:05:00Z",
-        "field": "hypothesis",
-        "from": "Targeting educators on LinkedIn with case study content will generate pilot interest at <$150 CAC.",
-        "to": "Targeting department chairs and academic deans on LinkedIn with case study content will generate qualified pilot interest at <$150 CAC."
-      },
-      {
-        "date": "2026-09-22T16:45:00Z",
-        "field": "status",
-        "from": "running",
-        "to": "complete"
-      },
-      {
-        "date": "2026-09-22T16:45:00Z",
-        "field": "result.fit",
-        "from": "(empty)",
-        "to": "Meh"
-      },
-      {
-        "date": "2026-09-22T16:50:00Z",
-        "field": "decision",
-        "from": "(empty)",
-        "to": "Iterate"
-      }
-    ]
+    "history": []
   }
 ]

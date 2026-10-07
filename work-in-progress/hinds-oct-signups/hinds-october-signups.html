@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hinds October Sign-ups · Athena</title>
+<!--
+  PROJECT PAGE: source of truth for the Hinds October Sign-ups project (replaces the earlier plan page, archived at
+  _archive/hinds-october-signups-v1.html: it still holds the long message drafts to product and to Hinds).
+  How to update:
+    - Status pills: change the class on <span class="pill ..."> to st-done / st-prog / st-open / st-block / st-unk and the label.
+    - Update "Last updated" in the hero and add a line to the Update log at the bottom.
+    - Keep the app copy in sync: app/public/hinds-oct-signups/hinds-october-signups.html
+  Targets are PROPOSALS. Draft copy has NOT been through messaging-review yet.
+  Related: hinds-faculty-quick-start.html (instructor-facing, copy buttons) · ../drip-campaigns/hinds-student-onboarding.html
+-->
+<style>
+  :root {
+    --g50:#FAFAFA; --g100:#F5F5F5; --g200:#E5E5E5; --g300:#D4D4D4; --g400:#A3A3A3;
+    --g500:#737373; --g600:#525252; --g700:#404040; --g800:#262626; --g900:#171717;
+    --a50:#EEF2FF; --a100:#E0E7FF; --a200:#C7D2FE; --a500:#6366F1; --a700:#4338CA;
+    --s50:#F0FDF4; --s200:#BBF7D0; --s700:#15803D;
+    --y50:#FFFBEB; --y200:#FDE68A; --y700:#B45309;
+    --r50:#FEF2F2; --r200:#FECACA; --r700:#B91C1C;
+    --radius:10px;
+  }
+  * { box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body { margin:0; background:var(--g50); color:var(--g600); font:15px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif; }
+  h1,h2,h3,h4 { color:var(--g900); line-height:1.25; margin:0 0 .5em; }
+  h1 { font-size:30px; letter-spacing:-.02em; }
+  h2 { font-size:21px; letter-spacing:-.01em; }
+  h3 { font-size:15px; }
+  p { margin:0 0 .7em; }
+  strong, b { color:var(--g800); }
+  code { background:var(--g100); border:1px solid var(--g200); border-radius:4px; padding:1px 5px; font-size:12.5px; }
+  a { color:var(--a700); }
+  .muted { color:var(--g500); font-size:13px; }
+
+  .layout { display:grid; grid-template-columns:210px 1fr; max-width:1220px; margin:0 auto; }
+  nav.toc { position:sticky; top:0; align-self:start; height:100vh; overflow:auto; padding:32px 14px 32px 22px; border-right:1px solid var(--g200); }
+  .toc .brand { font-weight:700; color:var(--g900); font-size:14px; margin-bottom:2px; }
+  .toc .sub { font-size:12px; color:var(--g500); margin-bottom:18px; }
+  .toc a { display:block; padding:5px 10px; margin:1px 0; border-radius:6px; color:var(--g600); text-decoration:none; font-size:13.5px; }
+  .toc a:hover { background:var(--g100); color:var(--g900); }
+  .toc a.active { background:var(--a50); color:var(--a700); font-weight:600; }
+  .toc .grp { font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--g400); font-weight:700; margin:14px 10px 4px; }
+
+  main { padding:36px 40px 80px; min-width:0; }
+  section { margin-bottom:36px; scroll-margin-top:20px; }
+  .eyebrow { font-size:12px; text-transform:uppercase; letter-spacing:.08em; color:var(--g500); font-weight:600; margin-bottom:6px; }
+  .card { background:#fff; border:1px solid var(--g200); border-radius:var(--radius); padding:18px 20px; }
+
+  /* Hero */
+  .hero { background:var(--g900); color:#E5E5E5; border-radius:14px; padding:28px 32px; margin-bottom:30px; }
+  .hero h1 { color:#fff; margin-bottom:12px; }
+  .hero .eyebrow { color:var(--g400); }
+  .hero .goal { font-size:16px; color:#fff; max-width:760px; margin-bottom:16px; }
+  .meta { display:flex; flex-wrap:wrap; gap:8px 26px; font-size:13px; color:var(--g400); }
+  .meta b { color:#fff; font-weight:600; }
+
+  .pill { display:inline-block; font-size:11.5px; font-weight:700; padding:2px 9px; border-radius:999px; border:1px solid; white-space:nowrap; vertical-align:middle; }
+  .st-done  { background:var(--s50); color:var(--s700); border-color:var(--s200); }
+  .st-prog  { background:var(--a50); color:var(--a700); border-color:var(--a200); }
+  .st-open  { background:var(--g100); color:var(--g700); border-color:var(--g200); }
+  .st-block { background:var(--r50); color:var(--r700); border-color:var(--r200); }
+  .st-unk   { background:var(--y50); color:var(--y700); border-color:var(--y200); }
+
+  /* Numbers strip */
+  .strip { display:grid; grid-template-columns:repeat(5, minmax(0,1fr)); gap:10px; margin-bottom:14px; }
+  .stat { background:#fff; border:1px solid var(--g200); border-radius:var(--radius); padding:12px 14px; }
+  .stat .k { font-size:11px; text-transform:uppercase; letter-spacing:.06em; color:var(--g500); font-weight:700; }
+  .stat .v { font-size:24px; font-weight:700; color:var(--g900); line-height:1.2; margin:2px 0; font-variant-numeric:tabular-nums; }
+  .stat .s { font-size:12px; color:var(--g500); line-height:1.35; }
+  .stat.hl { border-color:var(--a200); background:var(--a50); }
+  ul.tight { margin:0; padding-left:18px; }
+  ul.tight li { margin:4px 0; }
+
+  /* Tables */
+  .table-wrap { border:1px solid var(--g200); border-radius:var(--radius); overflow:auto; background:#fff; }
+  table { width:100%; border-collapse:collapse; font-size:13.5px; }
+  th { text-align:left; font-size:11.5px; text-transform:uppercase; letter-spacing:.06em; color:var(--g500); font-weight:700; padding:9px 12px; border-bottom:1px solid var(--g200); background:var(--g50); }
+  td { padding:10px 12px; border-bottom:1px solid var(--g200); vertical-align:top; }
+  tr:last-child td { border-bottom:none; }
+  td.n { font-weight:800; color:var(--a700); white-space:nowrap; }
+  td.t { white-space:nowrap; font-weight:600; color:var(--g800); }
+  td.m { font-weight:600; color:var(--g900); }
+
+  /* Experiment cards */
+  .exp { background:#fff; border:1px solid var(--g200); border-radius:14px; overflow:hidden; margin-bottom:18px; scroll-margin-top:20px; }
+  .exp-head { display:flex; flex-wrap:wrap; align-items:center; gap:6px 12px; padding:13px 20px; background:var(--g50); border-bottom:1px solid var(--g200); }
+  .exp-head .id { padding:2px 10px; border-radius:7px; background:var(--a100); color:var(--a700); font-weight:800; font-size:13px; }
+  .exp-head h3 { margin:0; font-size:17px; }
+  .exp-head .when { margin-left:auto; font-size:12.5px; color:var(--g500); white-space:nowrap; }
+  .exp-grid { display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,1fr); }
+  .exp-l { padding:16px 20px; }
+  .exp-r { padding:16px 20px; border-left:1px solid var(--g200); background:var(--g50); }
+  .lbl { font-size:11px; text-transform:uppercase; letter-spacing:.08em; font-weight:800; color:var(--g500); margin:0 0 6px; }
+  .exp-l .lbl:not(:first-child) { margin-top:14px; }
+  .hyp { font-size:14.5px; color:var(--g800); margin:0 0 4px; }
+  .mt { width:100%; background:#fff; border:1px solid var(--g200); border-radius:8px; overflow:hidden; font-size:13px; }
+  .mt th { background:#fff; padding:6px 10px; }
+  .mt td { padding:7px 10px; }
+  .mt tr.main td { background:var(--a50); }
+  .mt tr.main td:first-child { font-weight:700; color:var(--g900); }
+  .mt td:nth-child(2) { font-weight:600; color:var(--g800); }
+  .mt.wrap td:nth-child(2) { font-weight:400; }
+  .rule { font-size:13px; margin-top:10px; }
+  .rule b.k { color:var(--s700); } .rule b.s { color:var(--r700); }
+  .needs { font-size:13px; color:var(--g600); border-top:1px solid var(--g200); padding:10px 20px; background:#fff; }
+  .needs b { color:var(--g800); }
+
+  details { border-top:1px solid var(--g200); }
+  details summary { cursor:pointer; padding:10px 20px; font-size:13.5px; font-weight:600; color:var(--a700); list-style:none; }
+  details summary::before { content:"▸ "; }
+  details[open] summary::before { content:"▾ "; }
+  .drafts { padding:4px 20px 18px; display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:12px; }
+  .draft { background:var(--g50); border:1px solid var(--g200); border-left:3px solid var(--a200); border-radius:8px; padding:11px 14px; font-size:13.5px; color:var(--g800); white-space:pre-wrap; }
+  .draft .t { display:block; font-size:11px; text-transform:uppercase; letter-spacing:.07em; font-weight:800; color:var(--g500); margin-bottom:5px; white-space:normal; }
+  .flyer { background:#fff; border:2px solid var(--g900); border-radius:6px; padding:18px 20px; white-space:normal; }
+  .flyer .h { font-size:21px; font-weight:800; line-height:1.15; color:var(--g900); margin-bottom:6px; }
+  .flyer .sh { font-size:14px; margin-bottom:10px; }
+  .flyer .st { display:flex; gap:6px; margin-bottom:10px; }
+  .flyer .st span { flex:1; border:1.5px solid var(--g900); border-radius:6px; padding:5px 6px; font-weight:700; font-size:12.5px; text-align:center; }
+  .flyer .qr { display:flex; gap:10px; align-items:center; font-size:12.5px; }
+  .flyer .qr i { flex:0 0 54px; height:54px; border:2px dashed var(--g400); display:flex; align-items:center; justify-content:center; font-style:normal; font-size:11px; color:var(--g500); font-weight:700; }
+  .flyer .fp { font-size:11px; color:var(--g500); margin-top:8px; }
+
+  .callout { border:1px solid var(--g200); border-radius:var(--radius); background:#fff; padding:14px 18px; }
+  .callout.warn { border-color:var(--y200); background:var(--y50); }
+  .callout h3 { margin-bottom:6px; }
+  .two { display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:14px; }
+  ul.check { list-style:none; padding:0; margin:0; }
+  ul.check li { padding:4px 0 4px 26px; position:relative; font-size:14px; }
+  ul.check li::before { position:absolute; left:0; top:5px; width:17px; height:17px; border-radius:50%; font-size:10.5px; font-weight:700; display:flex; align-items:center; justify-content:center; }
+  ul.check li.y::before { content:"✓"; background:var(--s50); color:var(--s700); border:1px solid var(--s200); }
+  ul.check li.n::before { content:"✕"; background:var(--r50); color:var(--r700); border:1px solid var(--r200); }
+
+  .log { border-left:2px solid var(--g200); padding-left:16px; margin:0; list-style:none; }
+  .log li { position:relative; margin-bottom:10px; font-size:14px; }
+  .log li::before { content:""; position:absolute; left:-22px; top:7px; width:10px; height:10px; border-radius:50%; background:var(--a500); }
+  .log .d { font-weight:700; color:var(--g800); margin-right:6px; }
+  footer { font-size:12px; color:var(--g400); margin-top:36px; border-top:1px solid var(--g200); padding-top:14px; }
+
+  @media (max-width:1000px) {
+    .layout { grid-template-columns:1fr; }
+    nav.toc { display:none; }
+    main { padding:22px 16px 60px; }
+    .strip { grid-template-columns:repeat(2, minmax(0,1fr)); }
+    .exp-grid, .two, .drafts { grid-template-columns:1fr; }
+    .exp-r { border-left:none; border-top:1px solid var(--g200); }
+  }
+  @media print {
+    nav.toc { display:none !important; }
+    .layout { display:block; }
+    main { padding:0; }
+    body { background:#fff; font-size:12px; }
+    .hero { background:#fff; color:var(--g700); border:1px solid var(--g300); }
+    .hero h1, .hero .goal, .meta b { color:var(--g900); }
+    .exp { break-inside:avoid-page; }
+    details > * { display:block; }
+  }
+  tr.grp-row td { background:var(--a50); color:var(--a700); font-size:11.5px; text-transform:uppercase; letter-spacing:.08em; font-weight:800; padding:7px 12px; }
+</style>
+</head>
+<body>
+<div class="layout">
+
+<nav class="toc" aria-label="Contents">
+  <div class="brand">Athena · Hinds</div>
+  <div class="sub">October sign-ups</div>
+  <a href="#overview">Overview</a>
+  <a href="#now">Running now: two drips</a>
+  <a href="#numbers">The numbers</a>
+  <a href="#glance">Experiments at a glance</a>
+  <a href="#deliverables">Deliverables by owner</a>
+  <a href="#basis">Where targets come from</a>
+  <div class="grp">Backlog · on hold</div>
+  <div class="grp" style="margin-top:2px">Win back first</div>
+  <a href="#e1">E1 · Follow-up emails</a>
+  <a href="#e2">E2 · Remarketing</a>
+  <div class="grp">Quick wins</div>
+  <a href="#e3">E3 · Hinds Canvas banner</a>
+  <a href="#e4">E4 · Faculty quick start</a>
+  <div class="grp">Larger lifts</div>
+  <a href="#routes">Other routes</a>
+  <a href="#e5">E5 · Sign-up path</a>
+  <a href="#e6">E6 · Flyers + email image</a>
+  <a href="#e7">E7 · Student referral</a>
+  <a href="#e8">E8 · Canvas Commons package</a>
+  <div class="grp">Working notes</div>
+  <a href="#check">Check before shipping</a>
+  <a href="#ways">Ways to sign up</a>
+  <a href="#calendar">Calendar</a>
+  <a href="#questions">Open questions</a>
+  <a href="#guardrails">Do and don't</a>
+  <a href="#log">Update log</a>
+</nav>
+
+<main>
+
+<!-- HERO -->
+<section id="overview" class="hero">
+  <div class="eyebrow">Project · Hinds October Signups</div>
+  <h1>Hinds October Sign-ups</h1>
+  <div class="goal"><strong style="color:#fff">Goal:</strong> get more Hinds students signed up <em>and using</em> Athena. Hinds pays for monthly active students (about 300 now, 800 contracted), so a sign-up only counts once the student uses it.</div>
+  <div class="meta">
+    <span>Status <span class="pill st-prog">Planning</span></span>
+    <span>Owner <b>To add</b></span>
+    <span>Key dates <b>In-person: now · Online: Oct 19</b></span>
+    <span>Main metric <b>Students using Athena each month</b></span>
+    <span>Last updated <b>2026-10-07</b></span>
+  </div>
+</section>
+
+<!-- RUNNING NOW -->
+<section id="now">
+  <div class="eyebrow">Running now</div>
+  <h2>Two short drips come first</h2>
+  <div class="card" style="margin-bottom:12px">
+    <p style="margin:0">Two small message series run before anything else on this page. Each is its own experiment with its own steps, metrics and keep or stop rule, and each is logged in the app's Experiments tab. <strong>E1 to E8 below are on hold</strong> (backlog). Nothing was removed.</p>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>#</th><th>Experiment</th><th>Who</th><th>Main metric</th><th>Target <span style="text-transform:none;letter-spacing:0;font-weight:500">(proposed)</span></th><th>Starts</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td class="n">D1</td><td class="m"><a href="hinds-drip-experiments.html#d1">Opened the launch page, never registered</a></td><td>Students who left before making an account. No email on file, so a way to reach them comes first.</td><td>Register and covered by Hinds within 14 days, vs. left-out group</td><td>3 more out of every 100</td><td class="t">Oct 13</td><td><span class="pill st-unk">Needs a way to reach them</span></td></tr>
+        <tr><td class="n">D2</td><td class="m"><a href="hinds-drip-experiments.html#d2">Registered, haven't come back</a></td><td>About 215 registered students not using Athena. We have their emails.</td><td>Start using Athena within 10 days, vs. left-out group</td><td>10 more out of every 100</td><td class="t">Oct 12</td><td><span class="pill st-prog">Planning</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="muted" style="margin-top:8px">Steps, copy and buttons for both: <a href="hinds-drip-experiments.html">Hinds October drips</a>. D2 is a shorter version of E1; D1 reaches the same people as E2 by message instead of ads.</p>
+</section>
+
+<!-- NUMBERS -->
+<section id="numbers">
+  <div class="eyebrow">Where things stand</div>
+  <h2>The numbers</h2>
+  <div class="strip">
+    <div class="stat"><div class="k">Hinds students</div><div class="v">~6,000</div><div class="s">whole school</div></div>
+    <div class="stat"><div class="k">Reached sign-up</div><div class="v">~4,000</div><div class="s">different people, since launch</div></div>
+    <div class="stat"><div class="k">Stopped on launch page</div><div class="v">668</div><div class="s">the page after the Canvas link</div></div>
+    <div class="stat"><div class="k">Registered</div><div class="v">515</div><div class="s">13% of 4,000 · 8.6% of students</div></div>
+    <div class="stat hl"><div class="k">Using it monthly</div><div class="v">~300</div><div class="s">800 contracted · 58% of registered</div></div>
+  </div>
+  <div class="card">
+    <ul class="tight">
+      <li><strong>The bigger loss is after students arrive.</strong> The 4,000 are different people, so about two-thirds of Hinds has already found the sign-up. 668 stop on the launch page (the one that says "You just launched Athena from your LMS"); about 2,800 more drop at a step we haven't measured, likely the registration page.</li>
+      <li><strong>About 215 registered students aren't using Athena.</strong> We have their emails. Cheapest gain available.</li>
+      <li><strong>No single fix reaches 800.</strong> A bit of everything lands near 640 (rough math). <span class="pill st-unk">Proposed target</span> ~500 using it by Nov 2, 650 by end of November.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- GLANCE -->
+<section id="glance">
+  <div class="eyebrow">The plan on one screen</div>
+  <h2>Experiments at a glance</h2>
+  <p class="muted" style="margin:0 0 10px"><span class="pill st-open">Backlog</span> E1 to E8 are on hold while the <a href="#now">two drips</a> run. Dates in this table and in the calendar are from before the pause.</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>#</th><th>Experiment</th><th>What we change</th><th>Main metric</th><th>Target <span style="text-transform:none;letter-spacing:0;font-weight:500">(proposed)</span></th><th>Live</th></tr></thead>
+      <tbody>
+        <tr class="grp-row"><td colspan="6">Win back first · people who already showed interest</td></tr>
+        <tr><td class="n">E1</td><td class="m">Follow-up emails</td><td>Next-step email for each registered student who isn't using it.</td><td>% who start using it in 7 days vs. left-out group</td><td>10 more out of every 100</td><td class="t">Oct 9</td></tr>
+        <tr><td class="n">E2</td><td class="m">Remarketing</td><td>Ads for people who opened the Hinds sign-up and left before registering. We can't email them.</td><td>Cost per student who registers through an ad and is covered by Hinds</td><td>No number yet · ad clickers register at 13% or more</td><td class="t">Oct 19</td></tr>
+        <tr class="grp-row"><td colspan="6">Quick wins · little or no build, can be live by about Oct 16</td></tr>
+        <tr><td class="n">E3</td><td class="m">Hinds Canvas banner</td><td>Correct outdated info, then free-first wording that matches the sign-up pages.</td><td>Students arriving at the launch page from Canvas, per 1,000 students per week</td><td>30% more</td><td class="t">Oct 16</td></tr>
+        <tr><td class="n">E4</td><td class="m">Faculty quick start</td><td>Paste-in text for instructors, three depths of ask.</td><td>% of a section's students using Athena in 7 days</td><td>10 more out of every 100 than announcement only</td><td class="t">Oct 14</td></tr>
+        <tr class="grp-row"><td colspan="6">Larger lifts · other routes to students · need approvals, printing, engineering or a policy decision</td></tr>
+        <tr><td class="n">E5</td><td class="m">Hinds sign-up path</td><td>"Free" first on the launch page; Hinds variant of the registration page.</td><td>% of Hinds-launched visitors who register and are covered by Hinds</td><td>10 more out of every 100</td><td class="t">Oct 16</td></tr>
+        <tr><td class="n">E6</td><td class="m">Flyers + email image</td><td>Flyers with a QR code per spot, plus one image Hinds can drop into emails and Canvas announcements.</td><td>Students registered from flyers</td><td>30+ in 2 weeks</td><td class="t">Oct 14</td></tr>
+        <tr><td class="n">E7</td><td class="m">Student referral</td><td>Active students invite classmates for a gift card.</td><td>Cost per new student who uses Athena</td><td>$2.50 or less</td><td class="t">Oct 26</td></tr>
+        <tr><td class="n">E8</td><td class="m">Canvas Commons package</td><td>Ready-made, unpublished Athena pages and an activity that instructors import from Canvas Commons.</td><td>Instructors who import it</td><td>No number yet</td><td class="t">After sign-off</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="muted" style="margin-top:8px">E1 reaches students who registered and stopped (we have their emails). E2 reaches people who left before registering (we don't). The banner's new wording (E3) goes live together with the sign-up path (E5), and both should be live before E4 and E6 send students into the same pages. Fixing out-of-date banner info does not need to wait. Every place we share Athena gets its own tag on the sign-up address (<code>?src=notice</code>, <code>poster-library</code>, …) so each test is read on its own step. Small groups: read results as "which way it leans," not proof.<br>"10 more out of every 100" means, for example, going from 15 out of 100 students to 25 out of 100 (not a 10% relative increase). Where each target comes from is in the next section.</p>
+</section>
+
+<!-- DELIVERABLES -->
+<section id="deliverables">
+  <div class="eyebrow">Who has to do what</div>
+  <h2>Deliverables by owner</h2>
+  <p class="muted" style="margin:0 0 12px">"Needed by" is the live date of the experiment that depends on it. Draft copy exists for most marketing items but none has been through <code>messaging-review</code>.</p>
+
+  <h3 style="margin:14px 0 8px">Product</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Deliverable</th><th>For</th><th>Needed by</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Confirm "free right away"</strong> for the link we'll use, and what the Athena link in Canvas is (Q2). Without it we can't say "free."</td><td>All</td><td class="t">Before copy goes out</td></tr>
+        <tr><td><strong>Group lists</strong> for the 515 registered students, and who sends wave 1 under what consent rules (Q5).</td><td>E1</td><td class="t">Oct 9</td></tr>
+        <tr><td><strong>Weekly launch-page arrivals</strong> and the other baselines (Q11).</td><td>E3, E5, targets</td><td class="t">Oct 12</td></tr>
+        <tr><td><strong>Legal and privacy sign-off on the ad audience,</strong> plus Hinds OK to use its name in ads (Q12).</td><td>E2</td><td class="t">Oct 12</td></tr>
+        <tr><td><strong>Legal sign-off on a public Commons listing,</strong> and whether Hinds will share the Hinds version (Q13).</td><td>E8</td><td class="t">Before any build</td></tr>
+        <tr><td><strong>Does the Canvas launch carry the school,</strong> so Hinds can be pre-selected? (Q4)</td><td>E5</td><td class="t">Oct 16</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 style="margin:22px 0 8px">Development</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Deliverable</th><th>For</th><th>Needed by</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Sign-up tag survives sign-up</strong> and is recorded on the account (Q1). Most important.</td><td>E5 read, E4, E6, E7</td><td class="t">Oct 14</td></tr>
+        <tr><td><strong>Tagged links and short web address:</strong> one per faculty section, one per flyer spot, one for the email image, one per Commons version.</td><td>E4, E6, E8</td><td class="t">Oct 14</td></tr>
+        <tr><td><strong>Hinds variant of screens A and B</strong> plus a half-and-half split. Fallback: copy-only changes to screen A.</td><td>E5</td><td class="t">Oct 16</td></tr>
+        <tr><td><strong>Step events:</strong> launch page view, create vs. sign-in click, school selected, email submitted, confirmed.</td><td>E5</td><td class="t">Oct 16</td></tr>
+        <tr><td><strong>Ad tag on the launch and registration pages,</strong> firing only after a consent check and sending no email, ID or school. Ad links carry <code>?src=remarketing</code>.</td><td>E2</td><td class="t">Oct 16</td></tr>
+        <tr><td><strong>Personal referral link</strong> per active student, and a count of new students who use Athena within 14 days.</td><td>E7</td><td class="t">Oct 26</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 style="margin:22px 0 8px">Marketing</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Deliverable</th><th>For</th><th>Needed by</th><th>State</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Four follow-up emails</strong> (2.1, 3.1, L.1, L.2).</td><td>E1</td><td class="t">Oct 9</td><td><span class="pill st-prog">Draft on page</span></td></tr>
+        <tr><td><strong>Faculty kit:</strong> finish the 60-second video and QR slide, replace the link placeholders, recruit 12 to 15 sections.</td><td>E4</td><td class="t">Oct 14</td><td><span class="pill st-prog">Text in kit</span> <span class="pill st-open">Video, slide to do</span></td></tr>
+        <tr><td><strong>Two flyers and the email image,</strong> printed and posted.</td><td>E6</td><td class="t">Oct 14</td><td><span class="pill st-prog">Draft on page</span></td></tr>
+        <tr><td><strong>Banner wording</strong> and <strong>final copy for screens A and B.</strong></td><td>E3, E5</td><td class="t">Oct 16</td><td><span class="pill st-prog">Draft on page</span></td></tr>
+        <tr><td><strong>Ad audience, two ads and the $1,000 cap</strong> set up; confirm the platform's minimum audience size.</td><td>E2</td><td class="t">Oct 19</td><td><span class="pill st-prog">Draft on page</span></td></tr>
+        <tr><td><strong>Commons package:</strong> build the module from the kit (two versions), set up the listing, share unpublished.</td><td>E8</td><td class="t">After sign-off</td><td><span class="pill st-prog">Outline on page</span></td></tr>
+        <tr><td><strong>Decide E7 rewards, rules and budget owner,</strong> then send the invitation.</td><td>E7</td><td class="t">Oct 23, then Oct 26</td><td><span class="pill st-prog">Invitation drafted</span> <span class="pill st-open">Decision to do</span></td></tr>
+        <tr><td><strong>Run all copy through <code>messaging-review</code>.</strong></td><td>All</td><td class="t">Before each goes out</td><td><span class="pill st-open">To do</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- TARGET BASIS -->
+<section id="basis">
+  <div class="eyebrow">Working notes</div>
+  <h2>Where the targets come from</h2>
+  <div class="card" style="margin-bottom:12px">
+    <p style="margin:0">Checked on Oct 6 against the numbers on this page (6,000 students, ~4,000 reached sign-up, 668 stopped on the launch page, 515 registered, ~300 using monthly). <strong>None of the targets below had a recorded basis before this check.</strong> Only the starting numbers are real. The targets are still proposals; nothing here changes them. Targets with no number ("fewer," "almost all," "report") are left out.</p>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Target</th><th>What it rests on</th><th>Read</th></tr></thead>
+      <tbody>
+        <tr><td class="m">Overall: ~500 using by Nov 2, 650 by end of November</td><td>Starting point is real: ~300 using now, 800 contracted. The "~640 rough math" isn't shown anywhere. The experiments' own sizing adds up to roughly 80 to 410 new students (E1 about 20 to 107, E6 30+, E7 30 to 270); E2 to E5 and E8 aren't sized. The 340 needed to reach 640 is inside that range, but can't be checked.</td><td><span class="pill st-unk">Can't reproduce</span></td></tr>
+        <tr><td class="m">E1: +10 out of every 100 start using it</td><td>No baseline for how many registered students start on their own. With ~40 left out and ~175 emailed, a 10-point gap is only 1.5 to 2 standard errors, so the left-out group can hint but not confirm. Group 1 is held, so the emailed group is smaller still.</td><td><span class="pill st-unk">Guess</span></td></tr>
+        <tr><td class="m">E1: halve the ~215</td><td>~215 is real (515 registered minus ~300 using). Halving means ~107 students, about 60 out of every 100 emailed. The main E1 target (+10 per 100) means about 17. The two E1 targets are about six times apart.</td><td><span class="pill st-block">Conflicts with E1 main</span></td></tr>
+        <tr><td class="m">E2: no cost target; ad clickers register at 13% or more</td><td>No cost target because we don't know the audience size, cost per click, or what an active student is worth; the first week sets it. The 13% is today's rate for everyone who reaches sign-up (515 of ~4,000), used as a floor. People who already left once may convert lower or higher; nothing here says which. The only dollar figure is the ~$1,000 test budget from the channel-testing guide in <code>reference/traction-channels.md</code>.</td><td><span class="pill st-open">No number yet</span></td></tr>
+        <tr><td class="m">E3: 30% more arrivals</td><td>No baseline for weekly launch-page arrivals. The comparison (in-person start vs. Oct 19 online start) mixes the banner's effect with the semester start, as the E3 card already says. Nothing explains why 30%.</td><td><span class="pill st-unk">Guess</span></td></tr>
+        <tr><td class="m">E4: +10 out of every 100 vs. Announce · half of instructors post · stop under a third</td><td>No baseline for the share of a section using Athena in 7 days, and section sizes aren't known. 12 to 15 sections across three groups is 4 to 5 sections per group, which is small. The posting rates have no source.</td><td><span class="pill st-unk">Guess</span></td></tr>
+        <tr><td class="m">E5: +10 out of every 100 register and are covered</td><td>Rough baseline is ~13% (515 of ~4,000 who reached sign-up). That's loose: the 515 aren't confirmed as covered by Hinds, and the 4,000 aren't all Hinds-launched visitors. +10 takes it to ~23%, nearly double. Seeing +10 from 13% takes about 230 visitors per version; the 150+ in the Keep rule gives roughly a 60% chance of seeing it.</td><td><span class="pill st-unk">Guess, aggressive</span></td></tr>
+        <tr><td class="m">E5: +10 out of every 100 continue from launch page</td><td>If 668 of ~4,000 stop on the launch page, 83% already continue (3,332). +10 means 93%, cutting launch-page drop-off from 17% to 7%. The larger loss is later: ~2,800 (about 70% of those who reached sign-up) drop at the unmeasured step, probably the registration page, where 515 of 3,332 register (15%).</td><td><span class="pill st-block">Doesn't fit the data</span></td></tr>
+        <tr><td class="m">E6: 30+ registered from flyers in 2 weeks</td><td>Sanity check only: if flyer scanners register like everyone who reaches sign-up (~13%), 30 registrations needs about 230 scans, or 8 to 12 per flyer across 20 to 30 flyers. Passers-by probably convert lower. 30 is about 0.5% of the ~5,500 Hinds students not yet registered.</td><td><span class="pill st-unk">Plausible, unproven</span></td></tr>
+        <tr><td class="m">E7: $2.50 or less per new student</td><td>The ladder already caps this. $5 for 2 classmates is $2.50 each; $10 for 5 and $20 for 10 are $2.00 each; counts in between cost less; 1 classmate pays $0. So it will be met whenever the rewards work as written, and doesn't test whether referral works. Also, the $500 cap covers about 200 students at $2.50, below the 270 top end of the page's sizing.</td><td><span class="pill st-block">Met by design</span></td></tr>
+        <tr><td class="m">E7: 1 in 5 share · stop under ~10% · more than 1 classmate each</td><td>Matches the page's sizing (30 to 90 sharers of ~300 is 10% to 30%; 1 to 3 classmates each). The sizing is labeled "not a forecast," so these inherit that.</td><td><span class="pill st-prog">Consistent with sizing</span></td></tr>
+        <tr><td class="m">E8: no number yet</td><td>Nothing on this page sizes it. How many instructors browse Commons for study tools, how many a school's admin settings let see public content, and whether Commons reports imports to an author are all unknown. The first read sets the baseline.</td><td><span class="pill st-open">No number yet</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="muted" style="margin-top:8px">Suggested fixes, not yet made: pick one E1 target; drop or reset the E5 "continue" target; judge E7 on new students using Athena and the share rate instead of cost per student; get the baselines in open question 11 before treating any "+10" or "30%" as a real bar.</p>
+</section>
+
+<!-- E1 -->
+<section id="e1">
+  <div class="eyebrow">Win back first</div>
+  <div class="exp">
+    <div class="exp-head"><span class="id">E1</span><h3>Follow-up emails</h3><span class="pill st-open">Backlog</span><span class="when">Wave 1 Oct 9–12 · builds on the onboarding emails plan</span></div>
+    <div class="exp-grid">
+      <div class="exp-l">
+        <p class="hyp">If each registered student who isn't using Athena gets the one next step that fits where they stopped, a meaningful share start.</p>
+        <div class="lbl">Sort the 515 into five groups</div>
+        <table class="mt wrap">
+          <tbody>
+            <tr><td><b>1</b> Not connected as a Hinds student</td><td style="color:var(--g800)">Hold. Can't promise "free" yet.</td></tr>
+            <tr><td><b>2</b> Connected, no Study Space opened</td><td style="color:var(--g800)">Email 2.1</td></tr>
+            <tr><td><b>3</b> Opened a Study Space, never used it</td><td style="color:var(--g800)">Email 3.1</td></tr>
+            <tr><td><b>4</b> Used it, quiet for 30 days (new)</td><td style="color:var(--g800)">Emails L.1, L.2</td></tr>
+            <tr><td><b>5</b> Using it now (~300)</td><td style="color:var(--g800)">No nudge. Referral invite (E7).</td></tr>
+          </tbody>
+        </table>
+        <div class="lbl">How</div>
+        <ul class="tight">
+          <li>~215 people: send <strong>plain text from a named person</strong> (mail merge). Warm, invites replies, needs no new tooling.</li>
+          <li>Leave a random <strong>20% (~40) out</strong> to see whether the emails did anything. Optional; say so and I'll drop it.</li>
+          <li><strong>Other follow-ups:</strong> exam-week note · Hinds Canvas reminders (term start, +2 weeks, midterms, finals) · instructor follow-ups · in-app checklist. Students who never finished sign-up can only be reached this way.</li>
+        </ul>
+      </div>
+      <div class="exp-r">
+        <div class="lbl">Metrics</div>
+        <table class="mt">
+          <thead><tr><th>Metric</th><th>Target</th></tr></thead>
+          <tbody>
+            <tr class="main"><td>Emailed students who start using it in 7 days, vs. left-out group</td><td>10 more out of every 100</td></tr>
+            <tr><td>Registered, not using (~215 today)</td><td>halve</td></tr>
+            <tr><td>Clicks · replies · unsubscribes</td><td>read every reply</td></tr>
+          </tbody>
+        </table>
+        <div class="rule"><b class="k">Keep</b> if the emailed group is 10 or more out of every 100 ahead: turn on the rest of the nine-email plan. <b class="s">Stop</b> if no gap and replies say the product doesn't help.</div>
+      </div>
+    </div>
+    <div class="needs"><b>Needs:</b> group lists from analytics · who sends and from what address · email consent and unsubscribe rules · decide which wins over the app's own 12-hour reminder.</div>
+    <details>
+      <summary>Draft emails</summary>
+      <div class="drafts">
+        <div class="draft"><span class="t">2.1 · Group 2</span><strong>Your Hinds courses are ready in Athena</strong>
+Hi [first name], Athena has set up a Study Space for each of your courses, so there's nothing to upload. Open the one you care about most right now and it'll show you what's coming up.
+[Open your Study Space]</div>
+        <div class="draft"><span class="t">3.1 · Group 3</span><strong>Try one quick quiz on your next exam</strong>
+Hi [first name], pick a course and take a short quiz. You'll see what you know and what's still shaky, so you can spend your time on the shaky parts. It takes a few minutes.
+[Start a quiz]</div>
+        <div class="draft"><span class="t">L.1 · Group 4</span><strong>Your [course] Study Space is still there</strong>
+Hi [first name], your courses are still set up in Athena. If something's coming up in [course], here's a good place to start. If something got in the way, reply and tell me. I read these.
+[Open your Study Space]</div>
+        <div class="draft"><span class="t">L.2 · Group 4, 5 days later if no reply</span><strong>One quick question</strong>
+Hi [first name], what would make Athena worth opening for you? One line is plenty. Reply to this email.</div>
+      </div>
+      <div style="padding:0 20px 14px" class="muted">Never imply Hinds or an instructor sees an individual student's use. Avoid "falling behind," "haven't used," "we miss you."</div>
+    </details>
+  </div>
+</section>
+
+<!-- E2 -->
+<section id="e2">
+  <div class="exp">
+    <div class="exp-head"><span class="id">E2</span><h3>Remarketing</h3><span class="pill st-open">Backlog</span><span class="when">Go or no-go Oct 12 · tracking on Oct 16 · ads Oct 19 – Nov 9 · $1,000 limit</span></div>
+    <div class="exp-grid">
+      <div class="exp-l">
+        <p class="hyp">Show ads to people who started signing up at Hinds and quit, to bring some of them back. E1 emails students who registered and stopped. This is for people who quit before registering. We have no email for them.</p>
+        <div class="lbl">Who it reaches</div>
+        <ul class="tight">
+          <li><strong>Since launch:</strong> 668 quit on the launch page and about 2,800 more quit at a later step, probably registration. None has an account, so we have no email.</li>
+          <li><strong>Only people who visit from now on.</strong> The tracking only sees visitors after it's turned on (Oct 16), so the ~3,500 who already left can't be reached. How many we can reach depends on weekly arrivals (open question 11).</li>
+        </ul>
+        <div class="lbl">What we do</div>
+        <ul class="tight">
+          <li><strong>Turn on the ad platform's tracking</strong> on the launch page and registration page. It only notes that someone visited and didn't register, and only after the visitor agrees to tracking. It sends no email, student ID or school name.</li>
+          <li><strong>Show ads to people who visited and didn't register,</strong> and stop once they register. Ad platforms won't run ads until enough people are in the group, so check the minimum before Oct 19.</li>
+          <li><strong>Run two ads on one social platform,</strong> using the same two headlines as the flyers (A: cost, B: exam) so we can compare. Each ad links to the free sign-up route (open question 2) with <code>?src=remarketing</code>.</li>
+          <li><strong>Limits:</strong> $1,000 total, a cap on how often one person sees an ad, adults only.</li>
+          <li><strong>Never</strong> use Hinds lists or Canvas data to decide who sees an ad. Our public FAQ says we don't.</li>
+        </ul>
+        <div class="muted" style="margin-top:8px">The result will be rough. Some of these people would have come back anyway, and the group is too small to hold some people out as a comparison. E5 changes the same pages, so look at ad clicks by their own tag.</div>
+      </div>
+      <div class="exp-r">
+        <div class="lbl">Metrics</div>
+        <table class="mt">
+          <thead><tr><th>Metric</th><th>Target</th></tr></thead>
+          <tbody>
+            <tr class="main"><td>Cost per student who registers from an ad and is covered by Hinds</td><td>Set after week 1</td></tr>
+            <tr><td>People who click an ad and then register</td><td>13% or more (today's rate)</td></tr>
+            <tr><td>Students who registered from an ad and use Athena within 7 days</td><td>report</td></tr>
+            <tr><td>Group size by Oct 26</td><td>Big enough for the platform to run ads</td></tr>
+          </tbody>
+        </table>
+        <div class="rule"><b class="k">Keep</b> if about 13% or more of people who click an ad register, and the cost per student using Athena looks worth it to you (decide after week 1). <b class="s">Stop</b> if the group is still too small on Oct 26, or legal says no.</div>
+      </div>
+    </div>
+    <div class="needs"><b>Needs:</b> legal and privacy sign-off first (open question 12). Our public FAQ says nothing from Canvas or the school decides who sees an ad, and people reach these pages through a Canvas launch · a permission check and the tracking set up by development · Hinds OK with using its name in ads · the sign-up tag surviving sign-up (open question 1).</div>
+    <details>
+      <summary>Draft ads</summary>
+      <div class="drafts">
+        <div class="draft"><span class="t">A · Cost</span><strong>Athena is free for Hinds students.</strong>
+Hinds covers it. Athena connects to your Canvas courses and tells you what to study next.
+[Get Athena]</div>
+        <div class="draft"><span class="t">B · Exam</span><strong>Know what to study before your next exam.</strong>
+Athena reads your Canvas courses and coaches you through what's coming up. Free for Hinds students.
+[Get Athena]</div>
+      </div>
+      <div style="padding:0 20px 14px" class="muted">Same wording as the flyers. Don't say or hint that we know they visited (for example, "finish signing up" or "still thinking about it"). Not through messaging-review yet.</div>
+    </details>
+  </div>
+</section>
+
+<!-- E3 -->
+<section id="e3">
+  <div class="eyebrow">Quick wins</div>
+  <div class="exp">
+    <div class="exp-head"><span class="id">E3</span><h3>Hinds Canvas banner</h3><span class="pill st-open">Backlog</span><span class="when">Fix now · new wording live Oct 16 · Hinds edits, we supply wording</span></div>
+    <div class="exp-grid">
+      <div class="exp-l">
+        <p class="hyp">If the banner Hinds already shows in Canvas is accurate and leads with "free for Hinds students," more students find the right sign-up route and start it.</p>
+        <div class="lbl">What we do</div>
+        <ul class="tight">
+          <li><strong>Get the current banner:</strong> its text, where it shows, who edits it, and which sign-up route it sends people to.</li>
+          <li><strong>Step 1, do now (not a test):</strong> fix what's out of date and point it at the covered sign-up route, not "sign up, then verify later."</li>
+          <li><strong>Step 2, the test:</strong> swap in free-first wording that matches the sign-up pages (E5), so the story is the same on every screen.</li>
+          <li>Hinds writes and owns the banner; we only supply suggested text. If Hinds can show different text to different groups, split; otherwise compare before and after.</li>
+        </ul>
+        <div class="muted" style="margin-top:8px">Kept separate from E5 because it needs only Hinds (no engineering) and can move on its own timeline. The read is rough: we can't see how many students see the banner, and the Oct 19 start will raise arrivals anyway.</div>
+      </div>
+      <div class="exp-r">
+        <div class="lbl">Metrics</div>
+        <table class="mt">
+          <thead><tr><th>Metric</th><th>Target</th></tr></thead>
+          <tbody>
+            <tr class="main"><td>Students arriving at the launch page from Canvas, per 1,000 students per week</td><td>30% more</td></tr>
+            <tr><td>Hinds registrations that come through the covered sign-up route</td><td>almost all</td></tr>
+            <tr><td>Hinds help-desk questions about how to register</td><td>fewer</td></tr>
+          </tbody>
+        </table>
+        <div class="rule"><b class="k">Keep</b> the new wording if arrivals are up 30% or more, comparing start week to start week (in-person vs. Oct 19). <b class="s">Revert the wording</b> if flat. Step 1 stays either way.</div>
+      </div>
+    </div>
+    <div class="needs"><b>Needs from Hinds (by Oct 12):</b> the current banner text, who edits it, and how long approval takes. <b>From product:</b> weekly arrivals at the launch page, and which link the banner should use (open question 2). Our public FAQ tells schools we don't advertise inside Canvas, so Hinds writes the banner; we never say or imply Athena is part of Canvas, endorsed by Hinds, or required.</div>
+    <details>
+      <summary>Draft banner wording</summary>
+      <div class="drafts" style="grid-template-columns:1fr">
+        <div class="draft"><span class="t">Suggested text for Hinds</span><strong>Athena is free for Hinds students</strong>
+Hinds covers the cost. Athena reads your Canvas courses and tells you what to study next.
+
+To sign up:
+1. Select [Get Athena]
+2. Make your login
+3. Connect Canvas (read-only)
+
+Takes about 2 minutes. Questions? [Hinds help contact]
+
+(Remove any steps that tell students to sign up first and verify later, and any old links or dates. I'll tailor this once I see the current banner.)</div>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- E4 -->
+<section id="e4">
+  <div class="exp">
+    <div class="exp-head"><span class="id">E4</span><h3>Faculty quick start</h3><span class="pill st-open">Backlog</span><span class="when">Sent Oct 14 · Hinds sends, we build</span></div>
+    <div class="exp-grid">
+      <div class="exp-l">
+        <p class="hyp">If instructors get text that drops into what they already set up each term, many post it, and a bit more effort gets more students using Athena.</p>
+        <div class="lbl">What we do</div>
+        <ul class="tight">
+          <li>Paste-in pieces with Copy buttons: syllabus line, Canvas announcement, Start Here page, 60-second video, one QR slide. <a href="hinds-faculty-quick-start.html">Open the kit</a>.</li>
+          <li>12–15 sections, three groups: <strong>Announce</strong> · <strong>Show it</strong> (+ video or slide in class) · <strong>Try it together</strong> (+ 5-minute, <u>ungraded</u> activity).</li>
+          <li>Hinds sends it, not us. Pair the ask with the educator interviews (20 minutes).</li>
+          <li><strong>Ask Hinds:</strong> is there a master course template or Start Here module? One edit there reaches every online section.</li>
+        </ul>
+      </div>
+      <div class="exp-r">
+        <div class="lbl">Metrics</div>
+        <table class="mt">
+          <thead><tr><th>Metric</th><th>Target</th></tr></thead>
+          <tbody>
+            <tr class="main"><td>Students using Athena in 7 days (per group)</td><td>10 more out of every 100 than Announce</td></tr>
+            <tr><td>Instructors who post</td><td>Half or more</td></tr>
+            <tr><td>Students registered in 7 days</td><td>report</td></tr>
+          </tbody>
+        </table>
+        <div class="rule"><b class="k">Keep</b> if half post and a deeper ask wins. <b class="s">Stop</b> if under a third post and no gap.</div>
+      </div>
+    </div>
+    <div class="needs"><b>Needs:</b> Hinds contact to send + pick sections with enrollment · a tag per section · someone to record the video (demo course, no real student data). Graded tasks are off the table: our FAQ says Athena is never "required for coursework."</div>
+    <details>
+      <summary>Cover note from Hinds (draft)</summary>
+      <div class="drafts" style="grid-template-columns:1fr">
+        <div class="draft"><span class="t">Subject: A free study tool for your students, ready to paste in</span>Hi [first name],
+
+Hinds is covering Athena for students this fall. It's a study coach that connects to a student's Canvas courses and helps them work out what to study next. It coaches toward the answer instead of handing it over.
+
+If you'd like to mention it to your students, this page has text you can paste into your syllabus, a Canvas announcement, or your Start Here page. Each takes about a minute, and using any of it is up to you: [link]
+
+[Name]</div>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- ROUTES -->
+<section id="routes">
+  <div class="eyebrow">Larger lifts</div>
+  <h2>Other routes to students</h2>
+  <div class="card" style="margin-bottom:12px">
+    <p style="margin:0">E1 to E4 win back people who already showed interest and improve what they see. These are different doors into Athena. Each reaches students through someone or somewhere else, needs approvals, printing, engineering or a policy decision first, and reads more slowly. Most can run side by side. E5 is the odd one out: it isn't a new door, it fixes the pages people already land on.</p>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>#</th><th>Route</th><th>The door students come through</th><th>Who controls it</th><th>What it takes first</th></tr></thead>
+      <tbody>
+        <tr><td class="n">E5</td><td class="m">Sign-up path</td><td>Students already arriving from Canvas (not a new door)</td><td>Product</td><td>A Hinds variant of two screens and a split</td></tr>
+        <tr><td class="n">E6</td><td class="m">Flyers + email image</td><td>Campus spots and Hinds' own emails</td><td>Hinds</td><td>Posting approval, printing, a tag per spot</td></tr>
+        <tr><td class="n">E7</td><td class="m">Student referral</td><td>A classmate who already uses Athena</td><td>Students, us</td><td>Gift card rules, a personal link per student</td></tr>
+        <tr><td class="n">E8</td><td class="m">Canvas Commons package</td><td>Instructors importing ready-made pages into their own courses</td><td>Instructors, and each school's Canvas admin settings</td><td>Legal sign-off, a package to build, a Canvas account to publish from</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="muted" style="margin-top:8px"><strong>Not in the plan yet.</strong> Three more routes sit on the likely list in <code>reference/traction-channels.md</code>, all untested: partnerships with success centers and advising offices (aimed at institutional pilots, not Hinds students), a single-campus community or events cohort, and free study tools built to be shared. E8 is the "existing platforms" route from that list.</p>
+</section>
+
+<!-- E5 -->
+<section id="e5">
+  <div class="exp">
+    <div class="exp-head"><span class="id">E5</span><h3>Hinds sign-up path: launch page and registration page</h3><span class="pill st-open">Backlog</span><span class="when">Live Oct 16 · product builds, Hinds-launch variant</span></div>
+    <div class="exp-grid">
+      <div class="exp-l">
+        <p class="hyp">If a Hinds student hears "free for Hinds students" on both screens, and the price line and school search are gone, more of them finish registering and end up covered by Hinds.</p>
+        <div class="lbl">What we change (two screens)</div>
+        <ul class="tight">
+          <li><strong>A · Launch page:</strong> today it says "You just launched Athena from your LMS." Lead with "free for Hinds students," say Canvas instead of LMS, preview the three steps.</li>
+          <li><strong>B · Registration page, Hinds variant:</strong> Hinds pre-selected, no "$5/month" line, no coupon link, same right-hand panel as screen A.</li>
+        </ul>
+        <div class="lbl">Why (from the live pages)</div>
+        <ul class="tight">
+          <li>Screen A never says free, names no school, and uses "LMS."</li>
+          <li>Screen B asks "Find my school" of a student who just came from Hinds Canvas. "Free" is conditional, and "$5/month after 7 day free trial" sits right beside it.</li>
+          <li>The "Create account" button sits under the school box, so a student who skips the search lands on the paid trial.</li>
+          <li>The two screens' right-hand panels tell different stories.</li>
+        </ul>
+        <div class="muted" style="margin-top:8px">Next test, not this one: remove screen A entirely if the Canvas launch already carries the school.</div>
+      </div>
+      <div class="exp-r">
+        <div class="lbl">Metrics</div>
+        <table class="mt">
+          <thead><tr><th>Metric</th><th>Target</th></tr></thead>
+          <tbody>
+            <tr class="main"><td>Hinds-launched visitors who register and are covered by Hinds</td><td>10 more out of every 100</td></tr>
+            <tr><td>Continue from launch page to registration</td><td>10 more out of every 100</td></tr>
+            <tr><td>Registrations that end up on the paid trial instead</td><td>almost none</td></tr>
+            <tr><td>Use Athena within 7 days</td><td>doesn't get worse</td></tr>
+          </tbody>
+        </table>
+        <div class="rule"><b class="k">Keep</b> if the main number goes up by 10 or more out of every 100, with 150+ visitors per version. <b class="s">Revert</b> if flat. Read new and returning students separately.</div>
+      </div>
+    </div>
+    <div class="needs"><b>Needs from product:</b> a Hinds variant of screens A–B and a half-and-half split (open question 4), step events (launch page view, create vs. sign-in click, school selected, email submitted, confirmed). <b>If product can't build the variant by Oct 16:</b> ship copy-only changes to screen A and compare to before.</div>
+    <details>
+      <summary>Draft copy</summary>
+      <div class="drafts">
+        <div class="draft"><span class="t">A · Launch page (Hinds variant)</span><strong>Athena is free for Hinds students.</strong>
+Hinds covers it. Athena reads your Canvas courses and tells you what to study next.
+
+What's next:
+1. Make your login
+2. Connect Canvas (read-only)
+3. Start studying
+
+New to Athena?  [Create your Athena account →]
+Already have an account?  [Sign in]</div>
+        <div class="draft"><span class="t">B · Registration page (Hinds variant)</span><strong>Create your account</strong>
+Email address  (no "Add Coupon" link)
+
+✓ Hinds Community College covers Athena for you. Free for Hinds students.  [How this works]
+
+[Create Athena account]
+
+Right-hand panel (same on screens A and B):
+<strong>Study help that already knows your Canvas courses.</strong>
+✓ Reads your courses and deadlines. Nothing to upload.
+✓ Guides you to the answer instead of handing it over
+✓ Read-only: it can't post or submit anything
+✓ Free for Hinds students
+
+(Phone mock: swap the generic stress chat for a course-aware one, e.g. "You've nailed 3 of 5 topics for Thursday. Want to drill the other two?" Design to confirm. Illustrative, not a claim.)</div>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- E6 -->
+<section id="e6">
+  <div class="exp">
+    <div class="exp-head"><span class="id">E6</span><h3>Flyers + email image</h3><span class="pill st-open">Backlog</span><span class="when">Flyers up Oct 14–16, down Nov 2 · Hinds approves, posts and sends</span></div>
+    <div class="exp-grid">
+      <div class="exp-l">
+        <p class="hyp">A plain "free for Hinds students" message with a QR code or button, placed where students already look (campus spots and their inbox), gets some of them to sign up.</p>
+        <div class="lbl">What we do</div>
+        <ul class="tight">
+          <li><strong>Flyers:</strong> 20–30, one QR tag per spot (<code>poster-library</code>…). Spots: tutoring center, library, computer labs, testing center, student center, advising, waiting lines at enrollment / financial aid.</li>
+          <li><strong>Email image:</strong> one wide image Hinds drops into its student emails and Canvas announcements, with its own tag (<code>email-image</code>). If Hinds can split its list, send headline A to half and B to half.</li>
+          <li>Two headlines (A: cost, B: exam) on both. For flyers, use matched pairs of similar spots.</li>
+          <li>Check scans and clicks weekly; move weak spots.</li>
+        </ul>
+      </div>
+      <div class="exp-r">
+        <div class="lbl">Metrics</div>
+        <table class="mt">
+          <thead><tr><th>Metric</th><th>Target</th></tr></thead>
+          <tbody>
+            <tr class="main"><td>Registered from flyers</td><td>30+ in 2 wks</td></tr>
+            <tr><td>Registered from the email image</td><td>report (set a target once we know how many get the email)</td></tr>
+            <tr><td>Scans per spot per week</td><td>find top third</td></tr>
+            <tr><td>Headline A vs. B</td><td>pick winner</td></tr>
+          </tbody>
+        </table>
+        <div class="rule"><b class="k">Keep</b> best third of spots, add campuses; keep the email image if it brings registrations. <b class="s">Stop</b> flyers if almost no scans after 2 weeks. Many scans or clicks, few registrations = back to E5.</div>
+      </div>
+    </div>
+    <div class="needs"><b>Needs:</b> Hinds posting approval, logo OK, spot list · when and to whom Hinds can send an email · QR tag per spot and a short web address from product.</div>
+    <details>
+      <summary>What goes on the flyer and the email image</summary>
+      <div class="drafts">
+        <div class="draft flyer"><div class="h">Athena is free for Hinds students.</div><div class="sh">Hinds covers it. Athena connects to your Canvas courses and tells you what to study next.</div><div class="st"><span>1 Scan</span><span>2 Make your login</span><span>3 Connect Canvas</span></div><div class="qr"><i>QR</i><div><strong>About 2 minutes.</strong><br>Or go to [short address]</div></div><div class="fp">Optional. Athena is a separate study tool, not part of Canvas. It can read your courses; it can't post or submit anything.</div></div>
+        <div class="draft flyer"><div class="h">Know what to study before your next exam.</div><div class="sh">Athena reads your Canvas courses and coaches you through what's coming up. Free for Hinds students.</div><div class="st"><span>1 Scan</span><span>2 Make your login</span><span>3 Connect Canvas</span></div><div class="qr"><i>QR</i><div><strong>About 2 minutes.</strong><br>Or go to [short address]</div></div><div class="fp">Optional. Athena is a separate study tool, not part of Canvas. It can read your courses; it can't post or submit anything.</div></div>
+        <div class="draft"><span class="t">Tear-off tabs (on the bottom of version A)</span>Each tab: small QR · "Athena: free for Hinds students" (sideways) · [short address]. Eight tabs per sheet.
+Also print a spot code in the corner of each flyer, so scans can be matched to spots by hand.
+Optional extras: half-sheet table tent for tutoring center and library desks; 16:9 slide if Hinds runs digital signs.</div>
+        <div class="draft flyer"><div class="h">Athena is free for Hinds students.</div><div class="sh">Hinds covers it. Athena tells you what to study next, from your own Canvas courses.</div><div class="st" style="max-width:240px"><span>Get Athena →</span></div><div class="fp"><strong>Email image</strong>, about 600 px wide, one button, no QR (people click on phones). Use headline A or B.<br>Alt text: "Athena is free for Hinds students. Get Athena."<br>Always put the headline and link as real text under the image too, since some email apps hide images.</div></div>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- E7 -->
+<section id="e7">
+  <div class="exp">
+    <div class="exp-head"><span class="id">E7</span><h3>Student referral</h3><span class="pill st-open">Backlog</span><span class="when">Pilot Oct 26 – Nov 16 · largest, needs decisions</span></div>
+    <div class="exp-grid">
+      <div class="exp-l">
+        <p class="hyp">If students already using Athena can invite classmates for a gift card, we get new students cheaply, because a classmate's word beats a flyer.</p>
+        <div class="lbl">What we do</div>
+        <ul class="tight">
+          <li>Email the ~300 active students a <strong>personal link</strong>. Hand-run tracking in a sheet; e-gift cards sent weekly; <strong>$500 cap</strong>.</li>
+          <li><strong>Ladder:</strong> 2 classmates → $5 · 5 → $10 total · 10 → $20 total. Your $10-for-10 is cheaper, but most students never reach 10, so almost no one gets paid.</li>
+          <li><strong>Counts only:</strong> a new Hinds student, via the link, who uses Athena within 14 days. Not sign-ups alone.</li>
+          <li>If it works, build an "Invite a classmate" button in the app.</li>
+        </ul>
+        <div class="muted" style="margin-top:8px">Sizing, not a forecast: 30–90 sharers × 1–3 classmates each = 30–270 new students.</div>
+      </div>
+      <div class="exp-r">
+        <div class="lbl">Metrics</div>
+        <table class="mt">
+          <thead><tr><th>Metric</th><th>Target</th></tr></thead>
+          <tbody>
+            <tr class="main"><td>Cost per new student who uses Athena</td><td>$2.50 or less</td></tr>
+            <tr><td>Invited students who share</td><td>1 in 5 or more</td></tr>
+            <tr><td>Classmates using it, per sharer</td><td>More than 1</td></tr>
+            <tr><td>Still using at 30 days</td><td>As often as other students</td></tr>
+          </tbody>
+        </table>
+        <div class="rule"><b class="k">Build it in</b> if all three top rows hit. <b class="s">Stop</b> if under ~10% share.</div>
+      </div>
+    </div>
+    <div class="needs"><b>Needs:</b> a personal link that survives sign-up (same tag question as E4/E6) · Hinds OK, since more users may raise their bill · never collect friends' contacts.</div>
+    <details>
+      <summary>Draft invitation</summary>
+      <div class="drafts" style="grid-template-columns:1fr">
+        <div class="draft"><span class="t">Subject: Know a Hinds classmate who'd use this?</span>Hi [first name],
+
+If Athena's been useful, pass it on. Here's your personal link: [link]
+
+When a Hinds classmate signs up with it and starts using Athena, you earn a gift card:
+  2 classmates: $5
+  5 classmates: $10 total
+  10 classmates: $20 total
+
+Ends [Nov 16]. Rules: [link]. Sharing is always optional.</div>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- E8 -->
+<section id="e8">
+  <div class="exp">
+    <div class="exp-head"><span class="id">E8</span><h3>Canvas Commons package</h3><span class="pill st-open">Backlog</span><span class="when">No date yet · starts after sign-off (open question 13) · we build, instructors import</span></div>
+    <div class="exp-grid">
+      <div class="exp-l">
+        <p class="hyp">If instructors can pull ready-made, optional Athena pages into their own Canvas course in a few clicks, more of them tell their students, and we reach schools beyond Hinds without a flyer or a Hinds email.</p>
+        <div class="lbl">How Commons works (Instructure's guides)</div>
+        <ul class="tight">
+          <li>Commons is where Canvas users find, import and share course pages, modules, assignments, quizzes and files.</li>
+          <li><strong>Only instructors can share.</strong> A resource can go to one school's account, to groups, or public (all Canvas users). Public items may not show up if a school's admin turns that off or limits search to approved content.</li>
+          <li>Imported items keep their published or unpublished status, and student data stays private.</li>
+          <li>Updating a shared course can overwrite what an instructor changed, so share pages and modules, not a whole course.</li>
+        </ul>
+        <div class="lbl">What we do</div>
+        <ul class="tight">
+          <li><strong>One module built from the faculty kit (E4):</strong> a Start Here page, the announcement text, the syllabus line, the ungraded "try it together" activity, and a short "what Athena reads and can't do" page. <strong>Shared unpublished,</strong> so nothing reaches students until the instructor reviews and publishes it.</li>
+          <li><strong>Two versions.</strong> <em>Hinds:</em> says Hinds covers it; given to Hinds as an export to import and share inside its own account. <em>Public:</em> no Hinds claims ("your school may cover Athena"), links to the main sign-up page.</li>
+          <li>Every link carries its own tag (<code>?src=commons-hinds</code>, <code>?src=commons</code>). Each page says Athena is a separate study tool, not part of Canvas, and that using it is optional.</li>
+        </ul>
+        <div class="muted" style="margin-top:8px">The read is rough: instructors import on their own schedule, not on Oct 19, and we don't yet know what Commons shows an author about imports. If it shows nothing, count students arriving with the tag.</div>
+      </div>
+      <div class="exp-r">
+        <div class="lbl">Metrics</div>
+        <table class="mt">
+          <thead><tr><th>Metric</th><th>Target</th></tr></thead>
+          <tbody>
+            <tr class="main"><td>Instructors who import the package</td><td>report (check what Commons shows)</td></tr>
+            <tr><td>Students who register with a Commons tag</td><td>report</td></tr>
+            <tr><td>Those using Athena in 7 days</td><td>report</td></tr>
+          </tbody>
+        </table>
+        <div class="rule"><b class="k">Keep</b> if instructors we don't know import it and students arrive with the tag. <b class="s">Stop</b> if legal or Commons' terms say no, or if a Hinds admin setting hides it and Hinds won't share the Hinds version.</div>
+      </div>
+    </div>
+    <div class="needs"><b>Needs:</b> legal sign-off first (open question 13): our public FAQ says we don't advertise Athena inside Canvas and never present it as part of Canvas · a Canvas instructor account to build and publish from (Instructure's guide says Canvas Lite accounts can share public resources) · Hinds' view on public Commons content and whether it will share the Hinds version · the tag surviving sign-up (open question 1).</div>
+    <details>
+      <summary>What goes in the package</summary>
+      <div class="drafts">
+        <div class="draft"><span class="t">Module, shared unpublished</span><strong>Free study help: Athena</strong>
+1. Start Here page (kit piece 3)
+2. Announcement text, ready to paste (kit piece 2)
+3. Syllabus line (kit piece 1)
+4. "Try it together": 5 minutes, ungraded, optional (kit)
+5. What Athena reads and can't do (kit questions instructors ask)</div>
+        <div class="draft"><span class="t">Commons listing</span><strong>Optional study help for your students</strong>
+Paste-in pages that point students to Athena, a separate study tool that reads their own Canvas courses and coaches them toward the answer. Optional, read-only, disconnect anytime. Not part of Canvas.
+[Thumbnail · license · tags to set when we publish]</div>
+      </div>
+      <div style="padding:0 20px 14px" class="muted">Draft only; not through messaging-review. Never say or imply Canvas, Instructure or an instructor requires it, and no graded tasks.</div>
+    </details>
+  </div>
+</section>
+
+<!-- CHECK -->
+<section id="check">
+  <div class="eyebrow">Working notes</div>
+  <div class="callout warn">
+    <h3>Check before anything ships</h3>
+    <ul class="tight">
+      <li><strong>"Free right away"</strong> is not yet confirmed by product for the link we'll use.</li>
+      <li><strong>"About 2 minutes"</strong> is a guess. Time the real sign-up on a phone and use that number.</li>
+      <li><strong>Tags on the sign-up address</strong> must survive sign-up, including the Canvas login hop. If not, E2, E4, E6, E7 and E8 lose per-source counts; fall back to a "who told you?" box.</li>
+      <li>All copy through <code>messaging-review</code>, then Hinds.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- WAYS -->
+<section id="ways">
+  <h2>Three ways students sign up</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Way</th><th>How common</th><th>Free right away?</th><th>Note</th></tr></thead>
+      <tbody>
+        <tr><td><strong>1.</strong> Athena link inside Canvas</td><td><strong>Most used</strong></td><td>Believed yes</td><td>Fewest steps. Not in our docs (they say Athena isn't installed into Canvas as an app), so the docs may need updating. Best route; if it turns out not to be free right away, send to way 2.</td></tr>
+        <tr><td><strong>2.</strong> Main sign-up page, enter school info</td><td>Second most</td><td>Believed yes</td><td>Student has to know Hinds covers it.</td></tr>
+        <tr><td><strong>3.</strong> Sign up normally, "Verify with Canvas" later</td><td>Very few</td><td>Only after verifying</td><td>Most steps. May be charged $5 after the 7-day trial: unknown. <strong>Don't send students here.</strong></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- CALENDAR -->
+<section id="calendar">
+  <h2>Calendar</h2>
+  <p class="muted" style="margin:0 0 10px">Only the first two rows below are live. The rest belong to E1 to E8 (backlog) and show the plan from before the pause.</p>
+  <div class="table-wrap">
+    <table>
+      <tbody>
+        <tr><td class="t">Oct 12 · 15 · 19</td><td><strong>D2 drip</strong> (registered, not back): messages on day 0, 3 and 7. Read Oct 26.</td></tr>
+        <tr><td class="t">Oct 13 · 16 · 20</td><td><strong>D1 drip</strong> (never registered): same spacing, once a way to reach them is settled. Read Oct 27.</td></tr>
+        <tr><td class="t">Oct 5–8</td><td>Send the asks to product and the Hinds contact (open questions below).</td></tr>
+        <tr><td class="t">Oct 9–12</td><td><strong>E1 wave 1 sends.</strong> Hinds confirms who edits the Canvas banner and who sends to faculty. Fix any out-of-date banner info. Decide E2 go or no-go (legal, consent, Hinds OK).</td></tr>
+        <tr><td class="t">Oct 12–14</td><td>Record video. Hinds reviews kit, flyers and email image. Print. Recruit sections.</td></tr>
+        <tr><td class="t">Oct 14–16</td><td><strong>E6 flyers up and email image sent. E4 kit sent. E5 and the new E3 banner wording live. E2 ad tag live, if signed off.</strong></td></tr>
+        <tr><td class="t">Oct 19</td><td><strong>Online semester starts.</strong> Instructors post. E1 wave 2. E2 ads start if the audience meets the platform minimum. Watch step rates daily.</td></tr>
+        <tr><td class="t">Oct 23</td><td>Decide E7 rewards, rules, budget owner.</td></tr>
+        <tr><td class="t">Oct 26</td><td><strong>Read E1, E3 and E5. E7 pilot starts.</strong> Check E2 audience size.</td></tr>
+        <tr><td class="t">Oct 28 · Nov 2</td><td>Read E6, then E4. Take flyers down. Log everything in <code>reference/traction-channels.md</code>.</td></tr>
+        <tr><td class="t">Nov 9</td><td>E2 ads end; read.</td></tr>
+        <tr><td class="t">Nov 16 · Nov 23</td><td>E7 ends, then pay out and read.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- QUESTIONS -->
+<section id="questions">
+  <h2>Open questions</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>#</th><th>Question</th><th>Ask</th><th>If no answer</th></tr></thead>
+      <tbody>
+        <tr><td class="n">1</td><td><strong>Does a tag on the sign-up address survive sign-up</strong> and get recorded on the account?</td><td>Product</td><td>"Who told you?" box; date comparisons. <strong>Most important.</strong></td></tr>
+        <tr><td class="n">2</td><td><strong>Is the route free right away?</strong> What is the Athena link in Canvas? Short web address for flyers?</td><td>Product</td><td>Can't say "free." Everything waits.</td></tr>
+        <tr><td class="n">3</td><td><strong>Does a student who signs up normally and never verifies get charged $5</strong> after 7 days?</td><td>Product</td><td>Assume yes; never send to way 3. Lower priority now: very few students land there.</td></tr>
+        <tr><td class="n">4</td><td><strong>E5:</strong> does the Canvas launch carry the school, so Hinds can be pre-selected? Can Hinds-launched visitors get a variant (no price line or coupon link; returning users skip the launch page) and a half-and-half split?</td><td>Product</td><td>Copy-only changes to screen A; switch on a date and compare to before.</td></tr>
+        <tr><td class="n">5</td><td><strong>Email:</strong> who sends wave 1, from what address, under what consent rules?</td><td>Product / legal</td><td>E1 waits.</td></tr>
+        <tr><td class="n">6</td><td><strong>Who is our Hinds contact?</strong> Who edits the Canvas banner, and which sign-up route does it point to now? Send us the current text, where it shows, and what's out of date.</td><td>You / Hinds</td><td>E3, E4 and E6 can't start.</td></tr>
+        <tr><td class="n">7</td><td><strong>Hinds on faculty:</strong> who sends, master course template, sections + enrollment, midterm dates.</td><td>Hinds</td><td>E4 shrinks to instructors we reach directly.</td></tr>
+        <tr><td class="n">8</td><td><strong>Hinds on flyers and the email image:</strong> campuses and boards, approval, logo use, digital signs; who sends the email, to how many students, and can the list be split in half?</td><td>Hinds</td><td>Place flyers where allowed; skip the headline split on email.</td></tr>
+        <tr><td class="n">9</td><td><strong>Contract:</strong> is 800 a minimum or a limit? How is "monthly active" counted?</td><td>You</td><td>Can't judge how hard to push E7.</td></tr>
+        <tr><td class="n">10</td><td><strong>Video:</strong> who records, on which demo course?</td><td>You</td><td>Drop the video.</td></tr>
+                <tr><td class="n">11</td><td><strong>Baselines for the targets</strong> (see Where the targets come from): the dates the 4,000 / 668 / 515 cover; weekly arrivals at the launch page and registration page by sign-up route; where in the registration page the ~2,800 drop; how many of the 515 are covered by Hinds vs. on the paid trial; the 215 split into groups 1 to 4; how many registered students start using Athena within 7 days with no nudge; section sizes for E4; how many students get Hinds' emails and how past emails or flyers have performed.</td><td>Product / Hinds</td><td>Targets stay placeholders. Read each experiment only against its own left-out or before group.</td></tr>
+        <tr><td class="n">12</td><td><strong>Remarketing sign-off (E2):</strong> does an audience built from visits to our own Hinds sign-up pages fit our public FAQ ("nothing from Canvas or the institution decides who sees an ad")? Is there a consent check and an ad tag on the site today? How do we keep ads to adults? Does Hinds OK its name in ads?</td><td>Legal / Product / Hinds</td><td>E2 doesn't run.</td></tr>
+        <tr><td class="n">13</td><td><strong>Commons package (E8):</strong> may we publish publicly, given our public FAQ says we don't advertise Athena inside Canvas and never present it as part of Canvas? Which Canvas account publishes, and do Commons' terms or review cover vendor content? Does Hinds' admin allow public Commons content, and will Hinds import and share the Hinds version in its own account?</td><td>Legal / Hinds</td><td>E8 doesn't start.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="muted" style="margin-top:8px">The full message drafts to product and to the Hinds contact are in <code>_archive/hinds-october-signups-v1.html</code>. <strong>Ads:</strong> one small remarketing test only (E2), no broad ads. Hinds' own channels still reach the exact students for free, so anything wider waits for the E2 read.</p>
+</section>
+
+<!-- GUARDRAILS -->
+<section id="guardrails">
+  <h2>Do and don't</h2>
+  <div class="two">
+    <div class="card">
+      <ul class="check">
+        <li class="y">"Free for Hinds students" and "Hinds covers it," once confirmed.</li>
+        <li class="y">Reads your courses, can't post or submit, disconnect anytime.</li>
+        <li class="y">Coaches toward the answer instead of handing it over.</li>
+        <li class="y">Short, plain, phone-first.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <ul class="check">
+        <li class="n">Present Athena as part of Canvas, endorsed by Hinds, or required. No graded tasks.</li>
+        <li class="n">Promise dashboards, reports, admin controls, or dates.</li>
+        <li class="n">Imply Hinds or an instructor sees an individual student's use.</li>
+        <li class="n">Collect friends' contacts, invent numbers, or use banned words (unlock, leverage, empower…).</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- LOG -->
+<section id="log">
+  <h2>Update log</h2>
+  <ul class="log">
+    <li><span class="d">2026-10-07</span>Added two short drip experiments, <strong>D1</strong> (opened the launch page, never registered) and <strong>D2</strong> (registered, haven't come back), on a new page: <a href="hinds-drip-experiments.html">hinds-drip-experiments.html</a>. Added a "Running now" section near the top that links to them, and moved <strong>E1 to E8 to backlog</strong> (a Backlog tag on each card; nothing removed, no targets or copy changed). Both drips are logged separately in the Experiments tab. Not yet through <code>messaging-review</code>.</li>
+    <li><span class="d">2026-10-06</span>Reworded the E2 (Remarketing) card in plainer language: "tag" became "tracking," "audience" became "group," "frequency cap" became "a cap on how often one person sees an ad," and the metrics and keep/stop rule were rephrased. No numbers, dates or decisions changed.</li>
+    <li><span class="d">2026-10-06</span>Turned "Larger lifts" into an "Other routes to students" section (overview table, plus a short list of routes not yet in the plan from <code>reference/traction-channels.md</code>) and added <strong>E8, a Canvas Commons package</strong> of Athena assets. Built from the faculty kit; shared unpublished; Hinds and public versions; shared by an instructor account. Based on Instructure's Commons guides: only instructors can share, admins can hide public content, imports keep published status. Added open question 13 (legal, publishing account, Hinds). No target numbers set.</li>
+    <li><span class="d">2026-10-06</span>Moved the sign-up path (launch page and registration page) from "Quick wins" to "Larger lifts," since it needs product to build a Hinds variant. To keep the groups in order, <strong>swapped numbers with the faculty quick start: faculty quick start is now E4 and the sign-up path is now E5.</strong> E1, E2, E3, E6 and E7 are unchanged. Entries below use the earlier numbers.</li>
+    <li><span class="d">2026-10-06</span>Added remarketing as <strong>E2</strong> and grouped it with the email follow-ups as "Win back first" (E1 and E2), so the first two experiments both go after people who already showed interest. <strong>Renumbered the rest: old E2 banner is now E3, sign-up path E4, faculty quick start E5, flyers + email image E6, student referral E7.</strong> Entries below use the old numbers. Added a card, glance row, deliverables, a target-basis row, calendar dates and open question 12 (legal, consent, age, Hinds name). Replaced "Ads: not this round" with a single small test. Sizing: ~3,500 left before registering (668 + ~2,800), but only visitors after the tag goes live can be reached.</li>
+    <li><span class="d">2026-10-06</span>Shortened "Deliverables by owner" to three short lists (product, development, marketing). Removed the Hinds list and lower-priority items (other follow-ups, weekly flyer checks, result logging, the "Invite a classmate" button, the $5-charge question). Moved the tag, tagged links, screen variant, step events and referral link from product to development.</li>
+    <li><span class="d">2026-10-06</span>Added "Deliverables by owner" (new section after the glance table): what each experiment needs from product, marketing and Hinds, with the date each is needed. Pulled from the experiment cards, open questions and calendar; no new asks. Noted that the faculty kit's video and slide are still placeholders.</li>
+    <li><span class="d">2026-10-06</span>Checked every numeric target against the numbers on the page and added "Where the targets come from" (new section after the glance table). Findings: none had a recorded basis; E1 "halve" conflicts with E1 "+10 per 100"; E3 "continue" +10 doesn't fit the funnel (83% already continue); E6 $2.50 is met by the reward ladder itself; E3 Keep rule of 150+ per version is under the ~230 needed. Added open question 11 (baselines). No target values changed.</li>
+    <li><span class="d">2026-10-06</span>Removed every "from Instructure" reference: the optional trust line in the launch page draft copy (screen A), the Instructure comms sign-off note under Do and don't, and the sign-off part of open question 10 (Video; its ask is now just "You"). Athena is a separate company under Instructure Foundry and is referred to as just Athena.</li>
+    <li><span class="d">2026-10-06</span>Removed open question 10 (gift cards to students: under-18 students, budget owner) and renumbered the last question (old 11 is now 10).</li>
+    <li><span class="d">2026-10-06</span>Removed the "Instructure and Hinds OK on gift cards" item from the E6 "Needs" line and dropped "Instructure and Hinds policy" from open question 10, since Athena sends the gift cards and their approval isn't needed.</li>
+    <li><span class="d">2026-10-06</span>Removed the note in E6 (student referral) that some schools count gift cards as income for aid. Athena sends the gift cards, not Hinds, so it doesn't apply.</li>
+    <li><span class="d">2026-10-05</span>Reordered "Three ways students sign up" by how common each is: Athena link inside Canvas (most used) is now way 1, main sign-up page with school info is way 2, and sign up normally then verify later (very few) is way 3. Added a "How common" column and updated the references to way numbers. The archived page and the onboarding emails plan use the old numbering.</li>
+    <li><span class="d">2026-10-05</span>Split the Canvas banner out of the sign-up path into its own experiment (E2), because Hinds already shows a banner with registration instructions, some of it out of date. It has two steps: fix the out-of-date info now, then test free-first wording. The sign-up path (now E3) covers the launch page and registration page only; its screens are relabeled A and B. Renumbered again: <strong>E2 is the banner, E3 sign-up path, E4 faculty quick start, E5 flyers + email image, E6 student referral.</strong> Older entries below use earlier numbers.</li>
+    <li><span class="d">2026-10-05</span>Reordered the experiments into "Quick wins" (E1 follow-up emails, E2 sign-up path, E3 faculty quick start) and "Larger lifts" (E4 flyers + email image, E5 student referral), and renumbered them. <strong>Older entries below use the previous numbers</strong> (old E1 is now E2, old E2 is E3, old E3 is E4, old E4 is E5, old E5 is E1). Added the email image to the flyers experiment (E4). The sign-up path card's three screens are now labeled A, B and C so they don't clash with experiment numbers.</li>
+    <li><span class="d">2026-10-05</span>Replaced "+10 pts" / "+10 points" and the symbol targets (≥, ≤, &gt;) with plain language ("10 more out of every 100," "$2.50 or less," "half or more"). Added a one-line explanation under the summary table.</li>
+    <li><span class="d">2026-10-05</span>Rewrote E1 (now E2) after reviewing screenshots of the real launch page and registration page. The launch page says "You just launched Athena from your LMS" (not "leaving Canvas"), so the draft copy was wrong. It now covers three screens (Canvas notice, launch page, registration page) with a Hinds variant, a new main metric (register and end up covered by Hinds), and new draft copy. Open question 4 reworded to match. Renamed "leaving page" to "launch page" elsewhere.</li>
+    <li><span class="d">2026-10-05</span>Confirmed the ~4,000 are different people, so removed open question 1 and renumbered the rest (old 2–12 are now 1–11). Removed the "Now" column from every metrics table; each now shows the metric and its target only.</li>
+    <li><span class="d">2026-10-05</span>Removed E0 (baseline) as already done.</li>
+    <li><span class="d">2026-10-05</span>Replaced the earlier plan page with this one: five experiments plus a baseline, each with its metrics and targets. Trimmed the wording, moved draft copy into collapsible blocks, folded the flyer content into the flyers experiment (no separate flyer file), and carried over the three ways to sign up and the open questions. Earlier page archived at <code>_archive/hinds-october-signups-v1.html</code>. Added the Oct 5 numbers (4,000 reached sign-up, 668 stopped on the launch page, 515 registered, ~300 using it monthly, 800 contracted). Copy not yet through messaging-review.</li>
+  </ul>
+</section>
+
+<footer>
+  Source: <code>work-in-progress/hinds-oct-signups/hinds-october-signups.html</code> · App copy: <code>app/public/hinds-oct-signups/hinds-october-signups.html</code> ·
+  Kit: <code>hinds-faculty-quick-start.html</code> · Drips: <code>hinds-drip-experiments.html</code> · Related: <code>../drip-campaigns/hinds-student-onboarding.html</code> · Internal working doc.
+</footer>
+
+</main>
+</div>
+
+<script>
+  var links = Array.prototype.slice.call(document.querySelectorAll('.toc a'));
+  var targets = links.map(function (a) { return document.querySelector(a.getAttribute('href')); });
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        links.forEach(function (a) { a.classList.toggle('active', a.getAttribute('href') === '#' + entry.target.id); });
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+  targets.forEach(function (t) { if (t) observer.observe(t); });
+</script>
+</body>
+</html>

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Edit, Trash2, CheckCircle2, Clock, AlertCircle, Pause, XCircle, ChevronDown, ChevronUp, ArrowUp, ArrowDown, MessageSquarePlus, Link2, X, StickyNote } from 'lucide-react';
+import { Edit, Trash2, CheckCircle2, Clock, AlertCircle, Pause, XCircle, ChevronDown, ChevronUp, Pin, MessageSquarePlus, Link2, X, StickyNote } from 'lucide-react';
 import type { Project } from '@/types';
 import TaskList from './TaskList';
 
@@ -12,10 +12,7 @@ interface ProjectCardProps {
   onQuickStatusChange: (id: string, status: Project['status']) => void;
   onTasksChange: (id: string, tasks: Project['tasks']) => void;
   onNotesChange: (id: string, notes: Project['notes']) => void;
-  onRankChange?: (id: string, direction: 'up' | 'down') => void;
-  isFirst?: boolean;
-  isLast?: boolean;
-  rankNumber?: number;
+  onPinToggle: (id: string) => void;
 }
 
 // Extract URLs from text
@@ -105,7 +102,7 @@ const statusConfig = {
   },
 };
 
-export default function ProjectCard({ project, onEdit, onDelete, onQuickStatusChange, onTasksChange, onNotesChange, onRankChange, isFirst, isLast, rankNumber }: ProjectCardProps) {
+export default function ProjectCard({ project, onEdit, onDelete, onQuickStatusChange, onTasksChange, onNotesChange, onPinToggle }: ProjectCardProps) {
   const [showStatusMenu, setShowStatusMenu] = useState(false);
   const [showTasks, setShowTasks] = useState(true);
   const [showAllTasks, setShowAllTasks] = useState(false);
@@ -116,6 +113,7 @@ export default function ProjectCard({ project, onEdit, onDelete, onQuickStatusCh
   const config = statusConfig[project.status];
   const StatusIcon = config.icon;
   const isComplete = project.status === 'complete';
+  const isPinned = !!project.pinned;
   
   const incompleteTasks = project.tasks?.filter(t => !t.completed) || [];
   const hasMultipleTasks = incompleteTasks.length > 1;
@@ -148,43 +146,7 @@ export default function ProjectCard({ project, onEdit, onDelete, onQuickStatusCh
 
   return (
     <div className={`bg-white rounded-lg border-2 ${config.color} hover:shadow-lg transition-all group flex`}>
-      {/* Rank indicator */}
-      {rankNumber !== undefined && (
-        <div className={`flex flex-col items-center justify-center px-4 border-r border-gray-100 ${
-          !isComplete && rankNumber <= 2 ? 'bg-accent-50' : 'bg-gray-50'
-        }`}>
-          {isComplete ? (
-            <CheckCircle2 size={24} className="text-success-500" />
-          ) : (
-            <span className={`text-2xl font-bold ${
-              rankNumber === 1 ? 'text-accent-600' : rankNumber === 2 ? 'text-accent-500' : 'text-gray-400'
-            }`}>
-              {rankNumber}
-            </span>
-          )}
-          {onRankChange && (
-            <div className="flex flex-col gap-0.5 mt-1">
-              <button
-                onClick={() => onRankChange(project.id, 'up')}
-                disabled={isFirst}
-                className="p-0.5 text-gray-400 hover:text-gray-700 hover:bg-white rounded transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
-                title="Move up"
-              >
-                <ArrowUp size={14} />
-              </button>
-              <button
-                onClick={() => onRankChange(project.id, 'down')}
-                disabled={isLast}
-                className="p-0.5 text-gray-400 hover:text-gray-700 hover:bg-white rounded transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
-                title="Move down"
-              >
-                <ArrowDown size={14} />
-              </button>
-            </div>
-          )}
-        </div>
-      )}
-      
+
       <div className="p-4 flex-1 min-w-0">
         {/* Header */}
         <div className="flex items-start justify-between gap-2 mb-3">
@@ -192,25 +154,49 @@ export default function ProjectCard({ project, onEdit, onDelete, onQuickStatusCh
               <h3 className={`text-lg font-semibold mb-1 break-words ${
                 isComplete ? 'text-gray-400 line-through' : 'text-gray-900'
               }`}>
-                {project.name}
+                {project.pageUrl ? (
+                  <a
+                    href={project.pageUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-accent-600 hover:underline"
+                    title="Open project page"
+                  >
+                    {project.name}
+                  </a>
+                ) : (
+                  project.name
+                )}
               </h3>
               {project.description && (
                 <p className="text-sm text-gray-600 line-clamp-2">{project.description}</p>
               )}
           </div>
 
-          {/* Edit/Delete - show on hover */}
-          <div className="flex gap-0.5 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
+          {/* Pin (always visible when pinned) + Edit/Delete (on hover) */}
+          <div className="flex gap-0.5 shrink-0">
+            <button
+              onClick={() => onPinToggle(project.id)}
+              className={`p-1.5 rounded transition-all ${
+                isPinned
+                  ? 'text-accent-600 bg-accent-50 hover:bg-accent-100'
+                  : 'text-gray-600 hover:bg-gray-100 opacity-0 group-hover:opacity-100'
+              }`}
+              title={isPinned ? 'Unpin project' : 'Pin to top'}
+              aria-pressed={isPinned}
+            >
+              <Pin size={16} className={isPinned ? 'fill-current' : ''} />
+            </button>
             <button
               onClick={() => onEdit(project)}
-              className="p-1.5 text-gray-600 hover:bg-gray-100 rounded transition-colors"
+              className="p-1.5 text-gray-600 hover:bg-gray-100 rounded transition-all opacity-0 group-hover:opacity-100"
               title="Edit"
             >
               <Edit size={16} />
             </button>
             <button
               onClick={() => onDelete(project.id)}
-              className="p-1.5 text-red-600 hover:bg-red-50 rounded transition-colors"
+              className="p-1.5 text-red-600 hover:bg-red-50 rounded transition-all opacity-0 group-hover:opacity-100"
               title="Delete"
             >
               <Trash2 size={16} />

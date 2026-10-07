@@ -7,6 +7,7 @@
     "nextAction": "Review ICP answers + interview guide, then recruit 8-10 educators (start with Hinds CC faculty)",
     "deadline": "",
     "folder": "work-in-progress/educator-segment/",
+    "pageUrl": "/educator-segment/interview-guide.html",
     "description": "Define educator ICP and validate market demand. Testing hypothesis: educators will champion Athena and sponsor it for their own students ($5/MAU) without institutional procurement.",
     "tasks": [
       {
@@ -45,8 +46,7 @@
         "date": "2026-09-29T13:40:00Z",
         "note": "Educator interview guide (HTML, needs app running): http://localhost:3000/educator-segment/interview-guide.html — Files: work-in-progress/educator-segment/interview-guide.html (+ .md source) and icp-questions.md"
       }
-    ],
-    "rank": 3
+    ]
   },
   {
     "id": "1727539200002",
@@ -56,6 +56,7 @@
     "nextAction": "Pull baseline Hinds funnel in PostHog + take engineering asks (sponsorship in PostHog) to product/eng (see project page in Notes)",
     "deadline": "",
     "folder": "work-in-progress/drip-campaigns/",
+    "pageUrl": "/drip-campaigns/hinds-student-onboarding.html",
     "description": "Onboarding drip for Hinds CC students (sponsored): registered → connect Canvas → open a Study Space → activate (message, chat, quiz/flashcards, or tutoring session). D2C trial, institutional pilot, and educator drips are backlog.",
     "tasks": [
       {
@@ -64,6 +65,13 @@
         "title": "Answer blocking questions with product/eng + Hinds owner (where's the drop-off, how we identify Hinds students, trial/paywall behavior, events)",
         "completed": false,
         "createdAt": "2026-09-29T16:00:00Z"
+      },
+      {
+        "id": "task-drip-hinds-oct-19",
+        "projectId": "1727539200002",
+        "title": "Decide on a small first version before Oct 19 (emails 2.1 and 3.1 plus backfill, sponsored sign-up students only); get an owner, a way to send, and a launch date this week. Linked to the Hinds October Signups project.",
+        "completed": false,
+        "createdAt": "2026-10-05T17:00:00Z"
       },
       {
         "id": "task-drip-hinds-2",
@@ -134,13 +142,90 @@
         "note": "Triggers mapped to PostHog (see project page §7). Key gaps: PostHog can't see sponsorship (Hinds students show subscription_status = none), no sign-up event for standard registration, no quiz/flashcard creation event. Sponsored sign-up students skip the Connect Canvas stage."
       }
     ],
-    "rank": 3
+    "pinned": true
+  },
+  {
+    "id": "1727539200006",
+    "name": "Hinds October Signups",
+    "status": "in-progress",
+    "owner": "",
+    "nextAction": "Run the two drips first (D2 registered-not-back starts Oct 12; D1 never-registered Oct 13, once we know how to reach them): pick an owner and a sender, get the registered-not-using list from product, confirm 'free', and ask product whether the Canvas launch gives us an email. E1 to E8 are backlogged. See hinds-drip-experiments.html.",
+    "deadline": "2026-10-19",
+    "folder": "work-in-progress/hinds-oct-signups/",
+    "pageUrl": "/hinds-oct-signups/hinds-october-signups.html",
+    "description": "Product asked for help getting more sign-ups in October. Hinds has an in-person semester starting this week and an online semester starting Oct 19. Confirmed with product: this is about Hinds. Students can sign up three ways: the main page with the school info, signing up normally and verifying later in Subscriptions, or the Athena link inside Canvas. Plan: ask Hinds to tell students through Canvas, email, and instructors, sending everyone to one way to sign up. Tell in-person students this week and online students Oct 19. Maybe a small ad test for Oct 19 only, if the conditions on the project page are true. Uses the same analytics setup as the Hinds onboarding emails plan.",
+    "tasks": [
+      {
+        "id": "task-hinds-oct-1",
+        "projectId": "1727539200006",
+        "title": "Send message to product: how many students use each of the three ways to sign up; what the Athena link in Canvas is (our FAQs say Athena isn't installed into Canvas as an app); which web address to send students to; whether students who sign up normally and never verify are charged $5 after the free week; ads; what number counts as success and when to check; who owns the follow-up emails, how they get sent, and whether a small first version can go out before Oct 19; owners' names",
+        "completed": false,
+        "createdAt": "2026-10-05T16:00:00Z"
+      },
+      {
+        "id": "task-hinds-oct-2",
+        "projectId": "1727539200006",
+        "title": "Pull what product can't, from our analytics tool (PostHog): Hinds sign-ups per day this fall, and how many people open the Hinds sign-up page versus finish it",
+        "completed": false,
+        "createdAt": "2026-10-05T16:00:00Z"
+      },
+      {
+        "id": "task-hinds-oct-3",
+        "projectId": "1727539200006",
+        "title": "Choose one way to sign up to send everyone to once product answers (my guess: the Athena link in Canvas, otherwise the main sign-up page with the school info)",
+        "completed": false,
+        "createdAt": "2026-10-05T16:00:00Z"
+      },
+      {
+        "id": "task-hinds-oct-4",
+        "projectId": "1727539200006",
+        "title": "Send one message to our contact at Hinds: which places can tell students (Canvas announcement, email, instructors), who approves wording, start dates and student counts, what they did at the start of fall",
+        "completed": false,
+        "createdAt": "2026-10-05T16:00:00Z"
+      },
+      {
+        "id": "task-hinds-oct-5",
+        "projectId": "1727539200006",
+        "title": "Write one short message for Hinds to share (Canvas announcement, email, instructor blurb, optional poster with QR code) and review it with the messaging-review skill",
+        "completed": false,
+        "createdAt": "2026-10-05T16:00:00Z"
+      },
+      {
+        "id": "task-hinds-oct-6",
+        "projectId": "1727539200006",
+        "title": "Tell in-person students this week and online students Oct 19; decide on a small ad test for Oct 19 by Oct 12; check results Oct 26 and Nov 2 and record them in reference/traction-channels.md",
+        "completed": false,
+        "createdAt": "2026-10-05T16:00:00Z"
+      }
+    ],
+    "notes": [
+      {
+        "id": "note-hinds-oct-page-1",
+        "date": "2026-10-05T16:00:00Z",
+        "note": "Project page (HTML, needs app running): http://localhost:3000/hinds-oct-signups/hinds-october-signups.html. Source: work-in-progress/hinds-oct-signups/hinds-october-signups.html (app copy in app/public/hinds-oct-signups/)"
+      },
+      {
+        "id": "note-hinds-oct-experiments-1",
+        "date": "2026-10-05T18:00:00Z",
+        "note": "Project page now holds the experiments (quick wins: E1 follow-up emails, E2 Hinds Canvas banner, E3 sign-up path, E4 faculty quick start; larger lifts: E5 flyers + email image, E6 student referral) with metrics and targets: http://localhost:3000/hinds-oct-signups/hinds-october-signups.html. Faculty kit (instructor-facing, copy buttons): http://localhost:3000/hinds-oct-signups/hinds-faculty-quick-start.html. Earlier plan page archived at work-in-progress/hinds-oct-signups/_archive/hinds-october-signups-v1.html."
+      },
+      {
+        "id": "note-hinds-oct-remarketing-1",
+        "date": "2026-10-06T18:00:00Z",
+        "note": "Added remarketing as E2 and renumbered the rest. Win back first: E1 follow-up emails, E2 remarketing (ads for people who left before registering). Quick wins: E3 Hinds Canvas banner, E4 faculty quick start. Larger lifts (now an \"Other routes to students\" section): E5 sign-up path, E6 flyers + email image, E7 student referral, E8 Canvas Commons package of Athena assets (needs legal sign-off, open question 13). E2 needs legal/privacy sign-off first (open question 12) and an ad tag with a consent check from development. The note above uses the old numbering."
+      },
+      {
+        "id": "note-hinds-oct-drips-1",
+        "date": "2026-10-07T12:00:00Z",
+        "note": "Two short drip experiments now run first: D1 (opened the launch page, never registered) and D2 (registered, haven't come back). Steps, copy, buttons, metrics: http://localhost:3000/hinds-oct-signups/hinds-drip-experiments.html (D1: #d1, D2: #d2). Source: work-in-progress/hinds-oct-signups/hinds-drip-experiments.html (app copy in app/public/hinds-oct-signups/). Both are logged separately in the Experiments tab. E1 to E8 on the project page are backlogged (tagged, nothing removed). D1 has no known way to reach people who left before registering (no email on file); needs product's answer and legal sign-off."
+      }
+    ],
+    "pinned": false
   },
   {
     "id": "1727539200003",
     "name": "Institutional Page Revamp",
     "status": "complete",
-    "rank": 1,
     "owner": "",
     "nextAction": "Draft institutional value prop and hero messaging",
     "deadline": "",
@@ -191,8 +276,7 @@
   {
     "id": "1727539200004",
     "name": "Launch Updated Educator Landing Site",
-    "status": "not-started",
-    "rank": 5,
+    "status": "complete",
     "owner": "",
     "nextAction": "Validate educator ICP first, then decide if separate page is needed",
     "deadline": "",
@@ -204,7 +288,6 @@
     "id": "1727539200005",
     "name": "FAQ Redux for Better Communication Routes",
     "status": "in-progress",
-    "rank": 2,
     "owner": "",
     "nextAction": "Audit existing FAQs across all docs and identify gaps",
     "deadline": "",
@@ -224,6 +307,90 @@
         "id": "note-faq-1",
         "date": "2026-09-27T11:00:00Z",
         "note": "[EXAMPLE NOTE] Current FAQ locations: https://athena.edu/faq and https://help.athena.edu — need to consolidate"
+      }
+    ]
+  },
+  {
+    "id": "1727539200007",
+    "name": "Parents Landing Page",
+    "status": "in-progress",
+    "owner": "",
+    "nextAction": "Name an owner and checkpoint date, approve the positioning direction and headline pair (H1 vs H2), and send the blocking questions (parent-pays, parent-facing features, referral tracking) to product and eng",
+    "deadline": "",
+    "folder": "work-in-progress/parents-landing-page/",
+    "pageUrl": "/parents-landing-page/parents-landing-page.html",
+    "description": "Learn whether we can reach and earn the trust of parents of college students. A landing page positioned as \"the AI study tool that makes your student do the work,\" with a primary CTA to send Athena to the student (student starts their own trial) and a secondary parent email capture. Success is students activated via a parent referral, not parent signups. Tested through cheap relational channels, not paid-first.",
+    "tasks": [
+      {
+        "id": "task-parents-1",
+        "projectId": "1727539200007",
+        "title": "Draft positioning direction and director review (GTM, PMM, product design)",
+        "completed": true,
+        "createdAt": "2026-10-06T12:00:00Z",
+        "completedAt": "2026-10-06T12:00:00Z"
+      },
+      {
+        "id": "task-parents-2",
+        "projectId": "1727539200007",
+        "title": "Name an owner and a checkpoint date; set numeric success thresholds before launch",
+        "completed": false,
+        "createdAt": "2026-10-06T12:00:00Z"
+      },
+      {
+        "id": "task-parents-3",
+        "projectId": "1727539200007",
+        "title": "Approve positioning direction and pick the headline pair to test (H1 vs H2)",
+        "completed": false,
+        "createdAt": "2026-10-06T12:00:00Z"
+      },
+      {
+        "id": "task-parents-4",
+        "projectId": "1727539200007",
+        "title": "Send blocking questions to product/eng: can a parent pay for a student, is there any parent-facing view, can the sign-up link carry a referral tag through PostHog (Q1 to Q3)",
+        "completed": false,
+        "createdAt": "2026-10-06T12:00:00Z"
+      },
+      {
+        "id": "task-parents-5",
+        "projectId": "1727539200007",
+        "title": "Confirm age and terms scope (college students only) with legal/product; get Instructure comms sign-off on boilerplate wording",
+        "completed": false,
+        "createdAt": "2026-10-06T12:00:00Z"
+      },
+      {
+        "id": "task-parents-6",
+        "projectId": "1727539200007",
+        "title": "Run 5 to 8 parent conversations (parents of current and first-year students) in parallel with copy drafting",
+        "completed": false,
+        "createdAt": "2026-10-06T12:00:00Z"
+      },
+      {
+        "id": "task-parents-7",
+        "projectId": "1727539200007",
+        "title": "Draft page copy, then review with the messaging-review skill and the copy director",
+        "completed": false,
+        "createdAt": "2026-10-06T12:00:00Z"
+      },
+      {
+        "id": "task-parents-8",
+        "projectId": "1727539200007",
+        "title": "Design, build, and instrument the page (mobile first; referral tag through trial start and activation)",
+        "completed": false,
+        "createdAt": "2026-10-06T12:00:00Z"
+      },
+      {
+        "id": "task-parents-9",
+        "projectId": "1727539200007",
+        "title": "Run a cheap relational channel test (campus parent orgs/newsletters, orientation contacts, student-to-parent referral); log in reference/traction-channels.md",
+        "completed": false,
+        "createdAt": "2026-10-06T12:00:00Z"
+      }
+    ],
+    "notes": [
+      {
+        "id": "note-parents-page-1",
+        "date": "2026-10-06T12:00:00Z",
+        "note": "Project page (HTML, needs app running): http://localhost:3000/parents-landing-page/parents-landing-page.html. Source: work-in-progress/parents-landing-page/parents-landing-page.html (app copy in app/public/parents-landing-page/). Decision logged in decisions/DECISION-LOG.md (2026-10-06)."
       }
     ]
   }

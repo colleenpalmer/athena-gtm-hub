@@ -1,14 +1,15 @@
 # GTM Project Tracker
 
 > Central dashboard for all active GTM work. Update weekly.
-> Last updated: 2026-09-29
+> Last updated: 2026-10-05
 
 ## Active Projects
 
 | Project | Status | Owner | Next Action | Deadline | Folder |
 |---------|--------|-------|-------------|----------|--------|
 | **Educator ICP & Segment Exploration** | 🟡 In Progress | — | Complete ICP definition questions | — | `work-in-progress/educator-segment/` |
-| **Drip Campaign: Hinds Student Onboarding** | 🟡 In Progress | — | Pull baseline Hinds funnel in PostHog + take engineering asks to product/eng (see `hinds-student-onboarding.html`) | — | `work-in-progress/drip-campaigns/` |
+| **Drip Campaign: Hinds Student Onboarding** | 🟡 In Progress | — | Decide on a small first version before Oct 19 (owner, way to send, launch date); pull baseline Hinds funnel in PostHog + take engineering asks to product/eng (see `hinds-student-onboarding.html`) | — | `work-in-progress/drip-campaigns/` |
+| **Hinds October Signups** | 🟡 In Progress | — | Run two short drips first: D2 (registered, not back) Oct 12 and D1 (opened launch page, never registered) Oct 13. Pick an owner and sender, get the list from product, confirm "free," find out how to reach D1. E1–E8 backlogged (see `hinds-drip-experiments.html`, `hinds-october-signups.html`) | 2026-10-19 (online start) | `work-in-progress/hinds-oct-signups/` |
 | **Institutional Page Revamp** | 🟡 In Progress | — | TBD | — | `work-in-progress/institutional-page-revamp/` |
 | **Fall 2026 Pilot Recruitment (Institutional)** | 🟢 Active | — | 10–15 pilot goal | Fall 2026 | See institutional folder |
 

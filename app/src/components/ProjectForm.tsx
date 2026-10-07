@@ -41,6 +41,7 @@ export default function ProjectForm({ project, onSubmit, onCancel }: ProjectForm
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSubmit({
+      ...project, // preserve fields the form doesn't edit (notes, pageUrl, pinned)
       id: project?.id || Date.now().toString(),
       name: formData.name || '',
       status: formData.status || 'not-started',
@@ -50,7 +51,6 @@ export default function ProjectForm({ project, onSubmit, onCancel }: ProjectForm
       folder: formData.folder,
       description: formData.description,
       tasks: formData.tasks,
-      rank: formData.rank ?? 999, // New projects go to bottom by default
     });
   };
 

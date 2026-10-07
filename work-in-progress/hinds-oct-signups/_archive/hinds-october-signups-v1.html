@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hinds October Signups · Athena</title>
+<!--
+  PROJECT PAGE: source of truth for this project.
+  How to update:
+    - Status pills: change the class on <span class="pill ..."> to st-done / st-prog / st-open / st-block / st-unk
+      and the label inside it.
+    - Update "Last updated" in the hero and add a line to the Update log at the bottom.
+    - Keep the app copy in sync: app/public/hinds-oct-signups/hinds-october-signups.html
+  PostHog references reuse the trigger map in work-in-progress/drip-campaigns/hinds-student-onboarding.html (§7, §10).
+-->
+<style>
+  :root {
+    --g50:#FAFAFA; --g100:#F5F5F5; --g200:#E5E5E5; --g300:#D4D4D4; --g400:#A3A3A3;
+    --g500:#737373; --g600:#525252; --g700:#404040; --g800:#262626; --g900:#171717;
+    --a50:#EEF2FF; --a100:#E0E7FF; --a200:#C7D2FE; --a500:#6366F1; --a600:#4F46E5; --a700:#4338CA;
+    --s50:#F0FDF4; --s200:#BBF7D0; --s600:#16A34A; --s700:#15803D;
+    --y50:#FFFBEB; --y200:#FDE68A; --y700:#B45309;
+    --r50:#FEF2F2; --r200:#FECACA; --r700:#B91C1C;
+    --radius:10px;
+  }
+  * { box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body {
+    margin:0; background:var(--g50); color:var(--g600);
+    font:15px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif;
+  }
+  h1,h2,h3,h4 { color:var(--g900); line-height:1.25; margin:0 0 .5em; }
+  h1 { font-size:30px; letter-spacing:-.02em; }
+  h2 { font-size:21px; letter-spacing:-.01em; }
+  h3 { font-size:16px; }
+  p { margin:0 0 .8em; }
+  strong { color:var(--g800); }
+  code { background:var(--g100); border:1px solid var(--g200); border-radius:4px; padding:1px 5px; font-size:13px; }
+
+  .layout { display:grid; grid-template-columns:230px 1fr; max-width:1180px; margin:0 auto; }
+  nav.toc {
+    position:sticky; top:0; align-self:start; height:100vh; overflow:auto;
+    padding:32px 16px 32px 24px; border-right:1px solid var(--g200);
+  }
+  .toc .brand { font-weight:700; color:var(--g900); font-size:14px; margin-bottom:2px; }
+  .toc .sub { font-size:12px; color:var(--g500); margin-bottom:20px; }
+  .toc a { display:block; padding:6px 10px; margin:1px 0; border-radius:6px; color:var(--g600); text-decoration:none; font-size:14px; }
+  .toc a:hover { background:var(--g100); color:var(--g900); }
+  .toc a.active { background:var(--a50); color:var(--a700); font-weight:600; }
+  .toc .num { display:inline-block; width:20px; color:var(--g400); font-variant-numeric:tabular-nums; }
+
+  main { padding:40px 48px 80px; min-width:0; }
+  section { margin-bottom:34px; scroll-margin-top:24px; }
+  .card { background:#fff; border:1px solid var(--g200); border-radius:var(--radius); padding:22px 24px; }
+  .eyebrow { font-size:12px; text-transform:uppercase; letter-spacing:.08em; color:var(--g500); font-weight:600; margin-bottom:8px; }
+  .muted { color:var(--g500); font-size:13px; }
+
+  /* Hero */
+  .hero { background:var(--g900); color:#E5E5E5; border-radius:14px; padding:32px 34px; margin-bottom:28px; }
+  .hero h1 { color:#fff; }
+  .hero .eyebrow { color:var(--g400); }
+  .hypothesis { background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12); border-radius:10px; padding:16px 18px; margin:18px 0 20px; font-size:16px; color:#fff; }
+  .hypothesis strong { color:#fff; }
+  .meta { display:flex; flex-wrap:wrap; gap:10px 28px; font-size:13px; color:var(--g400); }
+  .meta b { color:#fff; font-weight:600; }
+
+  /* Status pills */
+  .pill { display:inline-block; font-size:11.5px; font-weight:700; padding:2px 9px; border-radius:999px; border:1px solid; white-space:nowrap; vertical-align:middle; }
+  .st-done  { background:var(--s50); color:var(--s700); border-color:var(--s200); }
+  .st-prog  { background:var(--a50); color:var(--a700); border-color:var(--a200); }
+  .st-open  { background:var(--g100); color:var(--g700); border-color:var(--g200); }
+  .st-block { background:var(--r50); color:var(--r700); border-color:var(--r200); }
+  .st-unk   { background:var(--y50); color:var(--y700); border-color:var(--y200); }
+  .hero .pill { font-size:12px; }
+
+  /* Grids */
+  .grid { display:grid; gap:14px; }
+  .grid-2 { grid-template-columns:repeat(2, minmax(0,1fr)); }
+  .grid-3 { grid-template-columns:repeat(3, minmax(0,1fr)); }
+  .grid-4 { grid-template-columns:repeat(4, minmax(0,1fr)); }
+
+  /* Stat tiles */
+  .stat { background:#fff; border:1px solid var(--g200); border-radius:var(--radius); padding:16px 18px; }
+  .stat .k { font-size:12px; text-transform:uppercase; letter-spacing:.06em; color:var(--g500); font-weight:600; }
+  .stat .v { font-size:26px; font-weight:700; color:var(--g900); line-height:1.2; margin:4px 0 2px; font-variant-numeric:tabular-nums; }
+  .progress { height:8px; background:var(--g100); border-radius:999px; overflow:hidden; margin-top:8px; }
+  .progress > span { display:block; height:100%; background:var(--a500); }
+
+  /* Tables */
+  table { width:100%; border-collapse:collapse; font-size:14px; }
+  th { text-align:left; font-size:12px; text-transform:uppercase; letter-spacing:.06em; color:var(--g500); font-weight:600; padding:10px 12px; border-bottom:1px solid var(--g200); background:var(--g50); }
+  td { padding:12px; border-bottom:1px solid var(--g200); vertical-align:top; }
+  tr:last-child td { border-bottom:none; }
+  td.n { font-weight:700; color:var(--g400); white-space:nowrap; font-variant-numeric:tabular-nums; }
+  td.t { white-space:nowrap; color:var(--g800); font-weight:600; }
+  .table-wrap { border:1px solid var(--g200); border-radius:var(--radius); overflow:auto; background:#fff; }
+  .cta { display:inline-block; font-size:12.5px; font-weight:600; color:var(--g900); background:var(--g100); border:1px solid var(--g200); border-radius:6px; padding:2px 8px; white-space:nowrap; }
+  .pillar { font-size:11px; font-weight:700; color:var(--a700); background:var(--a50); border:1px solid var(--a200); border-radius:4px; padding:1px 6px; white-space:nowrap; }
+
+  /* Funnel */
+  .funnel { display:grid; grid-template-columns:1fr auto 1fr auto 1fr auto 1fr; align-items:stretch; gap:0; }
+  .node { background:#fff; border:1px solid var(--g200); border-radius:var(--radius); padding:14px 14px 12px; text-align:center; }
+  .node .lbl { font-size:11px; text-transform:uppercase; letter-spacing:.07em; font-weight:700; color:var(--g400); }
+  .node .nm { font-weight:700; color:var(--g900); margin:2px 0 4px; }
+  .node .ev { font-size:12px; color:var(--g500); }
+  .node .ev code { font-size:11.5px; }
+  .node.start { background:var(--g100); }
+  .node.goal { background:var(--s50); border-color:var(--s200); }
+  .node.goal .nm { color:var(--s700); }
+  .arrow { display:flex; flex-direction:column; align-items:center; justify-content:center; padding:0 8px; min-width:92px; text-align:center; }
+  .arrow .stg { font-size:11px; font-weight:700; color:var(--a700); background:var(--a50); border:1px solid var(--a200); border-radius:999px; padding:1px 8px; margin-bottom:4px; white-space:nowrap; }
+  .arrow .line { width:100%; height:2px; background:var(--a200); position:relative; }
+  .arrow .line::after { content:""; position:absolute; right:-1px; top:-4px; border:5px solid transparent; border-left:7px solid var(--a500); border-right:0; }
+  .arrow .em { font-size:11px; color:var(--g500); margin-top:4px; white-space:nowrap; }
+  .funnel-note { display:flex; gap:10px; flex-wrap:wrap; margin-top:12px; font-size:13px; }
+  .funnel-note span { background:#fff; border:1px dashed var(--g300); border-radius:8px; padding:6px 10px; }
+
+  /* Stage cards */
+  .stage { background:#fff; border:1px solid var(--g200); border-radius:var(--radius); overflow:hidden; margin-bottom:14px; }
+  .stage-head { display:flex; flex-wrap:wrap; align-items:center; gap:10px 18px; padding:14px 18px; background:var(--g50); border-bottom:1px solid var(--g200); }
+  .stage-head .num { flex:0 0 30px; height:30px; border-radius:8px; background:var(--a100); color:var(--a700); font-weight:700; display:flex; align-items:center; justify-content:center; }
+  .stage-head h3 { margin:0; }
+  .stage-head .rule { font-size:13px; color:var(--g600); }
+  .stage-head .rule b { color:var(--g800); }
+  .stage table { border-radius:0; }
+  .stage .foot { padding:10px 18px; font-size:13px; border-top:1px solid var(--g200); background:var(--a50); color:var(--g700); }
+
+  /* Lists */
+  ul.plain { margin:0; padding-left:20px; }
+  ul.plain li { margin:5px 0; }
+  ul.check { list-style:none; padding:0; margin:0; }
+  ul.check li { padding:5px 0 5px 28px; position:relative; }
+  ul.check li::before { position:absolute; left:0; top:6px; width:18px; height:18px; border-radius:50%; font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; }
+  ul.check li.y::before { content:"✓"; background:var(--s50); color:var(--s600); border:1px solid var(--s200); }
+  ul.check li.n::before { content:"✕"; background:var(--r50); color:var(--r700); border:1px solid var(--r200); }
+
+  .callout { border:1px solid var(--g200); border-radius:var(--radius); background:#fff; padding:18px 20px; }
+  .callout.accent { border-color:var(--a200); background:var(--a50); }
+  .callout.warn { border-color:var(--y200); background:var(--y50); }
+  .callout h3 { margin-bottom:8px; }
+
+  /* Steps */
+  .steps { list-style:none; padding:0; margin:0; counter-reset:s; }
+  .steps li { display:flex; align-items:flex-start; gap:12px; background:#fff; border:1px solid var(--g200); border-radius:var(--radius); padding:12px 16px; margin-bottom:8px; }
+  .steps li::before { counter-increment:s; content:counter(s); flex:0 0 24px; height:24px; border-radius:50%; background:var(--g900); color:#fff; font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center; margin-top:1px; }
+  .steps li .txt { flex:1; }
+  .steps li .pill { margin-left:auto; }
+
+  /* Log */
+  .log { border-left:2px solid var(--g200); padding-left:16px; margin:0; list-style:none; }
+  .log li { position:relative; margin-bottom:10px; font-size:14px; }
+  .log li::before { content:""; position:absolute; left:-22px; top:7px; width:10px; height:10px; border-radius:50%; background:var(--a500); }
+  .log .d { font-weight:700; color:var(--g800); margin-right:6px; font-variant-numeric:tabular-nums; }
+
+  footer { font-size:12px; color:var(--g400); margin-top:40px; border-top:1px solid var(--g200); padding-top:16px; }
+
+  @media (max-width:960px) {
+    .layout { grid-template-columns:1fr; }
+    nav.toc { display:none; }
+    main { padding:24px 18px 60px; }
+    .grid-2, .grid-3, .grid-4 { grid-template-columns:1fr; }
+    .funnel { grid-template-columns:1fr; }
+    .arrow { padding:8px 0; }
+    .arrow .line { width:2px; height:18px; }
+    .arrow .line::after { right:-4px; top:auto; bottom:-2px; border:5px solid transparent; border-top:7px solid var(--a500); border-bottom:0; }
+  }
+  @media print {
+    nav.toc { display:none !important; }
+    .layout { display:block; }
+    main { padding:0; }
+    body { background:#fff; font-size:12px; }
+    .hero { background:#fff; color:var(--g700); border:1px solid var(--g300); }
+    .hero h1, .hypothesis, .hypothesis strong, .meta b { color:var(--g900); }
+    .hypothesis { background:var(--g100); border-color:var(--g200); }
+    section, .stage { break-inside:avoid-page; }
+  }
+  /* Signal source badges + code refs */
+  .src { display:inline-block; font-size:11px; font-weight:700; padding:1px 7px; border-radius:4px; border:1px solid; white-space:nowrap; margin:0 2px 2px 0; }
+  .src.sv { background:var(--s50); color:var(--s700); border-color:var(--s200); }
+  .src.cl { background:var(--g100); color:var(--g700); border-color:var(--g200); }
+  .src.pp { background:var(--a50); color:var(--a700); border-color:var(--a200); }
+  .ref { font:11.5px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace; color:var(--g500); margin-top:4px; word-break:break-word; }
+
+  /* Answer inputs (section 7) */
+  .ans-box { margin-top:8px; min-width:230px; }
+  .ans-box textarea { width:100%; min-height:64px; resize:vertical; font:inherit; font-size:13.5px; color:var(--g800); background:#fff; border:1px solid var(--g300); border-radius:8px; padding:8px 10px; }
+  .ans-box textarea:focus, .ans-box select:focus { outline:2px solid var(--a200); border-color:var(--a500); }
+  .ans-row { display:flex; flex-wrap:wrap; align-items:center; gap:8px 12px; margin-top:6px; }
+  .ans-row select { font:inherit; font-size:13px; color:var(--g800); background:#fff; border:1px solid var(--g300); border-radius:6px; padding:3px 6px; }
+  .ans-tools { display:flex; flex-wrap:wrap; align-items:center; gap:8px 12px; margin:0 0 18px; }
+  .btn { font:inherit; font-size:13px; font-weight:600; color:var(--g900); background:#fff; border:1px solid var(--g300); border-radius:8px; padding:6px 12px; cursor:pointer; }
+  .btn:hover { background:var(--g100); }
+  .btn.primary { background:var(--g900); color:#fff; border-color:var(--g900); }
+  .btn.primary:hover { background:var(--g800); }
+  @media print { .ans-tools, .ans-row { display:none !important; } .ans-box textarea { border:none; padding:0; min-height:0; resize:none; } }
+</style>
+</head>
+<body>
+<div class="layout">
+
+<nav class="toc" aria-label="Contents">
+  <div class="brand">Athena · Hinds</div>
+  <div class="sub">October sign-ups</div>
+  <a href="#overview"><span class="num">·</span>Overview</a>
+  <a href="#status"><span class="num">1</span>Where things stand</a>
+  <a href="#why"><span class="num">2</span>What's going on</a>
+  <a href="#ways"><span class="num">3</span>Three ways to sign up</a>
+  <a href="#plan"><span class="num">4</span>The plan</a>
+  <a href="#ads"><span class="num">5</span>Should we run ads?</a>
+  <a href="#measure"><span class="num">6</span>How we'll tell if it worked</a>
+  <a href="#product"><span class="num">7</span>What to ask product</a>
+  <a href="#emails"><span class="num">8</span>The follow-up emails</a>
+  <a href="#guardrails"><span class="num">9</span>What to say and not say</a>
+  <a href="#log"><span class="num">10</span>Update log</a>
+</nav>
+
+<main>
+
+<!-- HERO -->
+<section id="overview" class="hero">
+  <div class="eyebrow">Project · Hinds October Signups</div>
+  <h1>Hinds October Sign-ups</h1>
+  <div class="hypothesis">
+    <strong>Goal:</strong> Get more Hinds students to sign up for Athena in October. Hinds has two semester starts: the
+    <strong>in-person semester starts this week</strong> and the <strong>online semester starts October 19</strong>.
+    We tell students about Athena when each one starts, send them to the easiest way to sign up, and learn which places reach them.
+  </div>
+  <div class="meta">
+    <span>Status <span class="pill st-prog">Planning</span></span>
+    <span>Owner <b>Known · names to add</b></span>
+    <span>Key dates <b>In-person: this week · Online: Oct 19</b></span>
+    <span>Main number to watch <b>New Hinds sign-ups per week (target not set)</b></span>
+    <span>Last updated <b>2026-10-05</b></span>
+  </div>
+</section>
+
+<!-- STATUS -->
+<section id="status">
+  <div class="eyebrow">1 · Where things stand</div>
+  <h2>Where things stand</h2>
+  <div class="grid grid-4" style="margin-bottom:16px">
+    <div class="stat">
+      <div class="k">Questions for product</div>
+      <div class="v" id="q-count">0 / 7</div>
+      <div class="muted" id="q-note">fully answered, 1 partly (see section 7)</div>
+      <div class="progress"><span id="q-bar" style="width:7%"></span></div>
+    </div>
+    <div class="stat">
+      <div class="k">Ways to sign up we understand</div>
+      <div class="v">2 / 3</div>
+      <div class="muted">We don't know what the Athena link in Canvas is. Our docs don't mention it.</div>
+      <div class="progress"><span style="width:66%"></span></div>
+    </div>
+    <div class="stat">
+      <div class="k">Hinds sign-ups so far this fall</div>
+      <div class="v" style="font-size:18px;margin:10px 0 6px">Not known</div>
+      <div class="muted">Ask product for the count for each of the three ways</div>
+    </div>
+    <div class="stat">
+      <div class="k">Contact at Hinds</div>
+      <div class="v" style="font-size:18px;margin:10px 0 6px">Not confirmed</div>
+      <div class="muted">Most of what we can do depends on Hinds sharing the message</div>
+    </div>
+  </div>
+
+  <h3>Next steps</h3>
+  <ol class="steps">
+    <li><span class="txt"><strong>Send product the message in section 7.</strong> The most important parts: how many students use each way to sign up, what the Athena link in Canvas is, and which web address to send students to.</span><span class="pill st-open">Not started</span></li>
+    <li><span class="txt"><strong>Choose one way to sign up to send everyone to,</strong> once product answers. My guess is the Athena link in Canvas (see section 3).</span><span class="pill st-block">Waiting on step 1</span></li>
+    <li><span class="txt"><strong>Send one message to our contact at Hinds</strong> asking them to tell students about it in Canvas, by email, and through instructors.</span><span class="pill st-block">Waiting on step 2</span></li>
+    <li><span class="txt"><strong>Tell in-person students this week. Tell online students for October 19.</strong> Use what we learn from the first group for the second.</span><span class="pill st-block">Waiting on step 3</span></li>
+    <li><span class="txt"><strong>Get the follow-up emails an owner, a way to send them, and a launch date this week,</strong> so a first version can go out before October 19 (section 8).</span><span class="pill st-unk">Decision needed</span></li>
+    <li><span class="txt"><strong>Decide whether to run a small ad test</strong> for the October 19 start (section 5).</span><span class="pill st-unk">Decision needed</span></li>
+  </ol>
+</section>
+
+<!-- WHY -->
+<section id="why">
+  <div class="eyebrow">2 · What's going on</div>
+  <h2>What's going on</h2>
+  <div class="card">
+    <p>Product asked us for help getting more sign-ups in October: <em>"would love some gtm collaboration on how to increase signups in Oct.
+    they have a new in-person semester starting this week and online starting on October 19."</em> This is about Hinds (confirmed October 5).</p>
+    <p>Hinds students can already sign up, and Hinds pays for it, so it's free for them. Our best guess is that many of them just don't know Athena exists or that it's free for them.
+    The start of a semester is the best time to tell them, because that's when they open Canvas to find their classes.</p>
+    <p style="margin:0">This is separate from the plan for the emails we send <em>after</em> a student signs up
+    (<a href="../drip-campaigns/hinds-student-onboarding.html">the Hinds onboarding emails plan</a>). That plan is about getting students who signed up to actually use Athena.
+    This project is about getting more students to sign up in the first place. They use the same analytics setup, and the follow-up emails matter more the more students sign up.</p>
+  </div>
+</section>
+
+<!-- WAYS -->
+<section id="ways">
+  <div class="eyebrow">3 · How students get in</div>
+  <h2>Three ways to sign up</h2>
+  <p>A Hinds student can sign up in three different ways today. We aren't building anything new. We need to tell more students about Athena and send them to the easiest way.</p>
+  <div class="table-wrap" style="margin-bottom:14px">
+    <table>
+      <thead><tr><th>Way to sign up</th><th>What the student does</th><th>Is it free for them?</th><th>What to know</th></tr></thead>
+      <tbody>
+        <tr><td><strong>1. Sign up on the main page and enter the school info</strong></td>
+          <td>Goes to the Athena sign-up page and enters the Hinds subscription information as part of signing up.</td>
+          <td>I believe so, right away. Product needs to confirm.</td>
+          <td>The student has to know Hinds covers it and find that option. (The onboarding emails plan calls this "Path A.")</td></tr>
+        <tr><td><strong>2. Sign up normally, then verify later</strong></td>
+          <td>Signs up the regular way. Later goes to Subscriptions and clicks "Verify with Canvas."</td>
+          <td>Only after they verify. Until then they're on the regular plan: 7 days free, then $5 a month.</td>
+          <td>The most steps, and the easiest to forget. <strong>We don't know whether a student who never verifies gets charged $5 when the free week ends.</strong> That's question 4 in section 7. (The onboarding emails plan calls this "Path B.")</td></tr>
+        <tr><td><strong>3. Click the Athena link inside Canvas</strong></td>
+          <td>Clicks a link in Canvas that opens a sign-up page similar to way 1.</td>
+          <td>I believe so, right away. Product needs to confirm.</td>
+          <td>The student is already logged in to Canvas, so this is probably the fewest steps. <strong>Our docs don't mention this link.</strong> They say Athena isn't installed into Canvas as an app. See question 2 in section 7.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="grid grid-2">
+    <div class="callout accent">
+      <h3>My guess about what to do</h3>
+      <p style="margin:0">Send students to <strong>way 3</strong> (the link in Canvas) wherever we can show them where it is. Otherwise send them to <strong>way 1</strong> with a link. Don't tell them to sign up first and verify later (way 2). It has the most steps and may charge students who forget. This is a guess, because we don't yet know how many students use each way or how many finish. That's the first thing to ask product.</p>
+    </div>
+    <div class="card">
+      <h3>What counts as success</h3>
+      <p><strong>The main number:</strong> how many new Hinds students sign up each week in October, compared with how many signed up each week earlier this fall, and counted separately for each of the three ways. <span class="pill st-unk">No target yet</span></p>
+      <p class="muted" style="margin:0">Signing up is the goal of this project. Whether students then use Athena matters too, because a jump in sign-ups from students who never use it isn't a win. The onboarding emails plan handles that part. These are Hinds students only. Community college students are more often part-time, working, or returning to school, so keep everything short and easy to read on a phone.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PLAN -->
+<section id="plan">
+  <div class="eyebrow">4 · What we'll do</div>
+  <h2>The plan</h2>
+  <p>Four steps. The first is getting facts, the second is the main work, the third is optional, and the fourth is checking what happened.</p>
+  <p class="muted" style="margin-top:-4px">Update Oct 5: new funnel numbers suggest most Hinds students have already reached the sign-up and the bigger loss is after they arrive. Five specific experiments are packaged on <a href="hinds-october-experiments.html">the Hinds October experiments page</a>.</p>
+  <div class="table-wrap" style="margin-bottom:18px">
+    <table>
+      <thead><tr><th>#</th><th>Step</th><th>What we do</th><th>When</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td class="n">1</td><td><strong>Get the facts</strong></td>
+          <td>Find out how many Hinds students signed up this fall through each of the three ways, and how many started signing up and stopped. Find out what the Athena link in Canvas is. Get the web address to send students to, and whether we can give each place we share it a slightly different address so we can see which one brought students in. Product may not be able to pull all of this, so we also check our analytics tool (PostHog), using the list of Hinds students we set up for the onboarding emails plan.</td>
+          <td class="t">Oct 5–7</td><td><span class="pill st-open">Not started</span></td></tr>
+        <tr><td class="n">2</td><td><strong>Tell students, through channels Hinds already controls</strong></td>
+          <td>Write one short message and ask Hinds to share it in up to three places: a <strong>Canvas announcement</strong> (this also shows students where the Athena link is), an <strong>email from Hinds</strong>, and a <strong>mention from instructors</strong> in the first week. A poster with a QR code is a bonus if Hinds can put one up. All of them send students to the one way to sign up we chose. Each place gets its own address so we can see which one worked.</td>
+          <td class="t">In-person students: this week<br>Online students: get ready Oct 12–16, send Oct 19</td><td><span class="pill st-block">Waiting on step 1</span></td></tr>
+        <tr><td class="n">3</td><td><strong>Maybe: a small ad test</strong></td>
+          <td>Only for the October 19 start, and only if the conditions in section 5 are true.</td>
+          <td class="t">Decide by Oct 12</td><td><span class="pill st-unk">Decision needed</span></td></tr>
+        <tr><td class="n">4</td><td><strong>Check what happened</strong></td>
+          <td>Count new sign-ups by way and by place we shared. Write down what each place brought in <code>reference/traction-channels.md</code> and decide for each: do more of it, change it, or stop.</td>
+          <td class="t">Oct 26 and Nov 2</td><td><span class="pill st-open">Not started</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="callout warn">
+    <h3>Check these before we send anything</h3>
+    <ul class="plain">
+      <li><strong>Where the link goes.</strong> Our homepage offers a $5 trial. Hinds students need the sign-up where Hinds pays, not that.</li>
+      <li><strong>Students who sign up before the follow-up emails exist.</strong> The follow-up emails aren't running yet, so new students will only get the emails the app already sends. Before October 19, decide whether the first version of the follow-up emails (the ones that nudge students to open a Study Space and then use Athena) can be ready. See section 8.</li>
+      <li><strong>Our written docs.</strong> If the Athena link in Canvas is new, our public FAQ, CSM FAQ, and sales FAQ say there's no install into Canvas, and may need updating before we describe it to anyone outside the team.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ADS -->
+<section id="ads">
+  <div class="eyebrow">5 · Paid ads</div>
+  <h2>Should we run ads?</h2>
+  <div class="card" style="margin-bottom:14px">
+    <p><strong>Short answer: maybe, but not first, and not this week.</strong></p>
+    <p>Hinds can reach exactly these students for free, inside Canvas and by email. Ads can't do that. Ads can only aim at an area (for example, around the Hinds campuses) and at interests, so some of the money would reach people who don't go to Hinds. Those people would land on our regular page, which offers the $5 trial. They also take time to set up and need a page to send people to, so a first test realistically fits the October 19 start, not this week.</p>
+    <p style="margin:0">You asked about pointing ads at specific areas. Two meanings apply. For <em>where on the map</em>: the area around the Hinds campuses and its online-student region. For <em>where on our website</em>: one page made for Hinds students, not the homepage.</p>
+  </div>
+  <div class="grid grid-2">
+    <div class="card">
+      <h3>If we do run a test</h3>
+      <ul class="plain">
+        <li><strong>Send people to one page made for Hinds students.</strong> It should say it's free for them and tell them what to do next. Ask product whether this page exists or can be made in time.</li>
+        <li><strong>Best first use: show ads to people who started the Hinds sign-up and didn't finish.</strong> Email can't reach them because they never made an account. This needs our ad tracking code on the website and a way to ask visitors for permission. Ask product whether both are in place.</li>
+        <li><strong>Second use:</strong> a small ad campaign aimed at the area around the Hinds campuses, with a plain message: free for Hinds students.</li>
+        <li><strong>Set a spending limit.</strong> Our channel-testing guide suggests about $1,000 over a few weeks. Judge it by how much each finished sign-up costs, and how much each student who actually uses Athena costs. Don't judge it by clicks.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Only run ads if all of these are true</h3>
+      <ul class="check">
+        <li class="y">A page made for Hinds students exists, or product can make one in time.</li>
+        <li class="y">Hinds agrees we can use their name in ads.</li>
+        <li class="y">We can tell which sign-ups came from ads and which came from elsewhere.</li>
+        <li class="y">The numbers from step 1 show that students who open the sign-up page mostly finish it. If most quit, more visitors won't help. Agree on the cutoff with product.</li>
+        <li class="n">Don't use Hinds student lists or data to choose who sees ads. Our public FAQ tells schools that nothing from them or from Canvas decides who sees an ad.</li>
+        <li class="n">Don't run large-scale paid ads. Our current rule is no large-scale paid ads until the product is proven.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- MEASURE -->
+<section id="measure">
+  <div class="eyebrow">6 · How we'll tell if it worked</div>
+  <h2>How we'll tell if it worked</h2>
+  <div class="grid grid-3" style="margin-bottom:14px">
+    <div class="stat"><div class="k">New Hinds sign-ups per week</div><div class="v">—</div><div class="muted">Main number. Counted for each of the three ways. Earlier weeks not yet pulled. No target yet.</div></div>
+    <div class="stat"><div class="k">Students who open the Hinds sign-up page and finish</div><div class="v">—</div><div class="muted">Not yet measured</div></div>
+    <div class="stat"><div class="k">New students who use Athena within 14 days</div><div class="v">—</div><div class="muted">Tracked by the onboarding emails plan</div></div>
+  </div>
+  <div class="card">
+    <ul class="plain">
+      <li><strong>Main number:</strong> how many new Hinds students sign up each week, counted separately for sign-ups where Hinds pays right away and sign-ups on the regular plan.</li>
+      <li><strong>Which place brought them:</strong> count sign-ups by the address we shared, if the address survives the sign-up process (ask product). If it doesn't, all we can do is compare each day against earlier days, which is a weaker answer.</li>
+      <li><strong>Sign-up page: opened versus finished.</strong> This tells us whether the problem is that not enough students see the page, or that students see it and quit.</li>
+      <li><strong>Warning signs:</strong> new students who never use Athena, questions to our support team from new Hinds students, and any feedback from Hinds about the message. For ads, also watch what each finished sign-up costs.</li>
+      <li><strong>What our analytics can't tell us today:</strong> it doesn't record which of the three ways a student used. For students who sign up the regular way, there is no clear "signed up" event, only a close substitute. So product may need to pull the per-way counts from the database, or add a way to record it.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- PRODUCT -->
+<section id="product">
+  <div class="eyebrow">7 · What we need</div>
+  <h2>What to ask product</h2>
+  <h3>Questions</h3>
+  <div class="table-wrap" style="margin-bottom:10px">
+    <table id="questions-table">
+      <thead><tr><th>#</th><th>Question</th><th>Who</th><th>Answer</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td class="n">1</td><td><strong>How many Hinds students signed up this fall through each of the three ways?</strong> How many started signing up and stopped? This tells us whether the problem is that students don't know about Athena, that the way in is hard, or that the sign-up page loses them.</td><td>Product</td><td class="muted">—</td><td><span class="pill st-open">Open</span></td></tr>
+        <tr><td class="n">2</td><td><strong>What is the Athena link in Canvas?</strong> Where do students see it, who set it up at Hinds, can all Hinds students see it, and does it work on a phone? Our docs say Athena isn't installed into Canvas as an app, so how should we describe it?</td><td>Product</td><td class="muted">—</td><td><span class="pill st-open">Open</span></td></tr>
+        <tr><td class="n">3</td><td><strong>Which web address do we send students to?</strong> We need one that opens the sign-up where Hinds pays, not the $5 trial. If we add something to the end of the address to show where a student came from, does it survive sign-up? Can the system record which of the three ways each student used?</td><td>Product / engineering</td><td class="muted">—</td><td><span class="pill st-open">Open</span></td></tr>
+        <tr><td class="n">4</td><td><strong>What happens to a student who signs up the regular way and never clicks "Verify with Canvas"?</strong> When their 7-day free trial ends, are they asked for a card or charged $5? (This is question 3 on the onboarding emails plan, still unanswered there.) If they can be charged, we should not send students to way 2.</td><td>Product</td><td class="muted">—</td><td><span class="pill st-open">Open</span></td></tr>
+        <tr><td class="n">5</td><td><strong>Ads.</strong> Is a small test (limit about $1,000) okay for October 19? Is there a page made for Hinds students, or can one be made? Is our ad tracking code on the site? Who approves?</td><td>Product</td><td class="muted">—</td><td><span class="pill st-open">Open</span></td></tr>
+        <tr><td class="n">6</td><td><strong>What number would count as success, and when do we check?</strong> The owners are known. A number and a check-in date are still needed, for example after the first week of each semester start.</td><td>Team</td><td>Owners known (names not yet written here). Number and check-in dates still open.</td><td><span class="pill st-prog">Partly answered</span></td></tr>
+        <tr><td class="n">7</td><td><strong>Who owns the follow-up emails, and how do they get sent?</strong> Does our analytics tool send them through our email service, or does someone build it inside the app? Can a first version go out before October 19? Can the app record, in our analytics, which students Hinds is covering? (Details in section 8.)</td><td>Product / engineering</td><td class="muted">—</td><td><span class="pill st-open">Open</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ans-tools">
+    <button type="button" class="btn primary" id="ans-copy">Copy answers</button>
+    <button type="button" class="btn" id="ans-clear">Clear all</button>
+    <span class="muted" id="ans-msg">Type product's answer in the Answer column and pick a status. It saves in this browser only. To make it permanent, use "Copy answers" and paste it into the chat, and it gets written into the page.</span>
+  </div>
+
+  <h3>Summary: what we need, and what we do if we don't get it</h3>
+  <p>Not every answer holds up the plan. Two of them (the web address and who sends the follow-up emails) stop us from starting. The rest only limit what we can say or measure. Use this table to decide what to do while we wait.</p>
+  <div class="table-wrap" style="margin-bottom:14px">
+    <table>
+      <thead><tr><th>Question</th><th>What it decides</th><th>If we don't have the answer</th><th>Does it stop us?</th></tr></thead>
+      <tbody>
+        <tr><td><strong>3. Web address</strong></td>
+          <td>Where we send students. It has to open the sign-up where Hinds pays, not the $5 trial.</td>
+          <td>Don't send anything to Hinds or students until we have it. If the address works but we can't tag it by place, send everyone to the one address and judge it by total weekly sign-ups. We won't know which place worked.</td>
+          <td><span class="pill st-block">Yes (address)</span> <span class="pill st-prog">No (tagging)</span></td></tr>
+        <tr><td><strong>7. Follow-up emails: owner and how they're sent</strong></td>
+          <td>Whether the two follow-up emails and the catch-up can go out before October 19.</td>
+          <td>New students only get the emails the app already sends. Escalate this one first, because the follow-up emails can't start without an owner and a way to send.</td>
+          <td><span class="pill st-block">Yes</span></td></tr>
+        <tr><td><strong>1. Numbers</strong></td>
+          <td>Whether the problem is that students don't know about Athena, that the way in is hard, or that the sign-up page loses them. Also gives us a before-and-after comparison.</td>
+          <td>Pull rough counts ourselves from our analytics tool (PostHog) and call them estimates: sign-ups with the school info (<code>institution_signup</code> per week), regular sign-ups by Hinds students (Hinds email address or Hinds account tag), and visits to the Hinds sign-up page (<code>/register?institution=</code>). These miss students who used a personal email and undercount browser-side events, and may not separate way 3 from way 1. For comparison, use the in-person start as the "before" for the October 19 start, and set the target after the first week. Don't run ads yet: their best use is reaching people who started and quit, and we can't size that group.</td>
+          <td><span class="pill st-prog">No</span></td></tr>
+        <tr><td><strong>4. Charges</strong></td>
+          <td>Whether it's safe to send anyone to way 2.</td>
+          <td>Assume it isn't. Don't send students to way 2, and don't email students we can't confirm Hinds covers. Leave out the first-stage "Verify with Canvas" email.</td>
+          <td><span class="pill st-prog">No (narrows the plan)</span></td></tr>
+        <tr><td><strong>2. The link in Canvas</strong></td>
+          <td></td>Whether way 3 is our best way in, and how to describe it.</td>
+          <td>Send students to way 1 instead. Don't describe the Canvas link to anyone outside the team. Leave way 3 out of the follow-up emails until product confirms it counts like way 1.</td>
+          <td><span class="pill st-prog">No (narrows the plan)</span></td></tr>
+        <tr><td><strong>5. Ads and 6. Success number</strong></td>
+          <td>Whether to run a small ad test, and how we judge October.</td>
+          <td>No ads for October 19. Set the success number and check-in dates after the first week of each start.</td>
+          <td><span class="pill st-prog">No</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="card" style="margin-bottom:18px">
+    <p style="margin:0"><strong>Cutoff:</strong> ask for the answers now, and if the web address and the follow-up email owner aren't settled by <strong>October 7</strong> (the end of the "get the facts" window), take the fallbacks above and move on. The in-person semester is already starting, so waiting for the full set of numbers costs more than working from estimates.</p>
+  </div>
+
+  <h3>Message to send to product</h3>
+  <div class="card" style="margin-bottom:18px">
+    <p>Thanks for flagging October sign-ups. Here's what I'd like to do, kept simple: tell more Hinds students about Athena when each semester starts (in-person this week, online October 19), send them to the easiest way to sign up, and see which places reach them. To do that I need a few answers from you:</p>
+    <ol class="plain">
+      <li><strong>Numbers.</strong> How many Hinds students have signed up this fall through each of the three ways (the main sign-up page with the school info, signing up the regular way and verifying later in Subscriptions, and the Athena link inside Canvas)? How many started the Hinds sign-up and didn't finish?</li>
+      <li><strong>The link in Canvas.</strong> Where do students see it, and is it available to all Hinds students? Our public docs say Athena isn't installed into Canvas as an app, so I want to describe it correctly.</li>
+      <li><strong>The web address.</strong> What's one address that takes a Hinds student to the sign-up where Hinds pays, not the $5 trial? If I add something to the end of the address to show where a student came from, does that survive sign-up? Can we record which of the three ways each student used?</li>
+      <li><strong>Charges.</strong> If a Hinds student signs up the regular way and never clicks "Verify with Canvas," are they asked for a card or charged $5 when the 7-day trial ends?</li>
+      <li><strong>Ads.</strong> I think we should use Hinds' own channels first, and maybe run a small ad test (about $1,000) for October 19 only if there's a page made for Hinds students. Would you support that, and is our ad tracking code on the website?</li>
+      <li><strong>Success and check-ins.</strong> What would "more sign-ups" look like to you in numbers, and can we look together after the first week of each semester start?</li>
+      <li><strong>Follow-up emails.</strong> More sign-ups will bring more students who need a nudge to actually use Athena. Who owns the follow-up emails, how do they get sent, and can a small first version go out before October 19? Can the app record in our analytics which students Hinds is covering?</li>
+    </ol>
+    <p style="margin:0">I plan to send Hinds one message this week. Answers to 1 through 3 would unblock that the most.</p>
+  </div>
+
+  <h3>For our contact at Hinds (one message, after product replies)</h3>
+  <ul class="plain">
+    <li>Can they post a Canvas announcement, email students, and ask instructors to mention it? Which can happen this week, and which by October 19?</li>
+    <li>What did they do to tell students about Athena at the start of this fall, and what happened?</li>
+    <li>Can we use Hinds' name in the message? Who approves the wording? Are there any rules on how we communicate with their students? (The onboarding emails plan has this question open too.)</li>
+    <li>What are the exact start dates, how many students start each semester, and when are midterms and finals? (Also open on the onboarding emails plan. Midterms give us a good reason for later emails.)</li>
+  </ul>
+</section>
+
+<!-- FOLLOW-UP EMAILS -->
+<section id="emails">
+  <div class="eyebrow">8 · After they sign up</div>
+  <h2>The follow-up emails</h2>
+  <p>This project gets students to sign up. <a href="../drip-campaigns/hinds-student-onboarding.html">The Hinds onboarding emails plan</a> gets them from signed up to actually using Athena: connect Canvas, open a Study Space, then send a message, start a quiz, or start a tutoring session. It's one path for the student. Without the emails, more sign-ups can mean more students who never use it.</p>
+
+  <h3>Where each student starts in the follow-up emails</h3>
+  <div class="table-wrap" style="margin-bottom:14px">
+    <table>
+      <thead><tr><th>Way they signed up</th><th>Where they start</th><th>What the first email asks them to do</th></tr></thead>
+      <tbody>
+        <tr><td><strong>1. Main page with the school info</strong></td><td>Second stage. Already connected to Canvas and covered by Hinds.</td><td>Open a Study Space.</td></tr>
+        <tr><td><strong>2. Sign up normally, verify later</strong></td><td>First stage. Not connected or covered yet.</td><td>Click "Verify with Canvas."</td></tr>
+        <tr><td><strong>3. Athena link inside Canvas</strong></td><td>Probably the second stage, like way 1. Product needs to confirm.</td><td>Open a Study Space.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="grid grid-2" style="margin-bottom:14px">
+    <div class="card">
+      <h3>Catching up students who signed up earlier</h3>
+      <p>When the follow-up emails start, every Hinds student who already has an account and is stuck gets <strong>one email</strong>, for the stage they're stuck at. They don't get the whole series at once.</p>
+      <p style="margin:0">So students who sign up this week and on October 19 get caught up when the emails launch, even if the emails aren't running yet. The onboarding emails plan calls this "backfill."</p>
+    </div>
+    <div class="card">
+      <h3>Where this can go wrong</h3>
+      <ul class="plain">
+        <li><strong>Timing.</strong> None of the 9 emails are written, there's no way to send them yet, and there's no owner or launch date. A student who signs up on October 6 and hears from us weeks later has probably lost interest. Until then they only get the emails the app already sends.</li>
+        <li><strong>Finding Hinds students.</strong> We find them by a Hinds email address or a Hinds tag on their account. Students who signed up with a personal email are invisible until they connect Canvas.</li>
+        <li><strong>Not seeing who Hinds covers.</strong> Our analytics doesn't show it today. Until engineering adds it (it's the top request on the onboarding emails plan), the emails can't tell a covered student from one who connected Canvas but never verified.</li>
+        <li><strong>Counting results.</strong> The follow-up emails are judged by how many students use Athena within 14 days of signing up. A student we catch up weeks later isn't a fair test of that, so count them separately. That's my recommendation. The onboarding emails plan doesn't say how to count them.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout accent">
+    <h3>What I'd do: a small first version before October 19</h3>
+    <p>Don't wait for all 9 emails. Send just two, plus the one-time catch-up:</p>
+    <ul class="plain">
+      <li>The first email that tells students to open a Study Space.</li>
+      <li>The first email that tells them to try one thing in Athena: a quiz, a tutoring session, or a message.</li>
+    </ul>
+    <p style="margin:8px 0 0">These two don't depend on seeing who Hinds covers. Send them <strong>only to students who signed up with the school info</strong> (way 1, and way 3 if it counts the same way, which product needs to confirm), because for them we know Hinds is covering the cost. Don't say "free" to students we can't confirm are covered. Leave the first-stage emails (verify with Canvas) until product answers the charging question (question 4 above) and our analytics can see who's covered.</p>
+  </div>
+
+  <h3 style="margin-top:18px">What the follow-up emails need this week</h3>
+  <ul class="plain">
+    <li>An <strong>owner</strong> and a <strong>launch date</strong>. Neither is set.</li>
+    <li>A <strong>way to send them</strong>: either our analytics tool sends them through our email service, or someone builds it inside the app. Engineering decides (question 7 above).</li>
+    <li>A decision on the emails the app already sends, such as the "Let's get to know each other" reminder, so a student never gets two emails in one day. The onboarding emails plan caps it at one email a day, including the app's own.</li>
+    <li>The two emails written and reviewed.</li>
+  </ul>
+</section>
+
+<!-- GUARDRAILS -->
+<section id="guardrails">
+  <div class="eyebrow">9 · What to say and not say</div>
+  <h2>What to say and not say</h2>
+  <div class="grid grid-2">
+    <div class="card">
+      <h3>Do</h3>
+      <ul class="check">
+        <li class="y">Say "free for Hinds students" or "Hinds is covering your access." Confirm the exact wording with Hinds.</li>
+        <li class="y">Say it uses the same Hinds Canvas login students already use.</li>
+        <li class="y">Keep it short and easy to read on a phone. One action, one link.</li>
+        <li class="y">Use the approved terms and facts in <code>reference/glossary.md</code> and <code>reference/messaging-framework.md</code>.</li>
+        <li class="y">Give each place we share it its own address, so we can see which one worked.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Don't</h3>
+      <ul class="check">
+        <li class="n">Use pressure, guilt, or "last chance."</li>
+        <li class="n">Suggest that a Hinds email address alone gets free access. A current Canvas enrollment at Hinds does.</li>
+        <li class="n">Suggest Athena is required, is part of Canvas, or is endorsed by Hinds beyond paying for it.</li>
+        <li class="n">Say "FERPA compliant," make up results or student quotes, or share internal usage numbers.</li>
+        <li class="n">Offer coupons, discounts, or dates. Don't describe the Athena link in Canvas to anyone outside the team until product confirms what it is.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- LOG -->
+<section id="log">
+  <div class="eyebrow">10 · History</div>
+  <h2>Update log</h2>
+  <ul class="log">
+    <li><span class="d">2026-10-05</span>Linked the new <a href="hinds-october-experiments.html">experiments page</a> from section 4. New numbers from Oct 5 (about 4,000 reached sign-up, 668 stopped on the "leaving Canvas" page, 515 registered, about 300 using Athena each month, 800 contracted) suggest awareness may not be the main gap, which this page assumed in section 2. Needs a check on whether the 4,000 are people or visits (question 1 on the experiments page).</li>
+    <li><span class="d">2026-10-05</span>Added an answer box and status picker to each question in section 7, so product's replies can be entered right on the page. Entries save in the browser, update the "Questions for product" count at the top, and can be copied out with one button so they can be written into the page for good.</li>
+    <li><span class="d">2026-10-05</span>Added a summary table to section 7, "what we need, and what we do if we don't get it." It shows which product answers stop the plan (the web address and the follow-up email owner) and which only limit it, with a fallback for each, including rough sign-up counts from our analytics tool if product can't give the numbers (question 1). Added an October 7 cutoff.</li>
+    <li><span class="d">2026-10-05</span>Removed the question "Is this about Hinds?" from section 7 as irrelevant, and renumbered the rest (old questions 2 to 8 are now 1 to 7). Updated the references to question numbers elsewhere on the page. Log entries below this one use the old numbers.</li>
+    <li><span class="d">2026-10-05</span>Added section 8, "The follow-up emails": how the sign-ups project connects to the onboarding emails plan, where each way of signing up starts in the follow-up emails, how catching up earlier students works and where it can go wrong, and a proposed small first version before October 19. Added question 8 for product and a matching step in the next steps. Section numbers 3, 5, and 7 are unchanged.</li>
+    <li><span class="d">2026-10-05</span>Rewrote the whole page in plain language. Removed marketing and analytics shorthand ("door," "wave," "tags," "baseline," "retargeting," "activation," "guardrails," and similar) and replaced it with direct descriptions of what students and we actually do. Renamed sections and wording to match.</li>
+    <li><span class="d">2026-10-05</span>Spelled out the "drip Q3" references (the question about students who sign up the regular way and never verify) and added a note explaining the onboarding emails plan's shorthand. Fixed a broken table cell in the first row of the three-ways table.</li>
+    <li><span class="d">2026-10-05</span>Reworked and simplified around three ways to sign up (main page with school info, regular sign-up then verify, link inside Canvas). Plan cut from nine pieces of work to four steps. Added "Should we run ads?" and a ready-to-send message to product. Flagged that the link in Canvas isn't in our docs, which say Athena isn't installed into Canvas as an app. Removed the separate review section; its findings are folded into the plan.</li>
+    <li><span class="d">2026-10-05</span>Answered question 1: the request is about Hinds. Question 7 partly answered: owners are known (names to add), number and check-in dates still open.</li>
+    <li><span class="d">2026-10-05</span>Project created from a product request for help increasing October sign-ups (in-person semester starting this week, online October 19). First plan drafted, reusing the analytics setup from the Hinds onboarding emails plan.</li>
+  </ul>
+</section>
+
+<footer>
+  Source: <code>work-in-progress/hinds-oct-signups/hinds-october-signups.html</code> · App copy: <code>app/public/hinds-oct-signups/hinds-october-signups.html</code> ·
+  Related: <code>work-in-progress/drip-campaigns/hinds-student-onboarding.html</code> ·
+  Internal working doc; not for external distribution.
+</footer>
+
+</main>
+</div>
+
+<script>
+  var links = Array.prototype.slice.call(document.querySelectorAll('.toc a'));
+  var targets = links.map(function (a) { return document.querySelector(a.getAttribute('href')); });
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        links.forEach(function (a) { a.classList.toggle('active', a.getAttribute('href') === '#' + entry.target.id); });
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+  targets.forEach(function (t) { if (t) observer.observe(t); });
+
+  /* Product answers (section 7): saved in this browser's localStorage */
+  (function () {
+    var KEY = 'hinds-oct-signups:product-answers';
+    var STATUS = {
+      open: { cls: 'st-open', label: 'Open' },
+      prog: { cls: 'st-prog', label: 'Partly answered' },
+      done: { cls: 'st-done', label: 'Answered' }
+    };
+    var table = document.getElementById('questions-table');
+    if (!table) return;
+
+    var saved = {};
+    try { saved = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { saved = {}; }
+    function persist() { try { localStorage.setItem(KEY, JSON.stringify(saved)); } catch (e) {} }
+
+    var msg = document.getElementById('ans-msg');
+    var defaultMsg = msg.textContent;
+    function flash(text) {
+      msg.textContent = text;
+      setTimeout(function () { msg.textContent = defaultMsg; }, 3500);
+    }
+
+    var items = Array.prototype.slice.call(table.querySelectorAll('tbody tr')).map(function (tr) {
+      var cells = tr.children;
+      var pill = cells[4].querySelector('.pill');
+      var initial = pill.classList.contains('st-done') ? 'done' : pill.classList.contains('st-prog') ? 'prog' : 'open';
+      var dash = cells[3].classList.contains('muted') && cells[3].textContent.trim() === '\u2014';
+
+      var box = document.createElement('div');
+      box.className = 'ans-box';
+      var ta = document.createElement('textarea');
+      ta.placeholder = "Product's answer\u2026";
+      ta.setAttribute('aria-label', 'Product answer to question ' + cells[0].textContent.trim());
+      var row = document.createElement('div');
+      row.className = 'ans-row';
+      var sel = document.createElement('select');
+      sel.setAttribute('aria-label', 'Status of question ' + cells[0].textContent.trim());
+      Object.keys(STATUS).forEach(function (k) {
+        var o = document.createElement('option');
+        o.value = k; o.textContent = STATUS[k].label;
+        sel.appendChild(o);
+      });
+      var stamp = document.createElement('span');
+      stamp.className = 'muted';
+      row.appendChild(sel); row.appendChild(stamp);
+      box.appendChild(ta); box.appendChild(row);
+      cells[3].appendChild(box);
+
+      return {
+        num: cells[0].textContent.trim(),
+        title: cells[1].querySelector('strong').textContent.trim(),
+        cell: cells[3], dash: dash, pill: pill, initial: initial, ta: ta, sel: sel, stamp: stamp
+      };
+    });
+
+    function paint(it, status, text, at) {
+      it.sel.value = status;
+      it.ta.value = text || '';
+      it.pill.className = 'pill ' + STATUS[status].cls;
+      it.pill.textContent = STATUS[status].label;
+      if (it.dash) {
+        var hide = !!(text && text.trim());
+        Array.prototype.forEach.call(it.cell.childNodes, function (n) {
+          if (n.nodeType === 3 && n.textContent.trim() === '\u2014') n.textContent = hide ? '' : '\u2014';
+        });
+      }
+      it.stamp.textContent = at ? 'Saved ' + new Date(at).toLocaleString() : '';
+    }
+
+    function refreshTile() {
+      var done = 0, prog = 0;
+      items.forEach(function (it) { if (it.sel.value === 'done') done++; else if (it.sel.value === 'prog') prog++; });
+      document.getElementById('q-count').textContent = done + ' / ' + items.length;
+      document.getElementById('q-note').textContent = 'fully answered, ' + prog + ' partly (see section 7)';
+      document.getElementById('q-bar').style.width = Math.round(((done + prog / 2) / items.length) * 100) + '%';
+    }
+
+    function onChange(it) {
+      var text = it.ta.value, status = it.sel.value;
+      if (!text.trim() && status === it.initial) delete saved[it.num];
+      else saved[it.num] = { text: text, status: status, at: new Date().toISOString() };
+      persist();
+      paint(it, status, text, saved[it.num] && saved[it.num].at);
+      refreshTile();
+    }
+
+    items.forEach(function (it) {
+      var s = saved[it.num];
+      paint(it, s ? s.status : it.initial, s ? s.text : '', s && s.at);
+      it.ta.addEventListener('input', function () { onChange(it); });
+      it.sel.addEventListener('change', function () { onChange(it); });
+    });
+    refreshTile();
+
+    document.getElementById('ans-copy').addEventListener('click', function () {
+      var lines = [];
+      items.forEach(function (it) {
+        if (!it.ta.value.trim()) return;
+        lines.push('Q' + it.num + ' (' + STATUS[it.sel.value].label + '): ' + it.title + '\n' + it.ta.value.trim());
+      });
+      if (!lines.length) { flash('Nothing to copy yet. Add an answer first.'); return; }
+      var text = 'Product answers (Hinds October sign-ups)\n\n' + lines.join('\n\n');
+      function fallback() {
+        var tmp = document.createElement('textarea');
+        tmp.value = text; document.body.appendChild(tmp); tmp.select();
+        try { document.execCommand('copy'); flash('Copied.'); } catch (e) { flash('Could not copy. Select the text manually.'); }
+        document.body.removeChild(tmp);
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function () { flash('Copied.'); }, fallback);
+      } else { fallback(); }
+    });
+
+    document.getElementById('ans-clear').addEventListener('click', function () {
+      if (!confirm('Clear all answers you entered on this page? This only affects this browser.')) return;
+      saved = {};
+      try { localStorage.removeItem(KEY); } catch (e) {}
+      items.forEach(function (it) { paint(it, it.initial, '', null); });
+      refreshTile();
+      flash('Cleared.');
+    });
+  })();
+</script>
+</body>
+</html>

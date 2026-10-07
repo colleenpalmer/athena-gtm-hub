@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Athena at Hinds · Quick start for instructors (DRAFT)</title>
+<!--
+  FACULTY QUICK START (draft). This is the one file that is meant to leave the building, so it contains nothing internal:
+  no adoption numbers, no pricing beyond "Hinds covers it", no promised features or dates.
+  Before it goes to Hinds:
+    1. Replace every [bracketed] placeholder (Hinds contact, video link). The sign-up link is set with the box at the top.
+    2. Product confirms "free for the student" is true for the link we use (see open question 2 on hinds-october-signups.html).
+       Also time the real sign-up on a phone and replace "about two minutes" with the true number (it appears in pieces 2 and 3).
+    3. Hinds reviews it. Run the wording through messaging-review. Remove the DRAFT banner.
+  Source of claims: docs/Athena FAQ - Public.md (exam content, coaching, data, content exclusion, reporting).
+  Self-contained on purpose: no external CSS/JS.
+-->
+<style>
+  :root { --g50:#FAFAFA; --g100:#F5F5F5; --g200:#E5E5E5; --g300:#D4D4D4; --g500:#737373; --g600:#525252; --g800:#262626; --g900:#171717;
+          --a50:#EEF2FF; --a200:#C7D2FE; --a600:#4F46E5; --a700:#4338CA; --y50:#FFFBEB; --y200:#FDE68A; --y700:#B45309; --s50:#F0FDF4; --s200:#BBF7D0; --s700:#15803D; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--g50); color:var(--g600); font:16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif; }
+  .wrap { max-width:780px; margin:0 auto; padding:32px 20px 80px; }
+  h1 { font-size:28px; color:var(--g900); letter-spacing:-.02em; line-height:1.25; margin:0 0 8px; }
+  h2 { font-size:19px; color:var(--g900); margin:0 0 4px; }
+  p { margin:0 0 .8em; }
+  .lede { font-size:17px; }
+  .draft { background:var(--y50); border:1px solid var(--y200); color:var(--y700); border-radius:10px; padding:10px 14px; font-size:14px; margin-bottom:22px; }
+  .linkbox { background:#fff; border:1px solid var(--a200); border-radius:12px; padding:14px 16px; margin:20px 0 28px; }
+  .linkbox label { font-weight:700; color:var(--g900); display:block; margin-bottom:6px; }
+  .linkbox input { width:100%; font:15px ui-monospace, Menlo, monospace; padding:9px 10px; border:1px solid var(--g300); border-radius:8px; }
+  .linkbox .hint { font-size:13px; color:var(--g500); margin-top:6px; }
+  .piece { background:#fff; border:1px solid var(--g200); border-radius:12px; padding:18px 20px; margin-bottom:16px; }
+  .piece .where { font-size:13px; color:var(--g500); margin-bottom:10px; }
+  .num { display:inline-block; width:26px; height:26px; line-height:26px; text-align:center; border-radius:50%; background:var(--g900); color:#fff; font-size:13px; font-weight:700; margin-right:8px; }
+  .text { background:var(--g100); border-left:3px solid var(--a200); border-radius:6px; padding:12px 14px; white-space:pre-wrap; font-size:15px; color:var(--g800); margin:0 0 10px; }
+  .text.code { font:13px/1.5 ui-monospace, Menlo, monospace; }
+  button.copy { font-weight:600; font-size:14px; font-family:inherit; background:var(--g900); color:#fff; border:0; border-radius:8px; padding:8px 14px; cursor:pointer; }
+  button.copy:hover { background:var(--g800); }
+  button.copy.done { background:var(--s700); }
+  .tag { display:inline-block; font-size:12px; font-weight:700; padding:1px 8px; border-radius:999px; background:var(--a50); color:var(--a700); border:1px solid var(--a200); margin-left:6px; vertical-align:middle; }
+  .opt { background:var(--s50); border:1px solid var(--s200); border-radius:12px; padding:14px 18px; margin-bottom:16px; }
+  details { background:#fff; border:1px solid var(--g200); border-radius:10px; padding:12px 16px; margin-bottom:8px; }
+  summary { cursor:pointer; font-weight:600; color:var(--g900); }
+  details p { margin:8px 0 0; }
+  .contact { margin-top:28px; padding-top:16px; border-top:1px solid var(--g200); font-size:14px; }
+  mark { background:#fde68a; padding:0 2px; border-radius:3px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="draft"><strong>DRAFT.</strong> Not yet reviewed by Hinds or approved for sending. Placeholders are in [brackets].</div>
+
+  <h1>Athena at Hinds: quick start for instructors</h1>
+  <p class="lede">Hinds covers Athena for its students this fall. If you'd like to tell your students about it, here is text you can paste into the things you're already setting up for the term. Each piece takes about a minute. Using any of it is up to you.</p>
+
+  <div class="linkbox">
+    <label for="link">Your sign-up link</label>
+    <input id="link" type="text" value="[YOUR LINK]" spellcheck="false" autocomplete="off">
+    <div class="hint">Paste the link you were given. It fills in every piece below. If you teach more than one section, you can paste a different link for each one and copy again.</div>
+  </div>
+
+  <div class="piece">
+    <h2><span class="num">1</span>One line for your syllabus</h2>
+    <div class="where">Put it with your tutoring or student support resources.</div>
+    <div class="text" id="t1">Study support: Hinds students can use Athena, a study coach that connects to your Canvas courses and helps you work out what to study next. Hinds covers the cost, and using it is optional. Get started: [LINK]</div>
+    <button class="copy" data-target="t1">Copy</button>
+  </div>
+
+  <div class="piece">
+    <h2><span class="num">2</span>A Canvas announcement</h2>
+    <div class="where">Post it in the first week. Title: <strong>Free study help for this class</strong></div>
+    <div class="text" id="t2">Hi all,
+
+One quick note. Hinds covers Athena for its students, so it's free for you. Athena connects to your Canvas courses, can read them but can't post or submit anything, and helps you work out what to study next. It coaches you toward the answer instead of handing it over.
+
+Setup takes about two minutes: [LINK]
+
+It's optional, and you can disconnect it anytime.</div>
+    <button class="copy" data-target="t2">Copy</button>
+  </div>
+
+  <div class="piece">
+    <h2><span class="num">3</span>A "Study help" page for your Start Here module <span class="tag">Online courses</span></h2>
+    <div class="where">In Canvas: add a new Page, click the <strong>&lt;/&gt;</strong> icon to switch to the HTML editor, paste, then save.</div>
+    <div class="text code" id="t3">&lt;h2&gt;Free study help: Athena&lt;/h2&gt;
+&lt;p&gt;Hinds covers Athena for its students, so it's free for you. Athena connects to your Canvas courses and helps you work out what to study next. It coaches you toward the answer instead of handing it over.&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;It can read your courses. It can't post or submit anything.&lt;/li&gt;
+  &lt;li&gt;Setup takes about two minutes.&lt;/li&gt;
+  &lt;li&gt;Using it is optional, and you can disconnect it anytime.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;a href="[LINK]"&gt;Set up Athena&lt;/a&gt;&lt;/p&gt;</div>
+    <button class="copy" data-target="t3" data-html="1">Copy</button>
+  </div>
+
+  <div class="piece">
+    <h2><span class="num">4</span>See it in 60 seconds <span class="tag">Optional</span></h2>
+    <p>A short screen recording of Athena reading a sample Canvas course and suggesting what to study first. Share the link in your announcement, or play it in the first minutes of class.</p>
+    <p><strong>Video:</strong> [VIDEO LINK]</p>
+    <p><strong>One slide for class:</strong> [SLIDE LINK: a ready-made slide with a QR code for your link]</p>
+  </div>
+
+  <div class="opt">
+    <h2>Want to try it together? <span class="tag">Optional, not graded</span></h2>
+    <p style="margin:6px 0 8px">Take five minutes in class, or post this as an ungraded activity online:</p>
+    <div class="text" id="t5">Try Athena with me (5 minutes, not graded)
+
+1. Open the link: [LINK]
+2. Make your login and connect Canvas.
+3. Pick one of your courses and ask: "What should I study first for this class?"
+
+If you'd rather not, no problem. It's optional.</div>
+    <button class="copy" data-target="t5">Copy</button>
+  </div>
+
+  <h2 style="margin:30px 0 10px">Questions instructors ask</h2>
+
+  <details><summary>Will it do my students' assignments for them?</summary>
+    <p>No. Athena coaches students toward the answer instead of handing it over. It won't produce submission-ready work, and it pushes practice and recall instead of answers.</p></details>
+  <details><summary>What can it see in my course?</summary>
+    <p>Only what the student can already see in Canvas, through the student's own read-only permission. Unpublished quiz questions aren't visible to students, so they aren't visible to Athena. It doesn't access anything that contains other students' data, such as discussions.</p></details>
+  <details><summary>Can I hide content from it?</summary>
+    <p>No. If a student can see the content, Athena may be able to read it.</p></details>
+  <details><summary>Can I see how my students use it?</summary>
+    <p>Not today. Athena is built for students directly. Usage reporting for schools is still being designed, and we can't promise what it will include or when.</p></details>
+  <details><summary>Does it cost my students anything?</summary>
+    <p>No. Hinds covers it. [Confirm with product before sending.]</p></details>
+  <details><summary>Is student data used to train AI models?</summary>
+    <p>No. Athena data is never used to train external models.</p></details>
+  <details><summary>Do I need to install or change anything in my course?</summary>
+    <p>No. Students set it up themselves in a couple of minutes.</p></details>
+
+  <div class="contact">Questions? Contact <strong>[Hinds contact name, email]</strong>.</div>
+
+</div>
+
+<script>
+(function () {
+  var input = document.getElementById('link');
+  var blocks = {};
+  Array.prototype.forEach.call(document.querySelectorAll('.text[id]'), function (el) {
+    blocks[el.id] = el.innerHTML;
+  });
+  function esc(s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;'); }
+  function render() {
+    var link = input.value.trim() || '[YOUR LINK]';
+    Object.keys(blocks).forEach(function (id) {
+      document.getElementById(id).innerHTML = blocks[id].split('[LINK]').join(esc(link));
+    });
+  }
+  input.addEventListener('input', render);
+  render();
+
+  Array.prototype.forEach.call(document.querySelectorAll('button.copy'), function (btn) {
+    btn.addEventListener('click', function () {
+      var el = document.getElementById(btn.getAttribute('data-target'));
+      var text = el.innerText || el.textContent;
+      function ok() { var old = btn.textContent; btn.textContent = 'Copied'; btn.classList.add('done'); setTimeout(function () { btn.textContent = old; btn.classList.remove('done'); }, 1800); }
+      function fallback() {
+        var ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta); ta.select();
+        try { document.execCommand('copy'); ok(); } catch (e) {} document.body.removeChild(ta);
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(ok, fallback); else fallback();
+    });
+  });
+})();
+</script>
+</body>
+</html>

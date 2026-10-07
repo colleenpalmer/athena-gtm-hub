@@ -2,6 +2,13 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getProjects, saveProjects } from '@/lib/storage';
 import type { Project } from '@/types';
 
+// Only one project can be pinned at a time.
+function unpinOthers(projects: Project[], keepId: string) {
+  for (const p of projects) {
+    if (p.id !== keepId && p.pinned) p.pinned = false;
+  }
+}
+
 export async function GET() {
   try {
     const projects = await getProjects();
@@ -15,6 +22,7 @@ export async function POST(req: NextRequest) {
   try {
     const project: Project = await req.json();
     const projects = await getProjects();
+    if (project.pinned) unpinOthers(projects, project.id);
     projects.push(project);
     await saveProjects(projects);
     return NextResponse.json(project);
@@ -31,6 +39,7 @@ export async function PUT(req: NextRequest) {
     if (index === -1) {
       return NextResponse.json({ error: 'Project not found' }, { status: 404 });
     }
+    if (updatedProject.pinned) unpinOthers(projects, updatedProject.id);
     projects[index] = updatedProject;
     await saveProjects(projects);
     return NextResponse.json(updatedProject);

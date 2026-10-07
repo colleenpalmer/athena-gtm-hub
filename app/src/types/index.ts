@@ -12,9 +12,10 @@ export interface Project {
   nextAction?: string;
   deadline?: string;
   folder?: string;
+  pageUrl?: string; // Project page served from app/public, e.g. /folder/slug.html
   description?: string;
   tasks?: Task[];
-  rank?: number; // Lower number = higher priority (1 = top)
+  pinned?: boolean; // At most one project is pinned; it shows full-width above the rest
   notes?: ProjectNote[];
 }
 

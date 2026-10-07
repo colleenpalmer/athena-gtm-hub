@@ -217,10 +217,10 @@
   <div class="meta">
     <span>Status <span class="pill st-prog">Planning</span></span>
     <span>Owner <b>TBD</b></span>
-    <span>Target launch <b>TBD</b></span>
+    <span>Target launch <b>TBD (proposed: first two emails before Oct 19)</b></span>
     <span>Triggers <b>PostHog</b></span>
     <span>Primary metric <b>Registered → activated in 14 days</b></span>
-    <span>Last updated <b>2026-09-29</b></span>
+    <span>Last updated <b>2026-10-05</b></span>
   </div>
 </section>
 
@@ -255,6 +255,7 @@
 
   <h3>Next steps</h3>
   <ol class="steps">
+    <li><span class="txt"><strong>Decide on a small first version that can go out before Oct 19</strong> (see the callout in §6). The new <a href="../hinds-oct-signups/hinds-october-signups.html">Hinds October sign-ups project</a> is about to bring in more students, and they'll get nothing from us until this launches. Needs an owner (Q11), a way to send (Q7), and a launch date (Q11) this week.</span><span class="pill st-unk">Decision needed</span></li>
     <li><span class="txt"><strong>Pull the baseline Hinds funnel in PostHog</strong> using the definition in §10. This also answers where the drop-off is (Q1).</span><span class="pill st-open">Not started</span></li>
     <li><span class="txt"><strong>Take the engineering asks (§8) to product/eng.</strong> Ask #1 (sponsorship in PostHog) is the one that matters most.</span><span class="pill st-open">Not started</span></li>
     <li><span class="txt"><strong>Decide how the drip coexists with the app's existing emails</strong>, especially <code>onboardingReminder</code> (Q12).</span><span class="pill st-open">Not started</span></li>
@@ -459,6 +460,17 @@
       product, and share only aggregate numbers with the Hinds contact.</p>
     </div>
   </div>
+
+  <div class="callout accent" style="margin-top:14px">
+    <h3>Proposed small first version (before Oct 19)</h3>
+    <p>The <a href="../hinds-oct-signups/hinds-october-signups.html">Hinds October sign-ups project</a> is working to bring in more students at the in-person start (this week) and the online start (Oct 19). Nothing in this plan is built, so those students would get no follow-up from us. Rather than wait for all 9 emails, ship two plus the one-time backfill:</p>
+    <ul class="plain">
+      <li><strong>2.1</strong> (open a Study Space) and <strong>3.1</strong> (try one thing), plus the backfill in §9.</li>
+      <li><strong>Send only to students who came in through the sponsored sign-up</strong> (<code>institution_signup</code>), where we know Hinds is covering them. Don't send to students we only know about through <code>canvas_domain</code>: that proxy includes students who connected Canvas but never ran Verify, so we can't promise them free access. If the Canvas launcher sign-up fires <code>institution_signup</code> too, they're included (to confirm with product).</li>
+      <li><strong>Leave Stage 1 until</strong> Q3 is answered and sponsorship is visible in PostHog (eng ask #1).</li>
+    </ul>
+    <p style="margin:8px 0 0" class="muted">Proposal only. Needs an owner, a sending method, and a launch date.</p>
+  </div>
 </section>
 
 <!-- POSTHOG MAP -->
@@ -560,7 +572,7 @@
       <li><strong>Re-check before every send</strong> with the most reliable signal available (server-set person props first).</li>
       <li><strong>Canvas disconnect:</strong> PostHog can't see disconnects today, so there's no pause rule for now. The app already emails sponsored students whose re-verification fails. <span class="pill st-unk">Revisit after eng ask #3</span></li>
       <li><strong>Backfill at launch:</strong> Hinds students who already have accounts and are stuck get placed in their current stage and receive
-        that stage's first email <strong>once</strong>. No blast of the full sequence.</li>
+        that stage's first email <strong>once</strong>. No blast of the full sequence. <span class="muted">(Recommended 2026-10-05: count backfilled students separately from the 14-day activation metric. A student caught up weeks after registering isn't a fair test of "activates within 14 days.")</span></li>
       <li>Unsubscribe link in every email; honor it across all stages. Decide whether we also respect <code>email_consent_recommendations</code> like the app's emails do.</li>
     </ul>
   </div>
@@ -675,6 +687,7 @@
   <div class="eyebrow">13 · History</div>
   <h2>Update log</h2>
   <ul class="log">
+    <li><span class="d">2026-10-05</span>Linked to the new <a href="../hinds-oct-signups/hinds-october-signups.html">Hinds October sign-ups project</a>, which will bring more students in at Hinds' semester starts (in-person the week of Oct 5, online Oct 19). Added a proposed small first version (emails 2.1 and 3.1 plus backfill, sponsored sign-up students only) to ship before Oct 19, a new first next step, and a recommendation to count backfilled students separately in the 14-day metric.</li>
     <li><span class="d">2026-09-29</span>Mapped every trigger to PostHog from athena-poc's instrumentation. Found two sign-up paths (sponsored sign-up skips Stage 1), that connecting Canvas ≠ sponsorship, that PostHog can't see sponsorship, and that the app's existing emails overlap. Stage 1 CTA changed to "Verify with Canvas." Added the PostHog trigger map, engineering asks, and baseline funnel definition; answered Q2 and Q6, partly answered Q1, Q3, Q5, Q7; added Q12–13.</li>
     <li><span class="d">2026-09-29</span>Plan moved from Markdown to this HTML page.</li>
     <li><span class="d">2026-09-29</span>Project refocused from D2C trial nurture to Hinds student onboarding. Three-stage drip path drafted; blocking questions listed.</li>

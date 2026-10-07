@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hinds October Drips · Athena</title>
+<!--
+  EXPERIMENT PAGE: two short follow-up message series for the Hinds October Sign-ups project.
+  D1 = people who opened the Hinds launch page and never registered. D2 = registered students who haven't come back.
+  Both are logged separately in the app's Experiments tab (data/experiments.json) and link back here (#d1, #d2).
+  How to update:
+    - Status pills: change the class on <span class="pill ..."> to st-done / st-prog / st-open / st-block / st-unk and the label.
+    - Update "Last updated" in the hero and add a line to the Update log at the bottom.
+    - Keep the app copy in sync: app/public/hinds-oct-signups/hinds-drip-experiments.html
+  Targets are PROPOSALS (guesses; no baseline exists yet). Copy is plain text and buttons only, NOT a designed email.
+  Copy has NOT been through messaging-review yet.
+  Parent: hinds-october-signups.html (E1 to E8 are on hold while these run) · Related: ../drip-campaigns/hinds-student-onboarding.html
+-->
+<style>
+  :root {
+    --g50:#FAFAFA; --g100:#F5F5F5; --g200:#E5E5E5; --g300:#D4D4D4; --g400:#A3A3A3;
+    --g500:#737373; --g600:#525252; --g700:#404040; --g800:#262626; --g900:#171717;
+    --a50:#EEF2FF; --a100:#E0E7FF; --a200:#C7D2FE; --a500:#6366F1; --a700:#4338CA;
+    --s50:#F0FDF4; --s200:#BBF7D0; --s700:#15803D;
+    --y50:#FFFBEB; --y200:#FDE68A; --y700:#B45309;
+    --r50:#FEF2F2; --r200:#FECACA; --r700:#B91C1C;
+    --radius:10px;
+  }
+  * { box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body { margin:0; background:var(--g50); color:var(--g600); font:15px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif; }
+  h1,h2,h3,h4 { color:var(--g900); line-height:1.25; margin:0 0 .5em; }
+  h1 { font-size:30px; letter-spacing:-.02em; }
+  h2 { font-size:21px; letter-spacing:-.01em; }
+  h3 { font-size:15px; }
+  p { margin:0 0 .7em; }
+  strong, b { color:var(--g800); }
+  code { background:var(--g100); border:1px solid var(--g200); border-radius:4px; padding:1px 5px; font-size:12.5px; }
+  a { color:var(--a700); }
+  .muted { color:var(--g500); font-size:13px; }
+
+  .layout { display:grid; grid-template-columns:210px 1fr; max-width:1220px; margin:0 auto; }
+  nav.toc { position:sticky; top:0; align-self:start; height:100vh; overflow:auto; padding:32px 14px 32px 22px; border-right:1px solid var(--g200); }
+  .toc .brand { font-weight:700; color:var(--g900); font-size:14px; margin-bottom:2px; }
+  .toc .sub { font-size:12px; color:var(--g500); margin-bottom:18px; }
+  .toc a { display:block; padding:5px 10px; margin:1px 0; border-radius:6px; color:var(--g600); text-decoration:none; font-size:13.5px; }
+  .toc a:hover { background:var(--g100); color:var(--g900); }
+  .toc a.active { background:var(--a50); color:var(--a700); font-weight:600; }
+  .toc .grp { font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--g400); font-weight:700; margin:14px 10px 4px; }
+
+  main { padding:36px 40px 80px; min-width:0; }
+  section { margin-bottom:36px; scroll-margin-top:20px; }
+  .eyebrow { font-size:12px; text-transform:uppercase; letter-spacing:.08em; color:var(--g500); font-weight:600; margin-bottom:6px; }
+  .card { background:#fff; border:1px solid var(--g200); border-radius:var(--radius); padding:18px 20px; }
+
+  .hero { background:var(--g900); color:#E5E5E5; border-radius:14px; padding:28px 32px; margin-bottom:30px; }
+  .hero h1 { color:#fff; margin-bottom:12px; }
+  .hero .eyebrow { color:var(--g400); }
+  .hero .goal { font-size:16px; color:#fff; max-width:760px; margin-bottom:16px; }
+  .meta { display:flex; flex-wrap:wrap; gap:8px 26px; font-size:13px; color:var(--g400); }
+  .meta b { color:#fff; font-weight:600; }
+
+  .pill { display:inline-block; font-size:11.5px; font-weight:700; padding:2px 9px; border-radius:999px; border:1px solid; white-space:nowrap; vertical-align:middle; }
+  .st-done  { background:var(--s50); color:var(--s700); border-color:var(--s200); }
+  .st-prog  { background:var(--a50); color:var(--a700); border-color:var(--a200); }
+  .st-open  { background:var(--g100); color:var(--g700); border-color:var(--g200); }
+  .st-block { background:var(--r50); color:var(--r700); border-color:var(--r200); }
+  .st-unk   { background:var(--y50); color:var(--y700); border-color:var(--y200); }
+
+  ul.tight { margin:0; padding-left:18px; }
+  ul.tight li { margin:4px 0; }
+
+  .table-wrap { border:1px solid var(--g200); border-radius:var(--radius); overflow:auto; background:#fff; }
+  table { width:100%; border-collapse:collapse; font-size:13.5px; }
+  th { text-align:left; font-size:11.5px; text-transform:uppercase; letter-spacing:.06em; color:var(--g500); font-weight:700; padding:9px 12px; border-bottom:1px solid var(--g200); background:var(--g50); }
+  td { padding:10px 12px; border-bottom:1px solid var(--g200); vertical-align:top; }
+  tr:last-child td { border-bottom:none; }
+  td.n { font-weight:800; color:var(--a700); white-space:nowrap; }
+  td.t { white-space:nowrap; font-weight:600; color:var(--g800); }
+  td.m { font-weight:600; color:var(--g900); }
+
+  .exp { background:#fff; border:1px solid var(--g200); border-radius:14px; overflow:hidden; margin-bottom:18px; scroll-margin-top:20px; }
+  .exp-head { display:flex; flex-wrap:wrap; align-items:center; gap:6px 12px; padding:13px 20px; background:var(--g50); border-bottom:1px solid var(--g200); }
+  .exp-head .id { padding:2px 10px; border-radius:7px; background:var(--a100); color:var(--a700); font-weight:800; font-size:13px; }
+  .exp-head h3 { margin:0; font-size:17px; }
+  .exp-head .when { margin-left:auto; font-size:12.5px; color:var(--g500); white-space:nowrap; }
+  .exp-grid { display:grid; grid-template-columns:minmax(0,1.1fr) minmax(0,1fr); }
+  .exp-l { padding:16px 20px; }
+  .exp-r { padding:16px 20px; border-left:1px solid var(--g200); background:var(--g50); }
+  .lbl { font-size:11px; text-transform:uppercase; letter-spacing:.08em; font-weight:800; color:var(--g500); margin:0 0 6px; }
+  .exp-l .lbl:not(:first-child) { margin-top:14px; }
+  .hyp { font-size:14.5px; color:var(--g800); margin:0 0 4px; }
+  .mt { width:100%; background:#fff; border:1px solid var(--g200); border-radius:8px; overflow:hidden; font-size:13px; }
+  .mt th { background:#fff; padding:6px 10px; }
+  .mt td { padding:7px 10px; }
+  .mt tr.main td { background:var(--a50); }
+  .mt tr.main td:first-child { font-weight:700; color:var(--g900); }
+  .mt td:nth-child(2) { font-weight:600; color:var(--g800); }
+  .rule { font-size:13px; margin-top:10px; }
+  .rule b.k { color:var(--s700); } .rule b.s { color:var(--r700); } .rule b.i { color:var(--y700); }
+  .needs { font-size:13px; color:var(--g600); border-top:1px solid var(--g200); padding:10px 20px; background:#fff; }
+  .needs b { color:var(--g800); }
+
+  /* Drip steps */
+  .steps-h { padding:14px 20px 4px; border-top:1px solid var(--g200); }
+  .steps { padding:4px 20px 18px; display:grid; gap:12px; }
+  .step { display:grid; grid-template-columns:92px minmax(0,1fr); border:1px solid var(--g200); border-radius:10px; background:#fff; overflow:hidden; }
+  .step .w { background:var(--a50); border-right:1px solid var(--a100); padding:12px 10px; text-align:center; }
+  .step .w .k { font-size:10.5px; text-transform:uppercase; letter-spacing:.08em; font-weight:800; color:var(--g500); }
+  .step .w .d { font-size:20px; font-weight:800; color:var(--a700); line-height:1.2; }
+  .step .w .dt { font-size:11.5px; color:var(--g500); margin-top:2px; }
+  .step .b { padding:12px 16px; min-width:0; }
+  .step .subj { font-size:14px; color:var(--g900); font-weight:700; }
+  .step .subj span { font-size:10.5px; text-transform:uppercase; letter-spacing:.08em; color:var(--g500); font-weight:800; margin-right:6px; }
+  .step .why { font-size:12.5px; color:var(--g500); margin:2px 0 8px; }
+  .msg { white-space:pre-wrap; background:var(--g50); border:1px solid var(--g200); border-left:3px solid var(--a200); border-radius:8px; padding:10px 14px; font-size:13.5px; color:var(--g800); margin:0 0 10px; }
+  .ctarow { display:flex; flex-wrap:wrap; align-items:center; gap:8px; }
+  .ctarow .l { font-size:10.5px; text-transform:uppercase; letter-spacing:.08em; font-weight:800; color:var(--g500); }
+  .cta { display:inline-block; background:var(--a700); color:#fff; font-weight:700; font-size:13px; padding:6px 14px; border-radius:7px; }
+  .cta.alt { background:#fff; color:var(--a700); border:1.5px solid var(--a700); padding:4.5px 12.5px; }
+  .stop { font-size:12.5px; color:var(--g600); margin-top:8px; }
+  .stop b { color:var(--g800); }
+
+  .callout { border:1px solid var(--g200); border-radius:var(--radius); background:#fff; padding:14px 18px; }
+  .callout.warn { border-color:var(--y200); background:var(--y50); }
+  .callout h3 { margin-bottom:6px; }
+  .two { display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:14px; }
+  ul.check { list-style:none; padding:0; margin:0; }
+  ul.check li { padding:4px 0 4px 26px; position:relative; font-size:14px; }
+  ul.check li::before { position:absolute; left:0; top:5px; width:17px; height:17px; border-radius:50%; font-size:10.5px; font-weight:700; display:flex; align-items:center; justify-content:center; }
+  ul.check li.y::before { content:"✓"; background:var(--s50); color:var(--s700); border:1px solid var(--s200); }
+  ul.check li.n::before { content:"✕"; background:var(--r50); color:var(--r700); border:1px solid var(--r200); }
+
+  .log { border-left:2px solid var(--g200); padding-left:16px; margin:0; list-style:none; }
+  .log li { position:relative; margin-bottom:10px; font-size:14px; }
+  .log li::before { content:""; position:absolute; left:-22px; top:7px; width:10px; height:10px; border-radius:50%; background:var(--a500); }
+  .log .d { font-weight:700; color:var(--g800); margin-right:6px; }
+  footer { font-size:12px; color:var(--g400); margin-top:36px; border-top:1px solid var(--g200); padding-top:14px; }
+
+  @media (max-width:1000px) {
+    .layout { grid-template-columns:1fr; }
+    nav.toc { display:none; }
+    main { padding:22px 16px 60px; }
+    .exp-grid, .two { grid-template-columns:1fr; }
+    .exp-r { border-left:none; border-top:1px solid var(--g200); }
+    .step { grid-template-columns:1fr; }
+    .step .w { border-right:none; border-bottom:1px solid var(--a100); display:flex; gap:10px; align-items:baseline; justify-content:flex-start; text-align:left; }
+  }
+  @media print {
+    nav.toc { display:none !important; }
+    .layout { display:block; }
+    main { padding:0; }
+    body { background:#fff; font-size:12px; }
+    .hero { background:#fff; color:var(--g700); border:1px solid var(--g300); }
+    .hero h1, .hero .goal, .meta b { color:var(--g900); }
+    .exp, .step { break-inside:avoid-page; }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+
+<nav class="toc" aria-label="Contents">
+  <div class="brand">Athena · Hinds</div>
+  <div class="sub">October drips</div>
+  <a href="#overview">Overview</a>
+  <a href="#glance">The two at a glance</a>
+  <a href="#before">Before anything sends</a>
+  <div class="grp">Experiments</div>
+  <a href="#d1">D1 · Never registered</a>
+  <a href="#d2">D2 · Registered, not back</a>
+  <div class="grp">Working notes</div>
+  <a href="#fit">How this fits the plan</a>
+  <a href="#guardrails">Do and don't</a>
+  <a href="#log">Update log</a>
+</nav>
+
+<main>
+
+<!-- HERO -->
+<section id="overview" class="hero">
+  <div class="eyebrow">Experiments · Hinds October Sign-ups</div>
+  <h1>Hinds October Drips</h1>
+  <div class="goal"><strong style="color:#fff">Goal:</strong> two short message series, each sent to a different group, to see whether telling students what Athena does for them brings them in (D1) or back (D2). Each runs about a week. Each is its own experiment with its own numbers.</div>
+  <div class="meta">
+    <span>Status <span class="pill st-prog">Planning</span></span>
+    <span>Owner <b>To add</b></span>
+    <span>Proposed start <b>D2 Oct 12 · D1 Oct 13</b></span>
+    <span>Parent <b><a href="hinds-october-signups.html" style="color:#fff">Hinds October Sign-ups</a></b></span>
+    <span>Last updated <b>2026-10-07</b></span>
+  </div>
+</section>
+
+<!-- GLANCE -->
+<section id="glance">
+  <div class="eyebrow">Side by side</div>
+  <h2>The two at a glance</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>#</th><th>Experiment</th><th>Who</th><th>Steps</th><th>Main metric</th><th>Target <span style="text-transform:none;letter-spacing:0;font-weight:500">(proposed)</span></th><th>Starts</th></tr></thead>
+      <tbody>
+        <tr><td class="n">D1</td><td class="m">Never registered</td><td>Students who opened the Hinds launch page from Canvas and never made an account. About 3,500 since launch (668 stopped on the launch page, ~2,800 left later). <strong>How many we can reach is unknown.</strong></td><td>3 messages over 7 days</td><td>% who register and are covered by Hinds within 14 days, vs. a left-out group</td><td>3 more out of every 100</td><td class="t">Oct 13</td></tr>
+        <tr><td class="n">D2</td><td class="m">Registered, not back</td><td>About 215 registered students who aren't using Athena (515 registered minus ~300 using monthly). We have their emails.</td><td>3 messages over 7 days</td><td>% who start using Athena within 10 days, vs. a left-out group</td><td>10 more out of every 100</td><td class="t">Oct 12</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="muted" style="margin-top:8px">D2 can start first because we already have its emails. D1 depends on how we reach people who never gave us one. Dates are proposed; both still need an owner and a way to send. "3 more out of every 100" means, for example, 8 of every 100 messaged students register against 5 of every 100 left out. Small groups: read results as "which way it leans," not proof.</p>
+</section>
+
+<!-- BEFORE -->
+<section id="before">
+  <div class="eyebrow">Check first</div>
+  <div class="callout warn">
+    <h3>Before anything sends</h3>
+    <ul class="tight">
+      <li><strong>D1: how do we reach them?</strong> People who left before registering have no account, so we have no email for them (same gap as E2 on the project page). Ask product: does the Canvas launch give us an email or name we keep? If yes, we can email. If no, either Hinds sends the three messages for us (a Canvas Inbox message or Hinds email to students without an account yet), or D1 doesn't run. Either way, get legal and privacy sign-off first (project page, open question 12).</li>
+      <li><strong>"Free for Hinds students" isn't confirmed yet</strong> for the link we'll use (open question 2). D1 leads with it, so D1 waits on that answer. D2's copy makes no cost claim.</li>
+      <li><strong>Who sends, from what address, under what consent rules</strong> (open question 5). Plain text from a named person, with an unsubscribe link and a real reply address.</li>
+      <li><strong>Tagged links.</strong> D1 links use <code>?src=drip-new</code>, D2 links use <code>?src=drip-back</code>. Needs the tag to survive sign-up (open question 1). Without it, count D1 registrations by name against the send list.</li>
+      <li><strong>Sending rules</strong> (from the onboarding emails plan): no more than one email a day per student, counting the app's own emails; send between 8am and 8pm Central; stop a student's series the moment they hit the goal, reply, or unsubscribe. D2 also needs a decision on the app's 12-hour reminder email (onboarding plan, question 12).</li>
+      <li><strong>Copy has not been through <code>messaging-review</code>.</strong> It was checked by hand against the brand voice only.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- D1 -->
+<section id="d1">
+  <div class="eyebrow">Experiment 1 of 2</div>
+  <div class="exp">
+    <div class="exp-head"><span class="id">D1</span><h3>Opened the launch page, never registered</h3><span class="when">Oct 13 · Oct 16 · Oct 20 · read Oct 27</span></div>
+    <div class="exp-grid">
+      <div class="exp-l">
+        <p class="hyp">These students already found Athena and walked away, so we expect most won't come back. If a few short notes that explain what Athena does for them (reads your courses, tells you what to study, coaches you to the answer) bring in some of them, it's worth keeping.</p>
+        <div class="lbl">Who</div>
+        <ul class="tight">
+          <li>Opened the Athena launch page from Hinds Canvas ("You just launched Athena from your LMS") and never registered.</li>
+          <li>Not anyone who has registered. Not anyone who has replied or unsubscribed.</li>
+        </ul>
+        <div class="lbl">How</div>
+        <ul class="tight">
+          <li>Three messages, one reason per message, one button each.</li>
+          <li></li>Leave a random <strong>1 in 5 out</strong> and send them nothing, so we can tell what the messages did. Optional; say so and I'll drop it.</li>
+          <li>Don't say or hint that we know they visited ("finish signing up," "still thinking about it"). Each note reads as news about Athena, not a nudge.</li>
+        </ul>
+        <div class="muted" style="margin-top:8px">A flat result is still useful. It would say the fix belongs on the launch page itself (E5, on hold), not in a follow-up.</div>
+      </div>
+      <div class="exp-r">
+        <div class="lbl">Metrics</div>
+        <table class="mt">
+          <thead><tr><th>Metric</th><th>Target</th></tr></thead>
+          <tbody>
+            <tr class="main"><td>Messaged students who register and are covered by Hinds within 14 days, vs. left-out group</td><td>3 more out of every 100</td></tr>
+            <tr><td>Students we could reach</td><td>report (the real limit)</td></tr>
+            <tr><td>Clicks on "Create your Athena account," per message</td><td>report</td></tr>
+            <tr><td>Of those who click, how many register</td><td>13% or more (today's rate for everyone who reaches sign-up)</td></tr>
+            <tr><td>Registered from this series who use Athena within 7 days</td><td>report</td></tr>
+            <tr><td>Replies, sorted by reason (cost, trust, no time, didn't know what it does)</td><td>read every one</td></tr>
+            <tr><td>Unsubscribes or complaints</td><td>under 2 out of every 100</td></tr>
+          </tbody>
+        </table>
+        <div class="rule"><b class="k">Keep</b> if messaged students register 3 or more out of every 100 above the left-out group: make it the standard follow-up for anyone who opens the launch page and leaves. <b class="i">Rework</b> if the gap is smaller but replies name something fixable. <b class="s">Stop</b> if there's no gap, or more than 2 in 100 unsubscribe.</div>
+        <p class="muted" style="margin:8px 0 0">The target is a guess. There's no number for people who already left once. Example: if we reach 1,000 students, 3 more out of every 100 is 30 students.</p>
+      </div>
+    </div>
+    <div class="needs"><b>Needs:</b> a way to reach them and legal sign-off (see "Before anything sends") · "free" confirmed (open question 2) · a sender and reply address · tagged links · the send list split into messaged and left-out · the sign-up time on a phone, for the step 1 line marked [time it first].</div>
+
+    <div class="steps-h"><div class="lbl" style="margin:0">The three steps</div></div>
+    <div class="steps">
+
+      <div class="step">
+        <div class="w"><div class="k">Step 1</div><div class="d">Day 0</div><div class="dt">Tue Oct 13</div></div>
+        <div class="b">
+          <div class="subj"><span>Subject</span>Athena is free for Hinds students</div>
+          <div class="why">Leads with: it knows your class. No upload, no setup.</div>
+<div class="msg">Hi [first name],
+
+Hinds covers Athena for its students, so it costs you nothing.
+
+Athena reads your Canvas courses on its own. There's nothing to upload and nothing to set up. It sees what's due and what's coming up, and tells you what to study next.
+
+Getting started takes [time it first] minutes.
+
+[Name]
+Athena</div>
+          <div class="ctarow"><span class="l">Button</span><span class="cta">Create your Athena account</span></div>
+          <div class="stop"><b>Stops when:</b> they register, reply, or unsubscribe. Hold this step until "free" is confirmed.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="w"><div class="k">Step 2</div><div class="d">Day 3</div><div class="dt">Fri Oct 16</div></div>
+        <div class="b">
+          <div class="subj"><span>Subject</span>Know what to study before your next exam</div>
+          <div class="why">Leads with: it knows you. No wasted effort.</div>
+<div class="msg">Hi [first name],
+
+Going over what you already know feels productive. It also uses up the time you need for what you don't.
+
+As you study, Athena keeps track of what you've got down and what's still shaky. It points you to the shaky parts first, so your time goes where it counts.
+
+For example: "You've got 3 of 5 topics down for Thursday. Want to work on the other two?"
+
+[Name]
+Athena</div>
+          <div class="ctarow"><span class="l">Button</span><span class="cta">Create your Athena account</span></div>
+          <div class="stop"><b>Stops when:</b> same as step 1. The example line is illustrative; design to confirm it matches the product before it goes out.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="w"><div class="k">Step 3</div><div class="d">Day 7</div><div class="dt">Tue Oct 20</div></div>
+        <div class="b">
+          <div class="subj"><span>Subject</span>Athena coaches you. It won't do your homework.</div>
+          <div class="why">Leads with: it coaches you to the answer, and it's read-only. Last note; asks one question.</div>
+<div class="msg">Hi [first name],
+
+This is the last note from me.
+
+Athena doesn't hand you answers. It guides you to them, so you understand the material and walk into the exam ready.
+
+It's also read-only. It can read your Canvas courses, but it can't post, submit, or change anything, and you can disconnect it whenever you want. Athena is its own study tool, not part of Canvas.
+
+If something has kept you from trying it, reply and tell me. One line is plenty. I read every reply.
+
+[Name]
+Athena</div>
+          <div class="ctarow"><span class="l">Button</span><span class="cta">Create your Athena account</span><span class="l">or</span><span class="cta alt">Reply to this email</span></div>
+          <div class="stop"><b>Stops when:</b> the series ends. Anyone who replies gets a real answer from a person.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- D2 -->
+<section id="d2">
+  <div class="eyebrow">Experiment 2 of 2</div>
+  <div class="exp">
+    <div class="exp-head"><span class="id">D2</span><h3>Registered, haven't come back</h3><span class="when">Oct 12 · Oct 15 · Oct 19 · read Oct 26</span></div>
+    <div class="exp-grid">
+      <div class="exp-l">
+        <p class="hyp">These students already made an account. If a few short notes show them the one next step, and ask what would make Athena worth opening, some of them come back.</p>
+        <div class="lbl">Who</div>
+        <ul class="tight">
+          <li>About 215 registered students who aren't using Athena (515 registered, about 300 using monthly). We have their emails.</li>
+          <li>Not students using Athena now. Not anyone who replies, unsubscribes, or starts using it mid-series.</li>
+        </ul>
+        <div class="lbl">How</div>
+        <ul class="tight">
+          <li>Three plain-text messages from a named person, one button each. Same day spacing as D1.</li>
+          <li>Leave a random <strong>1 in 5 out</strong> (about 43 students; about 172 get the series). Optional; say so and I'll drop it.</li>
+          <li>No "free" or price line. They're already in.</li>
+          <li><strong>Optional upgrade:</strong> if product can give us each student's last step, swap the step 1 button to match (hasn't connected Canvas: <em>Connect Canvas</em>; connected: <em>Open your Study Space</em>). Not needed to start.</li>
+        </ul>
+        <div class="muted" style="margin-top:8px">This is a simpler, shorter version of E1 (follow-up emails): one path instead of five groups. If it works, it becomes the first wave of the longer onboarding plan.</div>
+      </div>
+      <div class="exp-r">
+        <div class="lbl">Metrics</div>
+        <table class="mt">
+          <thead><tr><th>Metric</th><th>Target</th></tr></thead>
+          <tbody>
+            <tr class="main"><td>Messaged students who start using Athena within 10 days, vs. left-out group</td><td>10 more out of every 100</td></tr>
+            <tr><td>"Start using" means any one of: sent a chat message, opened a quiz, started a tutoring session</td><td>(definition)</td></tr>
+            <tr><td>Clicks, per message</td><td>report</td></tr>
+            <tr><td>Which message they came back after</td><td>report</td></tr>
+            <tr><td>Replies, especially to message 3</td><td>read every one</td></tr>
+            <tr><td>Unsubscribes or complaints</td><td>under 2 out of every 100</td></tr>
+          </tbody>
+        </table>
+        <div class="rule"><b class="k">Keep</b> if the messaged group is 10 or more out of every 100 ahead: use it as the standard follow-up for new registrations that go quiet. <b class="i">Rework</b> if the gap is 3 to 9 and replies name something fixable. <b class="s">Stop</b> if no gap and replies say Athena doesn't help, or more than 2 in 100 unsubscribe.</div>
+        <p class="muted" style="margin:8px 0 0">The 10-point bar is the one E1 used, and it's a guess: we don't know how many registered students start on their own with no message. With about 43 left out, a 10-point gap can hint but not confirm.</p>
+      </div>
+    </div>
+    <div class="needs"><b>Needs:</b> the list of registered students who aren't using Athena, from product (the E1 deliverable) · a sender and reply address · consent and unsubscribe rules (open question 5) · tagged links · a decision on the app's 12-hour reminder email · a way to see "started using Athena" per student in PostHog (<code>chat_message_sent</code>, <code>quiz_question_viewed</code>, <code>learning_session_started</code>). Email opens aren't tracked, so judge on clicks and use, not opens.</div>
+
+    <div class="steps-h"><div class="lbl" style="margin:0">The three steps</div></div>
+    <div class="steps">
+
+      <div class="step">
+        <div class="w"><div class="k">Step 1</div><div class="d">Day 0</div><div class="dt">Mon Oct 12</div></div>
+        <div class="b">
+          <div class="subj"><span>Subject</span>Your Athena account is ready when you are</div>
+          <div class="why">Leads with: it knows your class. Covers the Canvas worry up front.</div>
+<div class="msg">Hi [first name],
+
+Your Athena account is ready, and you can pick up where you left off.
+
+When you connect Canvas, Athena sets up a Study Space for each of your courses. There's nothing to upload. It shows you what's coming up and what to study next. Connecting is read-only: Athena can't post or submit anything, and you can disconnect whenever you want.
+
+Already connected? Open the course you care about most right now.
+
+[Name]
+Athena</div>
+          <div class="ctarow"><span class="l">Button</span><span class="cta">Open Athena</span></div>
+          <div class="stop"><b>Stops when:</b> they start using Athena, reply, or unsubscribe.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="w"><div class="k">Step 2</div><div class="d">Day 3</div><div class="dt">Thu Oct 15</div></div>
+        <div class="b">
+          <div class="subj"><span>Subject</span>Try one short quiz on your next exam</div>
+          <div class="why">Leads with: it knows you. One small thing to do.</div>
+<div class="msg">Hi [first name],
+
+Pick a course and take a short quiz. You'll see what you've got down and what's still shaky, so you can spend your time on the shaky parts.
+
+It takes a few minutes.
+
+[Name]
+Athena</div>
+          <div class="ctarow"><span class="l">Button</span><span class="cta">Start a quiz</span></div>
+          <div class="stop"><b>Stops when:</b> same as step 1.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="w"><div class="k">Step 3</div><div class="d">Day 7</div><div class="dt">Mon Oct 19</div></div>
+        <div class="b">
+          <div class="subj"><span>Subject</span>One quick question</div>
+          <div class="why">Leads with: asking. Last note; the answers tell us what to fix.</div>
+<div class="msg">Hi [first name],
+
+What would make Athena worth opening for you? One line is plenty. Just reply to this email.
+
+If it's not what you needed, I'd like to know that too. I read every reply.
+
+[Name]
+Athena</div>
+          <div class="ctarow"><span class="l">Button</span><span class="cta">Reply to this email</span><span class="l">or</span><span class="cta alt">Open Athena</span></div>
+          <div class="stop"><b>Stops when:</b> the series ends. This lands on the first day of the online semester, so replies may be slower; read them through Oct 26.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FIT -->
+<section id="fit">
+  <div class="eyebrow">Working notes</div>
+  <h2>How this fits the plan</h2>
+  <div class="card">
+    <ul class="tight">
+      <li><strong>E1 to E8 on the project page are on hold</strong> while these two run. Nothing was removed.</li>
+      <li><strong>D2 is a smaller E1.</strong> E1 sorts the 515 into five groups with different emails; D2 sends one short series to everyone not using Athena. If D2 works, E1's longer plan can build on it.</li>
+      <li><strong>D1 reaches the same people as E2 (remarketing)</strong> but by message instead of ads. E2 stays on hold. If D1 can't find a way to reach them, E2 is the other route.</li>
+      <li><strong>D1 and D2 don't overlap.</strong> Anyone who registers during D1 leaves D1 and, if they go quiet, becomes a D2 candidate in a later round, not this one.</li>
+      <li><strong>Log the results</strong> in <code>reference/traction-channels.md</code> after the Oct 26 and Oct 27 reads, and in the Experiments tab.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- GUARDRAILS -->
+<section id="guardrails">
+  <h2>Do and don't</h2>
+  <div class="two">
+    <div class="card">
+      <ul class="check">
+        <li class="y">Short, plain, phone-first. One idea and one button per message.</li>
+        <li class="y">Say what Athena does for them: reads your courses, tells you what to study, coaches you to the answer.</li>
+        <li class="y">Read-only, can't post or submit, disconnect anytime.</li>
+        <li class="y">Write like a coach checking in: calm, warm, never pushy.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <ul class="check">
+        <li class="n">Say or hint that we know they visited or stopped.</li>
+        <li class="n">Nag, shame, or use "we miss you," "falling behind," or "haven't used."</li>
+        <li class="n">Imply Hinds or an instructor sees an individual student's use, or call Athena part of Canvas or required.</li>
+        <li class="n">Use banned words (unlock, leverage, empower…), "AI-powered," or invented numbers and quotes.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- LOG -->
+<section id="log">
+  <h2>Update log</h2>
+  <ul class="log">
+    <li><span class="d">2026-10-07</span>Created this page with two separate experiments. <strong>D1:</strong> students who opened the Hinds launch page and never registered. <strong>D2:</strong> about 215 registered students who haven't come back. Each has three plain-text steps with buttons, metrics, proposed targets, and keep, rework or stop rules. Both are logged in the Experiments tab. Flagged: D1 has no known way to reach people without an email; "free" still needs product's confirmation; targets are guesses; copy not through <code>messaging-review</code>. E1 to E8 on the project page moved to backlog.</li>
+  </ul>
+</section>
+
+<footer>
+  Source: <code>work-in-progress/hinds-oct-signups/hinds-drip-experiments.html</code> · App copy: <code>app/public/hinds-oct-signups/hinds-drip-experiments.html</code> ·
+  Parent: <code>hinds-october-signups.html</code> · Related: <code>../drip-campaigns/hinds-student-onboarding.html</code> · Internal working doc.
+</footer>
+
+</main>
+</div>
+
+<script>
+  var links = Array.prototype.slice.call(document.querySelectorAll('.toc a'));
+  var targets = links.map(function (a) { return document.querySelector(a.getAttribute('href')); });
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        links.forEach(function (a) { a.classList.toggle('active', a.getAttribute('href') === '#' + entry.target.id); });
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+  targets.forEach(function (t) { if (t) observer.observe(t); });
+</script>
+</body>
+</html>
